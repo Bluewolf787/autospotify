@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
-class StartPage extends StatefulWidget {
+class IntroStartPage extends StatefulWidget {
   @override
-  _StartPageState createState() => _StartPageState();
+  _IntroStartPageState createState() => _IntroStartPageState();
 }
 
-class _StartPageState extends State<StartPage> {
+class _IntroStartPageState extends State<IntroStartPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -216,7 +216,7 @@ class _StartPageState extends State<StartPage> {
               padding: EdgeInsets.fromLTRB(45, 10, 45 , 10),
               onPressed: () => {
                 Navigator.pushReplacement(
-                  context, PageTransition(child: ChooseThemePage(), type: PageTransitionType.leftToRight)
+                  context, PageTransition(child: ChooseThemePage(), type: PageTransitionType.rightToLeft)
                   )
               },
               shape: RoundedRectangleBorder(

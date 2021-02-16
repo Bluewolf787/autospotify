@@ -1,4 +1,5 @@
-import 'package:autospotify_design/ui/start_page.dart';
+import 'package:autospotify_design/ui/intro_splash.dart';
+import 'package:autospotify_design/ui/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -14,12 +15,14 @@ class MyApp extends StatelessWidget {
       saveThemesOnChange: true,
       loadThemeOnInit: true,
       themes: <AppTheme>[
-        AppTheme.light(id: 'light_theme'),
-        AppTheme.dark(id: 'dark_theme'),
+        CustomTheme().darkTheme(),
+        CustomTheme().lightTheme(),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        debugShowMaterialGrid: false,
         home: ThemeConsumer(
-          child: StartPage(),
+          child: IntroSplash(),
         ),
       ),
     );
