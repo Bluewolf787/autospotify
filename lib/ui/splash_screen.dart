@@ -1,16 +1,16 @@
-import 'package:autospotify_design/ui/intro_start_page.dart';
+import 'package:autospotify_design/ui/introduction/intro_start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:after_layout/after_layout.dart';
 
-import 'home_page.dart';
+import 'home/home_page.dart';
 
-class IntroSplash extends StatefulWidget {
+class SplashScreen extends StatefulWidget {
   @override
-  _IntroSplashState createState() => new _IntroSplashState();
+  _SplashScreenState createState() => new _SplashScreenState();
 }
 
-class _IntroSplashState extends State<IntroSplash> with AfterLayoutMixin<IntroSplash> {
+class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<SplashScreen> {
   Future checkIntroSeen() async {
     SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     bool _introSeen = (sharedPrefs.getBool('introSeen') ?? false);

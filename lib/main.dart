@@ -1,6 +1,8 @@
-import 'package:autospotify_design/ui/intro_splash.dart';
+import 'package:autospotify_design/ui/splash_screen.dart';
+import 'package:autospotify_design/ui/introduction/intro_start_page.dart';
 import 'package:autospotify_design/ui/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 void main() {
@@ -11,6 +13,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    // Force the application in portrait mode
+    SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+    ]);
+    // Hide Statusbar
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
     return ThemeProvider(
       saveThemesOnChange: true,
       loadThemeOnInit: true,
@@ -22,7 +31,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         debugShowMaterialGrid: false,
         home: ThemeConsumer(
-          child: IntroSplash(),
+          child: IntroStartPage(), //SplashScreen()
         ),
       ),
     );

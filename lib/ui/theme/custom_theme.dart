@@ -9,10 +9,9 @@ class CustomTheme {
       data: ThemeData(
         brightness: Brightness.dark,
         primaryColor: Colors.white,
-        accentColor: Colors.cyan,
+        accentColor: Colors.blue[700],
         scaffoldBackgroundColor: Colors.black,
         unselectedWidgetColor: Colors.grey,
-        toggleableActiveColor: Colors.yellow,
       ),
     );
   }
@@ -27,7 +26,6 @@ class CustomTheme {
         accentColor: Colors.blue,
         scaffoldBackgroundColor: Colors.white,
         unselectedWidgetColor: Colors.grey,
-        toggleableActiveColor: Colors.blue,
       ),
     );
   }

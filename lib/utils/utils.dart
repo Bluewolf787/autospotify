@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class Utils {
 
@@ -6,8 +7,15 @@ class Utils {
     return showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: Text('Exit AutoSpotify'),
-        content: Text('Are you sure to exit?'),
+        backgroundColor: ThemeProvider.themeOf(context).data.canvasColor,
+        title: Text(
+          'Exit AutoSpotify',
+          style: TextStyle(color: ThemeProvider.themeOf(context).data.primaryColor),
+        ),
+        content: Text(
+          'Are you sure to exit?',
+          style: TextStyle(color: ThemeProvider.themeOf(context).data.primaryColor),
+        ),
         actions: <Widget>[
           FlatButton(
             onPressed: () => {
@@ -15,7 +23,10 @@ class Utils {
                 Navigator.of(context).pop(false);
               }),
             },
-            child: Text('No'),
+            child: Text(
+              'No',
+              style: TextStyle(color: ThemeProvider.themeOf(context).data.accentColor)
+            ),
           ),
           FlatButton(
             onPressed: () => {
@@ -23,7 +34,10 @@ class Utils {
                   Navigator.of(context).pop(true);
               }),
             },
-            child: Text('Yes'),
+            child: Text(
+              'Yes',
+              style: TextStyle(color: ThemeProvider.themeOf(context).data.accentColor),
+            ),
           ),
         ],
       ),
