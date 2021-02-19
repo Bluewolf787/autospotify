@@ -4,9 +4,11 @@ import 'package:flutter/rendering.dart';
 class Circle extends StatelessWidget {
   final double diameter;
   final Color color;
+  final Offset shadowOffset;
+  final double shadowBlurRadius;
   final bool notFilled;
 
-  Circle({this.diameter, this.color, this.notFilled});
+  Circle({this.diameter, this.color, this.shadowOffset, this.shadowBlurRadius, this.notFilled});
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +22,8 @@ class Circle extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: const Color(0x40000000),
-              offset: Offset(5, -3),
-              blurRadius: 6,
+              offset: shadowOffset,
+              blurRadius: shadowBlurRadius,
             ),
           ],
         ),

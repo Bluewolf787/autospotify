@@ -55,6 +55,8 @@ class _IntroStartPageState extends State<IntroStartPage> {
               child: Circle(
                 diameter: 372,
                 color: const Color(0xff1db954),
+                shadowOffset: Offset(5, -3),
+                shadowBlurRadius: 6,
                 notFilled: false,
               ),
             ),
@@ -66,6 +68,8 @@ class _IntroStartPageState extends State<IntroStartPage> {
               child: Circle(
                 diameter: 288,
                 color: Colors.blue,
+                shadowOffset: Offset(5, -3),
+                shadowBlurRadius: 6,
                 notFilled: false,
               ),
             ),

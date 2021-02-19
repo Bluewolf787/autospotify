@@ -11,7 +11,7 @@ class SpotifyUsernameInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      onEditingComplete: onEditingComplete, 
+      onEditingComplete: onEditingComplete,
       decoration: InputDecoration(
         border: InputBorder.none,
         enabledBorder: OutlineInputBorder(

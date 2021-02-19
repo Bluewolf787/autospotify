@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class BackButton extends StatelessWidget {
+class CustomBackButton extends StatelessWidget {
   final Function onPressed;
 
-  BackButton({this.onPressed});
+  CustomBackButton({this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class BackButton extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(3, 1, 3 , 1),
       icon: Icon(
         Icons.keyboard_arrow_left,
-        color: Theme.of(context).canvasColor,
+        color: Colors.grey,
         size: 24,
       ),
       label: Text(
@@ -21,7 +21,7 @@ class BackButton extends StatelessWidget {
         style: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 14,
-          color: Theme.of(context).canvasColor,
+          color: Colors.grey,
           fontWeight: FontWeight.w500,
         ),
       ),
