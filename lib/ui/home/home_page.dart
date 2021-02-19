@@ -1,8 +1,11 @@
+import 'package:autospotify_design/ui/introduction/introduction_yt.dart';
 import 'package:autospotify_design/utils/size_config.dart';
 import 'package:autospotify_design/utils/utils.dart';
+import 'package:autospotify_design/widgets/back_button.dart';
 import 'package:autospotify_design/widgets/button.dart';
 import 'package:autospotify_design/widgets/textfields.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,11 +15,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  TextEditingController spotifyUsernameController;
-  TextEditingController ytPlaylistUrlController;
+  TextEditingController _spotifyUsernameController;
+  TextEditingController _ytPlaylistUrlController;
+
+  var startAnimation = false;
+  initialTimer() async {
+    await new Future.delayed(const Duration(milliseconds: 500));
+    setState(() {
+      startAnimation = true;
+    });
+  }
 
   @override
   void initState() {
+    initialTimer();
     super.initState();
   }
 
@@ -31,7 +43,6 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       onWillPop: () => Utils.onBackButtonExit(context),
       child: Scaffold(
-        //resizeToAvoidBottomInset: false,
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         body: SingleChildScrollView(
           physics: ClampingScrollPhysics(),
@@ -88,9 +99,11 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 // Header Text
-                Positioned(
-                  top: SizeConfig.heightMultiplier * 22,
-                  left: SizeConfig.widthMultiplier * 8,
+                AnimatedPositioned(
+                  duration: Duration(seconds: 1,),
+                  top: startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
+                  left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -80,
+                  curve: Curves.ease,
                   child: Text.rich(
                     TextSpan(
                       style: TextStyle(
@@ -101,7 +114,7 @@ class _HomePageState extends State<HomePage> {
                         height: 1.3,
                       ),
                       children: [
-                        TextSpan(text: 'Add Songs from\n',),
+                        TextSpan(text: 'Add Songs from ',),
                         TextSpan(
                           text: 'YouTube',
                           style: TextStyle(
@@ -109,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        TextSpan(text: ' playlists\nautomatically to your\n',),
+                        TextSpan(text: '\nplaylists automatically\nto your ',),
                         TextSpan(
                           text: 'Spotify',
                           style: TextStyle(
@@ -132,9 +145,11 @@ class _HomePageState extends State<HomePage> {
                 ),
 
                 // Lines
-                Positioned(
-                  top: SizeConfig.heightMultiplier * 42,
-                  right: SizeConfig.widthMultiplier * 8,
+                AnimatedPositioned(
+                  duration: Duration(seconds: 1,),
+                  top: startAnimation ? SizeConfig.heightMultiplier * 38 : SizeConfig.heightMultiplier * 38,
+                  right: startAnimation ? SizeConfig.widthMultiplier * 2 : SizeConfig.widthMultiplier * -140,
+                  curve: Curves.ease,
                   child: SizedBox(
                     width: 256.0,
                     height: 0.0,
@@ -182,40 +197,65 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
 
-                // Main Content
-                Center(
+                // Spotify Username Input
+                AnimatedPositioned(
+                  duration: Duration(seconds: 1,),
+                  left: startAnimation ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * -100,
+                  curve: Curves.ease,
                   child: Container(
-                    //color: Colors.pink,
-                    padding: EdgeInsets.fromLTRB(0, 90, 0, 0),
-                    height: SizeConfig.heightMultiplier * 40,
+                    height: SizeConfig.heightMultiplier * 100,
                     width: SizeConfig.widthMultiplier * 80,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        // Spotify Username Textfield
-                        SpotifyUsernameInputField(
-                          controller: spotifyUsernameController,
-                          onEditingComplete: null, // TODO: Test connection when changed
-                        ),
-
-                        SizedBox(height: SizeConfig.heightMultiplier * 3.0,),
-
-                        // Textfield 'playlistUrl'
-                        YtPlaylistUrlInputField(
-                          controller: ytPlaylistUrlController,
-                          onEditingComplete: null, // TODO: Check connection to yt playlist when edited
-                        ),
-                      ],
+                    alignment: Alignment.center,
+                    child: SpotifyUsernameInputField(
+                      controller: _spotifyUsernameController,
+                      onEditingComplete: null, // TODO: Test connection when changed
                     ),
                   ),
                 ),
 
+                // YouTube Playlist Input
+                AnimatedPositioned(
+                  duration: Duration(seconds: 1,),
+                  right: startAnimation ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * -100,
+                  curve: Curves.ease,
+                  child: Container(
+                    height: SizeConfig.heightMultiplier * 100,
+                    width: SizeConfig.widthMultiplier * 80,
+                    padding: EdgeInsets.only(top: SizeConfig.heightMultiplier * 22),
+                    alignment: Alignment.center,
+                    child: YtPlaylistUrlInputField(
+                      controller: _ytPlaylistUrlController,
+                      onEditingComplete: null, // TODO: Test connection when changed
+                    ),
+                  ),
+                ),
+                
                 // Sync Button
-                CustomButton(
-                  label: 'Sync',
-                  onPressed: () => {
-                    null // TODO: Sync Playlists
-                  },
+                AnimatedPositioned(
+                  duration: Duration(seconds: 1,),
+                  bottom: SizeConfig.heightMultiplier * 20,
+                  left: startAnimation ? SizeConfig.widthMultiplier * 0 : SizeConfig.widthMultiplier * -100,
+                  curve: Curves.ease,
+                  child: CustomButton(
+                    label: 'Sync',
+                    onPressed: () => {
+                      null // TODO: Sync Playlists
+                    },
+                  ),
+                ),
+
+                // Back Button
+                Positioned(
+                  top: SizeConfig.heightMultiplier * 3.160806006,
+                  left: SizeConfig.widthMultiplier * 0,
+                  child: CustomBackButton(
+                    onPressed: () => {
+                      // Open prevoiuse indroduction page (package:autospotify_design/ui/introduction/introduction_spotify.dart)
+                      Navigator.of(context).pushReplacement(
+                        PageTransition(child: YouTubeIntroductionPage(), type: PageTransitionType.fade)
+                      ),
+                    },
+                  ),
                 ),
               ],
             ),

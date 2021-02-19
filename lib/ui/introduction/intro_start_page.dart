@@ -13,21 +13,38 @@ class IntroStartPage extends StatefulWidget {
 }
 
 class _IntroStartPageState extends State<IntroStartPage> {
+
+  var startAnimation = false;
+  initialTimer() async {
+    await new Future.delayed(const Duration(milliseconds: 500));
+    setState(() {
+      startAnimation = true;
+    });
+  }
+  
+  @override
+  initState() {
+    initialTimer();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
-
       body: Container(
         width: SizeConfig.widthMultiplier * 100,
         height: SizeConfig.heightMultiplier * 100,
         child: Stack(
           children: <Widget>[
             // Blue circle frame
-            Positioned(
-              top: SizeConfig.heightMultiplier * -6.5,
-              right: SizeConfig.widthMultiplier * -38,
+            AnimatedPositioned(
+              duration: Duration(seconds: 1,),
+              top: startAnimation ? SizeConfig.heightMultiplier * -6.5 : SizeConfig.heightMultiplier * -25,
+              right: startAnimation ? SizeConfig.widthMultiplier * -38 : SizeConfig.widthMultiplier * -60,
+              curve: Curves.ease,
               child: Circle(
                 diameter: 222,
                 color: Colors.blue,
@@ -37,9 +54,11 @@ class _IntroStartPageState extends State<IntroStartPage> {
             
 
             // Green circle frame
-            Positioned(
-              top: SizeConfig.heightMultiplier * -6,
-              right: SizeConfig.widthMultiplier * -3.5,
+            AnimatedPositioned(
+              duration: Duration(seconds: 1,),
+              top: startAnimation ? SizeConfig.heightMultiplier * -6 : SizeConfig.heightMultiplier * -35,
+              right: startAnimation ? SizeConfig.widthMultiplier * -3.5 : SizeConfig.widthMultiplier * 10,
+              curve: Curves.ease,
               child: Circle(
                 diameter: 163,
                 color: const Color(0xff1db954),
@@ -49,9 +68,11 @@ class _IntroStartPageState extends State<IntroStartPage> {
             
 
             // Green circle
-            Positioned(
-              bottom: SizeConfig.heightMultiplier * -30,
-              left: SizeConfig.widthMultiplier * -54,
+            AnimatedPositioned(
+              duration: Duration(seconds: 1,),
+              bottom: startAnimation ? SizeConfig.heightMultiplier * -30 : SizeConfig.heightMultiplier * 10,
+              left: startAnimation ? SizeConfig.widthMultiplier * -54 : SizeConfig.widthMultiplier * -120,
+              curve: Curves.ease,
               child: Circle(
                 diameter: 372,
                 color: const Color(0xff1db954),
@@ -62,9 +83,11 @@ class _IntroStartPageState extends State<IntroStartPage> {
             ),
             
             // Blue cicle
-            Positioned(
-              bottom: SizeConfig.heightMultiplier * -30,
-              left: SizeConfig.widthMultiplier * -10,
+            AnimatedPositioned(
+              duration: Duration(seconds: 1,),
+              bottom: startAnimation ? SizeConfig.heightMultiplier * -30 : SizeConfig.heightMultiplier * -70,
+              left: startAnimation ? SizeConfig.widthMultiplier * -10 : SizeConfig.widthMultiplier * -30,
+              curve: Curves.ease,
               child: Circle(
                 diameter: 288,
                 color: Colors.blue,
@@ -75,16 +98,20 @@ class _IntroStartPageState extends State<IntroStartPage> {
             ),
 
             // Top Lines
-            Positioned(
-              top: SizeConfig.heightMultiplier * 20,
-              left: SizeConfig.widthMultiplier * 2,
+            AnimatedPositioned(
+              duration: Duration(seconds: 1,),
+              top: startAnimation ? SizeConfig.heightMultiplier * 20 : SizeConfig.heightMultiplier * 20,
+              left: startAnimation ? SizeConfig.widthMultiplier * 2 : SizeConfig.widthMultiplier * -140,
+              curve: Curves.ease,
               child: Lines(positionTop: true,),
             ),
 
             // Header Text
-            Positioned(
-              top: SizeConfig.heightMultiplier * 22,
-              left: SizeConfig.widthMultiplier * 8,
+            AnimatedPositioned(
+              duration: Duration(seconds: 1,),
+              top: startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
+              left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -90,
+              curve: Curves.ease,
               child: Text.rich(
                 TextSpan(
                   style: TextStyle(
@@ -126,20 +153,28 @@ class _IntroStartPageState extends State<IntroStartPage> {
             ),
 
             // Bottom Lines
-            Positioned(
-              top: SizeConfig.heightMultiplier * 48,
-              right: SizeConfig.widthMultiplier * 8,
+            AnimatedPositioned(
+              duration: Duration(seconds: 1,),
+              top: startAnimation ? SizeConfig.heightMultiplier * 48 : SizeConfig.heightMultiplier * 48,
+              right: startAnimation ? SizeConfig.widthMultiplier * 2 : SizeConfig.widthMultiplier * -140,
+              curve: Curves.ease,
               child: Lines(positionTop: false,),
             ),
 
             // Button 'Get Started' > Opens theme choose page
-            CustomButton(
-              label: 'Get Started',
-              onPressed: () => {
-                Navigator.of(context).pushReplacement(
-                  PageTransition(child: ChooseThemePage(), type: PageTransitionType.rightToLeft)
-                )
-              },
+            AnimatedPositioned(
+              duration: Duration(seconds: 1,),
+              bottom: SizeConfig.heightMultiplier * 20,
+              left: startAnimation ? SizeConfig.widthMultiplier * 0 : SizeConfig.widthMultiplier * -100,
+              curve: Curves.ease,
+              child: CustomButton(
+                label: 'Go',
+                onPressed: () => {
+                  Navigator.of(context).pushReplacement(
+                    PageTransition(child: ChooseThemePage(), type: PageTransitionType.fade)
+                  ),
+                },
+              ),
             ),
           ],
         ),

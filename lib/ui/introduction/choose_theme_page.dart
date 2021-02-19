@@ -1,6 +1,8 @@
-import 'package:autospotify_design/ui/home/home_page.dart';
+import 'package:autospotify_design/ui/introduction/intro_start_page.dart';
+import 'package:autospotify_design/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify_design/utils/size_config.dart';
 import 'package:autospotify_design/utils/utils.dart';
+import 'package:autospotify_design/widgets/back_button.dart';
 import 'package:autospotify_design/widgets/button.dart';
 import 'package:autospotify_design/widgets/circles.dart';
 import 'package:autospotify_design/widgets/introduction_page_indicator.dart';
@@ -14,12 +16,28 @@ class ChooseThemePage extends StatefulWidget {
 }
 
 class _ChooseThemePageState extends State<ChooseThemePage> {
+
+  var startAnimation = false;
+  initialTimer() async {
+    await new Future.delayed(const Duration(milliseconds: 500));
+    setState(() {
+      startAnimation = true;
+    });
+  }
+  
+  @override
+  initState() {
+    initialTimer();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
       onWillPop: () => Utils.onBackButtonExit(context), 
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         body: Container(
           width: SizeConfig.widthMultiplier * 100,
@@ -28,9 +46,11 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
             children: <Widget>[
 
               // Circle frame 1
-              Positioned(
-                top: SizeConfig.heightMultiplier * -2,
-                right: SizeConfig.widthMultiplier * -14,
+              AnimatedPositioned(
+                duration: Duration(seconds: 1,),
+                top: startAnimation ? SizeConfig.heightMultiplier * -2 : SizeConfig.heightMultiplier * -20,
+                right: startAnimation ? SizeConfig.widthMultiplier * -14 : SizeConfig.widthMultiplier * -55,
+                curve: Curves.ease,
                 child: Circle(
                   diameter: 194,
                   color: ThemeProvider.themeOf(context).data.accentColor,
@@ -39,9 +59,11 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
               ),
 
               // Circle frame 2
-              Positioned(
-                top: SizeConfig.heightMultiplier * -11,
-                right: SizeConfig.widthMultiplier * -6,
+              AnimatedPositioned(
+                duration: Duration(seconds: 1,),
+                top: startAnimation ? SizeConfig.heightMultiplier * -11 : SizeConfig.heightMultiplier * -40,
+                right: startAnimation ? SizeConfig.widthMultiplier * -6 : SizeConfig.widthMultiplier * 10,
+                curve: Curves.ease,
                 child: Circle(
                   diameter: 210,
                   color: ThemeProvider.themeOf(context).data.accentColor,
@@ -50,9 +72,11 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
               ),
 
               // Circle frame 3
-              Positioned(
-                top: SizeConfig.heightMultiplier * -5,
-                right: SizeConfig.widthMultiplier * -33,
+              AnimatedPositioned(
+                duration: Duration(seconds: 1,),
+                top: startAnimation ? SizeConfig.heightMultiplier * -5 : SizeConfig.heightMultiplier * 10,
+                right: startAnimation ? SizeConfig.widthMultiplier * -33 : SizeConfig.widthMultiplier * -120,
+                curve: Curves.ease,
                 child: Circle(
                   diameter: 296,
                   color: ThemeProvider.themeOf(context).data.accentColor,
@@ -62,9 +86,11 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
 
 
               // Header Text
-              Positioned(
-                top: SizeConfig.heightMultiplier * 22,
-                left: SizeConfig.widthMultiplier * 8,
+              AnimatedPositioned(
+                duration: Duration(seconds: 1,),
+                top: startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
+                left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -90,
+                curve: Curves.ease,
                 child: Text.rich(
                   TextSpan(
                     style: TextStyle(
@@ -97,69 +123,96 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
 
 
               // Theme Selection
-              Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[  
-                    // Light Theme selection
-                    FlatButton.icon(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      onPressed: () => ThemeProvider.controllerOf(context).setTheme('light_theme'),
-                      label: Text(
-                        'Light',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: ThemeProvider.themeOf(context).data.primaryColor,
-                          height: 1.3,
+              AnimatedPositioned(
+                duration: Duration(seconds: 1,),
+                left: startAnimation ? SizeConfig.widthMultiplier * 0 : SizeConfig.widthMultiplier * 200,
+                curve: Curves.ease,
+                child: Container(
+                  height: SizeConfig.heightMultiplier * 100,
+                  width: SizeConfig.widthMultiplier * 100,
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[  
+                      // Light Theme selection
+                      FlatButton.icon(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        onPressed: () => ThemeProvider.controllerOf(context).setTheme('light_theme'),
+                        label: Text(
+                          'Light',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: ThemeProvider.themeOf(context).data.primaryColor,
+                            height: 1.3,
+                          ),
+                          textAlign: TextAlign.left,
                         ),
-                        textAlign: TextAlign.left,
-                      ),
-                      icon: Icon(
-                        ThemeProvider.themeOf(context).id.toString() == 'light_theme' ? Icons.done : Icons.wb_sunny,
-                        color: ThemeProvider.themeOf(context).id.toString() == 'light_theme' ? Colors.grey : Colors.yellow,
-                      ),
-                    ),
-                    
-                    // Dark Theme selection
-                    FlatButton.icon(
-                      padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                      onPressed: () => ThemeProvider.controllerOf(context).setTheme('dark_theme'),
-                      label: Text(
-                        'Dark',
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: ThemeProvider.themeOf(context).data.primaryColor,
-                          height: 1.3,
+                        icon: Icon(
+                          ThemeProvider.themeOf(context).id.toString() == 'light_theme' ? Icons.done : Icons.wb_sunny,
+                          color: ThemeProvider.themeOf(context).id.toString() == 'light_theme' ? Colors.grey : Colors.yellow,
                         ),
-                        textAlign: TextAlign.left,
                       ),
-                      icon: Icon(
-                        ThemeProvider.themeOf(context).id.toString() == 'dark_theme' ? Icons.done : Icons.nightlight_round,
-                        color: Colors.grey,
+                      
+                      // Dark Theme selection
+                      FlatButton.icon(
+                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        onPressed: () => ThemeProvider.controllerOf(context).setTheme('dark_theme'),
+                        label: Text(
+                          'Dark',
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: ThemeProvider.themeOf(context).data.primaryColor,
+                            height: 1.3,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                        icon: Icon(
+                          ThemeProvider.themeOf(context).id.toString() == 'dark_theme' ? Icons.done : Icons.nightlight_round,
+                          color: Colors.grey,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
 
               // Button 'Next'
-              CustomButton(
-                label: 'Next',
-                onPressed: () => {
-                  Navigator.of(context).pushReplacement(
-                    PageTransition(child: HomePage(), type: PageTransitionType.rightToLeft)
-                  )
-                },
+              AnimatedPositioned(
+                duration: Duration(seconds: 1,),
+                bottom: SizeConfig.heightMultiplier * 20,
+                left: startAnimation ? SizeConfig.widthMultiplier * 0 : SizeConfig.widthMultiplier * -100,
+                curve: Curves.ease,
+                child: CustomButton(
+                  label: 'Next',
+                  onPressed: () => {
+                    // Open next introduction page (package:autospotify_design/ui/introduction/introduction_spotify.dart)
+                    Navigator.of(context).pushReplacement(
+                      PageTransition(child: SpotifyIntroductionPage(), type: PageTransitionType.fade)
+                    ),
+                  },
+                ),
               ),
 
               // Page Number
               PageIndicator(
                 currentPage: 1,
                 maxPages: 3,
+              ),
+
+              Positioned(
+                top: SizeConfig.heightMultiplier * 3.160806006,
+                left: SizeConfig.widthMultiplier * 0,
+                child: CustomBackButton(
+                  onPressed: () => {
+                    Navigator.of(context).pushReplacement(
+                        PageTransition(child: IntroStartPage(), type: PageTransitionType.fade)
+                      ),
+                  },
+                ),
               ),
 
             ],

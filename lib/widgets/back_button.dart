@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class CustomBackButton extends StatelessWidget {
   final Function onPressed;
@@ -10,10 +11,10 @@ class CustomBackButton extends StatelessWidget {
     return FlatButton.icon(
       onPressed: onPressed,
       color: Colors.transparent,
-      padding: EdgeInsets.fromLTRB(3, 1, 3 , 1),
+      padding: EdgeInsets.zero,
       icon: Icon(
         Icons.keyboard_arrow_left,
-        color: Colors.grey,
+        color: ThemeProvider.themeOf(context).data.primaryColor,
         size: 24,
       ),
       label: Text(
@@ -21,7 +22,7 @@ class CustomBackButton extends StatelessWidget {
         style: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 14,
-          color: Colors.grey,
+          color: ThemeProvider.themeOf(context).data.primaryColor,
           fontWeight: FontWeight.w500,
         ),
       ),

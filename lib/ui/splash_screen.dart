@@ -34,6 +34,7 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<Splas
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Center(
         child: CircularProgressIndicator(),
       ),
