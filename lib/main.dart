@@ -1,6 +1,6 @@
-import 'package:autospotify_design/ui/splash_screen.dart';
-import 'package:autospotify_design/ui/introduction/intro_start_page.dart';
-import 'package:autospotify_design/ui/theme/custom_theme.dart';
+import 'package:autospotify/ui/splash_screen.dart';
+import 'package:autospotify/ui/introduction/intro_start_page.dart';
+import 'package:autospotify/ui/theme/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:theme_provider/theme_provider.dart';

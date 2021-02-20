@@ -1,4 +1,4 @@
-# autospotify_design
+# autospotify
 
 App design for AutoSpotify
 

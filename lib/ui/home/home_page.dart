@@ -1,9 +1,10 @@
-import 'package:autospotify_design/ui/introduction/introduction_yt.dart';
-import 'package:autospotify_design/utils/size_config.dart';
-import 'package:autospotify_design/utils/utils.dart';
-import 'package:autospotify_design/widgets/back_button.dart';
-import 'package:autospotify_design/widgets/button.dart';
-import 'package:autospotify_design/widgets/textfields.dart';
+import 'package:autospotify/ui/introduction/introduction_yt.dart';
+import 'package:autospotify/utils/size_config.dart';
+import 'package:autospotify/utils/utils.dart';
+import 'package:autospotify/utils/youtube_utils.dart';
+import 'package:autospotify/widgets/back_button.dart';
+import 'package:autospotify/widgets/button.dart';
+import 'package:autospotify/widgets/textfields.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -29,6 +30,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     initialTimer();
+
+    _spotifyUsernameController = new TextEditingController();
+    _ytPlaylistUrlController = new TextEditingController();
     super.initState();
   }
 
@@ -225,7 +229,7 @@ class _HomePageState extends State<HomePage> {
                     alignment: Alignment.center,
                     child: YtPlaylistUrlInputField(
                       controller: _ytPlaylistUrlController,
-                      onEditingComplete: null, // TODO: Test connection when changed
+                      onEditingComplete: () => YouTubeUtils().checkPlaylistId(_ytPlaylistUrlController.text), // TODO: Test connection when changed
                     ),
                   ),
                 ),
@@ -239,7 +243,7 @@ class _HomePageState extends State<HomePage> {
                   child: CustomButton(
                     label: 'Sync',
                     onPressed: () => {
-                      null // TODO: Sync Playlists
+                      YouTubeUtils().checkPlaylistId(_ytPlaylistUrlController.text) // TODO: Sync Playlists
                     },
                   ),
                 ),
@@ -250,7 +254,7 @@ class _HomePageState extends State<HomePage> {
                   left: SizeConfig.widthMultiplier * 0,
                   child: CustomBackButton(
                     onPressed: () => {
-                      // Open prevoiuse indroduction page (package:autospotify_design/ui/introduction/introduction_spotify.dart)
+                      // Open prevoiuse indroduction page (package:autospotify/ui/introduction/introduction_spotify.dart)
                       Navigator.of(context).pushReplacement(
                         PageTransition(child: YouTubeIntroductionPage(), type: PageTransitionType.fade)
                       ),

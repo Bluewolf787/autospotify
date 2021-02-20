@@ -1,12 +1,12 @@
-import 'package:autospotify_design/ui/home/home_page.dart';
-import 'package:autospotify_design/ui/introduction/introduction_spotify.dart';
-import 'package:autospotify_design/utils/size_config.dart';
-import 'package:autospotify_design/utils/utils.dart';
-import 'package:autospotify_design/widgets/back_button.dart';
-import 'package:autospotify_design/widgets/button.dart';
-import 'package:autospotify_design/widgets/circles.dart';
-import 'package:autospotify_design/widgets/introduction_page_indicator.dart';
-import 'package:autospotify_design/widgets/textfields.dart';
+import 'package:autospotify/ui/home/home_page.dart';
+import 'package:autospotify/ui/introduction/introduction_spotify.dart';
+import 'package:autospotify/utils/size_config.dart';
+import 'package:autospotify/utils/utils.dart';
+import 'package:autospotify/widgets/back_button.dart';
+import 'package:autospotify/widgets/button.dart';
+import 'package:autospotify/widgets/circles.dart';
+import 'package:autospotify/widgets/introduction_page_indicator.dart';
+import 'package:autospotify/widgets/textfields.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -208,7 +208,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                   child: CustomButton(
                     label: 'Finish',
                     onPressed: () => {
-                      // Open home page (package:autospotify_design/ui/home/home_page.dart)
+                      // Open home page (package:autospotify/ui/home/home_page.dart)
                       Navigator.of(context).pushReplacement(
                         PageTransition(child: HomePage(), type: PageTransitionType.fade)
                       ),
@@ -228,7 +228,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                   left: SizeConfig.widthMultiplier * 0,
                   child: CustomBackButton(
                     onPressed: () => {
-                      // Open prevoiuse indroduction page (package:autospotify_design/ui/introduction/introduction_spotify.dart)
+                      // Open prevoiuse indroduction page (package:autospotify/ui/introduction/introduction_spotify.dart)
                       Navigator.of(context).pushReplacement(
                         PageTransition(child: SpotifyIntroductionPage(), type: PageTransitionType.fade)
                       ),

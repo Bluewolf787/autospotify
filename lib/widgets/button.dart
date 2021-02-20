@@ -1,4 +1,4 @@
-import 'package:autospotify_design/utils/size_config.dart';
+import 'package:autospotify/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class CustomButton extends StatelessWidget {

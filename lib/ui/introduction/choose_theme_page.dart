@@ -1,11 +1,11 @@
-import 'package:autospotify_design/ui/introduction/intro_start_page.dart';
-import 'package:autospotify_design/ui/introduction/introduction_spotify.dart';
-import 'package:autospotify_design/utils/size_config.dart';
-import 'package:autospotify_design/utils/utils.dart';
-import 'package:autospotify_design/widgets/back_button.dart';
-import 'package:autospotify_design/widgets/button.dart';
-import 'package:autospotify_design/widgets/circles.dart';
-import 'package:autospotify_design/widgets/introduction_page_indicator.dart';
+import 'package:autospotify/ui/introduction/intro_start_page.dart';
+import 'package:autospotify/ui/introduction/introduction_spotify.dart';
+import 'package:autospotify/utils/size_config.dart';
+import 'package:autospotify/utils/utils.dart';
+import 'package:autospotify/widgets/back_button.dart';
+import 'package:autospotify/widgets/button.dart';
+import 'package:autospotify/widgets/circles.dart';
+import 'package:autospotify/widgets/introduction_page_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -189,7 +189,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                 child: CustomButton(
                   label: 'Next',
                   onPressed: () => {
-                    // Open next introduction page (package:autospotify_design/ui/introduction/introduction_spotify.dart)
+                    // Open next introduction page (package:autospotify/ui/introduction/introduction_spotify.dart)
                     Navigator.of(context).pushReplacement(
                       PageTransition(child: SpotifyIntroductionPage(), type: PageTransitionType.fade)
                     ),

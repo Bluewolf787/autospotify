@@ -1,4 +1,4 @@
-import 'package:autospotify_design/ui/introduction/intro_start_page.dart';
+import 'package:autospotify/ui/introduction/intro_start_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:after_layout/after_layout.dart';

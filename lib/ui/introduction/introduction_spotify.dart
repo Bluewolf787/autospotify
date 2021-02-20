@@ -1,12 +1,12 @@
-import 'package:autospotify_design/ui/introduction/choose_theme_page.dart';
-import 'package:autospotify_design/ui/introduction/introduction_yt.dart';
-import 'package:autospotify_design/utils/size_config.dart';
-import 'package:autospotify_design/utils/utils.dart';
-import 'package:autospotify_design/widgets/back_button.dart';
-import 'package:autospotify_design/widgets/button.dart';
-import 'package:autospotify_design/widgets/circles.dart';
-import 'package:autospotify_design/widgets/introduction_page_indicator.dart';
-import 'package:autospotify_design/widgets/textfields.dart';
+import 'package:autospotify/ui/introduction/choose_theme_page.dart';
+import 'package:autospotify/ui/introduction/introduction_yt.dart';
+import 'package:autospotify/utils/size_config.dart';
+import 'package:autospotify/utils/utils.dart';
+import 'package:autospotify/widgets/back_button.dart';
+import 'package:autospotify/widgets/button.dart';
+import 'package:autospotify/widgets/circles.dart';
+import 'package:autospotify/widgets/introduction_page_indicator.dart';
+import 'package:autospotify/widgets/textfields.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -222,7 +222,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                   child: CustomButton(
                     label: 'Next',
                     onPressed: () => {
-                      // Open next introduction page (package:autospotify_design/ui/introduction/introduction_yt.dart)
+                      // Open next introduction page (package:autospotify/ui/introduction/introduction_yt.dart)
                       Navigator.of(context).pushReplacement(
                         PageTransition(child: YouTubeIntroductionPage(), type: PageTransitionType.fade)
                       ),
@@ -242,7 +242,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                   left: SizeConfig.widthMultiplier * 0,
                   child: CustomBackButton(
                     onPressed: () => {
-                      // Open prevoiuse indroduction page (package:autospotify_design/ui/introduction/choose_theme_page.dart)
+                      // Open prevoiuse indroduction page (package:autospotify/ui/introduction/choose_theme_page.dart)
                       Navigator.of(context).pushReplacement(
                         PageTransition(child: ChooseThemePage(), type: PageTransitionType.fade)
                       )

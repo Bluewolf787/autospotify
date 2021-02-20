@@ -1,4 +1,4 @@
-package de.bluewolf.autospotify_design.autospotify_design;
+package de.bluewolf.autospotify;
 
 import io.flutter.embedding.android.FlutterActivity;
 
