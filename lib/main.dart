@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         debugShowMaterialGrid: false,
         home: ThemeConsumer(
-          child: IntroStartPage(), //SplashScreen()
+          child: SplashScreen(),
         ),
       ),
     );

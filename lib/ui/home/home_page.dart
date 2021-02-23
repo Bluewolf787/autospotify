@@ -1,3 +1,4 @@
+import 'package:autospotify/ui/auth/account_page.dart';
 import 'package:autospotify/ui/introduction/introduction_yt.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/utils.dart';
@@ -81,7 +82,13 @@ class _HomePageState extends State<HomePage> {
 
                       // Account Button
                       FlatButton.icon(
-                        onPressed: () => print('Hello Wolrd'), // TODO: Open Login Page or Account Fullscreen Dialog
+                        // TODO: Open Login Page or Account Fullscreen Dialog
+                        onPressed: () => {
+                          Navigator.pushReplacement(
+                            context,
+                            PageTransition(child: AccountPage(), type: PageTransitionType.fade)
+                          ),
+                        },
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                         label: Text(
                           'Account', // TODO: Says 'Login' or 'Account'
@@ -247,7 +254,8 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
-
+                
+/* 
                 // Back Button
                 Positioned(
                   top: SizeConfig.heightMultiplier * 3.160806006,
@@ -261,6 +269,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 ),
+*/
               ],
             ),
           ),
