@@ -1,10 +1,12 @@
+import 'package:autospotify/widgets/dialogs.dart';
+import 'package:flutter/material.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class YouTubeUtils {
 
   final YoutubeExplode _youtubeExplode = YoutubeExplode();
 
-  checkPlaylistId(String playlistUrl) async {
+  checkPlaylistId(String playlistUrl, BuildContext context) async {
     String playlistId = '';
     Playlist playlist;
 
@@ -13,6 +15,7 @@ class YouTubeUtils {
       playlistId = playlistUrl.replaceRange(0, 'https://youtube.com/playlist?list='.length, '');
     } catch (RangeError) {
       print('RangeError: $RangeError');
+      showDialog(context: context, builder: (context) => ErrorDialog(text: '$RangeError',));
     }
     // Get the playlist by the extraced id
     try {
@@ -20,6 +23,7 @@ class YouTubeUtils {
       getPlaylist(playlist);
     } catch (Invalid) {
       print('Invalid Error: $Invalid');
+      showDialog(context: context, builder: (context) => ErrorDialog(text: '$Invalid',));
     }
 
   }

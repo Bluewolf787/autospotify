@@ -1,5 +1,5 @@
 import 'package:autospotify/ui/auth/account_page.dart';
-import 'package:autospotify/ui/introduction/introduction_yt.dart';
+import 'package:autospotify/ui/auth/register_page.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/utils.dart';
 import 'package:autospotify/utils/youtube_utils.dart';
@@ -84,10 +84,18 @@ class _HomePageState extends State<HomePage> {
                       FlatButton.icon(
                         // TODO: Open Login Page or Account Fullscreen Dialog
                         onPressed: () => {
-                          Navigator.pushReplacement(
+                          Navigator.of(context).push(
+                            new MaterialPageRoute<Null>(
+                              builder: (BuildContext context) {
+                                return RegisterPage();
+                              },
+                              fullscreenDialog: true,
+                            )
+                          )
+                        /*   Navigator.pushReplacement(
                             context,
                             PageTransition(child: AccountPage(), type: PageTransitionType.fade)
-                          ),
+                          ), */
                         },
                         padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                         label: Text(
@@ -236,7 +244,7 @@ class _HomePageState extends State<HomePage> {
                     alignment: Alignment.center,
                     child: YtPlaylistUrlInputField(
                       controller: _ytPlaylistUrlController,
-                      onEditingComplete: () => YouTubeUtils().checkPlaylistId(_ytPlaylistUrlController.text), // TODO: Test connection when changed
+                      onEditingComplete: () => YouTubeUtils().checkPlaylistId(_ytPlaylistUrlController.text, context), // TODO: Test connection when changed
                     ),
                   ),
                 ),
@@ -250,7 +258,8 @@ class _HomePageState extends State<HomePage> {
                   child: CustomButton(
                     label: 'Sync',
                     onPressed: () => {
-                      YouTubeUtils().checkPlaylistId(_ytPlaylistUrlController.text) // TODO: Sync Playlists
+                      // TODO: Sync Playlists
+                      YouTubeUtils().checkPlaylistId(_ytPlaylistUrlController.text, context)
                     },
                   ),
                 ),

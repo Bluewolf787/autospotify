@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class CustomBackButton extends StatelessWidget {
-  final Function onPressed;
+  const CustomBackButton({
+    Key key,
+    @required this.onPressed,
+  }) : super(key: key);
 
-  CustomBackButton({this.onPressed});
+  final Function onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class CustomBackButton extends StatelessWidget {
           fontFamily: 'Montserrat',
           fontSize: 14,
           color: ThemeProvider.themeOf(context).data.primaryColor,
-          fontWeight: FontWeight.w500,
+          fontWeight: FontWeight.w400,
         ),
       ),
     );

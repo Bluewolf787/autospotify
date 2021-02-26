@@ -1,7 +1,6 @@
 import 'package:autospotify/ui/introduction/intro_start_page.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:theme_provider/theme_provider.dart';

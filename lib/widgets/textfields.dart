@@ -1,6 +1,75 @@
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
+class CustomTextField extends StatelessWidget {
+  CustomTextField({
+    Key key,
+    this.controller,
+    this.onEditingComplete,
+    this.obscureText,
+    this.labelText,
+    this.hintText
+  }) : super(key: key);
+
+  final TextEditingController controller;
+  final Function onEditingComplete;
+  final bool obscureText;
+  final String hintText;
+  final String labelText;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: controller,
+      onEditingComplete: onEditingComplete,
+      obscureText: obscureText ? true : false,
+      enableSuggestions: obscureText ? false : true,
+      autocorrect: obscureText ? false : true,
+      decoration: InputDecoration(
+        border: InputBorder.none,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(
+            color: ThemeProvider.themeOf(context).data.accentColor,
+            width: 2.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          borderSide: BorderSide(
+            color: ThemeProvider.themeOf(context).data.accentColor,
+            width: 2.0,
+          ),
+        ),
+        labelText: labelText,
+        labelStyle: TextStyle(
+          fontFamily: 'Montserrat',
+          fontSize: 14,
+          color: ThemeProvider.themeOf(context).data.primaryColor,
+          fontWeight: FontWeight.w400,
+        ),
+        alignLabelWithHint: true,
+        hintText: hintText,
+        hintStyle: TextStyle(
+          fontFamily: 'Montserrat',
+          fontSize: 14,
+          color: ThemeProvider.themeOf(context).data.primaryColor,
+          fontWeight: FontWeight.w400,
+        ),
+      ),
+      textAlign: TextAlign.center,
+      cursorColor: ThemeProvider.themeOf(context).data.accentColor,
+      style: TextStyle(
+        fontFamily: 'Montserrat',
+        fontSize: 14,
+        color: ThemeProvider.themeOf(context).data.primaryColor,
+        fontWeight: FontWeight.w400,
+      ),
+    );
+  }
+}
+
 class SpotifyUsernameInputField extends StatelessWidget {
   final TextEditingController controller;
   final Function onEditingComplete;
