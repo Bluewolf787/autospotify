@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "360965458553",
+    "project_id": "autospotify-7182e",
+    "storage_bucket": "autospotify-7182e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:360965458553:android:5e4400230071dc8616a2a8",
+        "android_client_info": {
+          "package_name": "de.bluewolf.autospotify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "360965458553-l72at93pei2g3ktuamgi8qf3r3gp3ls6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "de.bluewolf.autospotify",
+            "certificate_hash": "8be180d0479bd80720eaa388bf557b079641099d"
+          }
+        },
+        {
+          "client_id": "360965458553-smlnbqq0rl9m0kb4sjpdg2trdm18n83l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvILyjLAfDcB-3nuQUi0pQfg7h7O7bKbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "360965458553-smlnbqq0rl9m0kb4sjpdg2trdm18n83l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

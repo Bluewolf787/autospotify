@@ -1,14 +1,21 @@
+import 'dart:async';
+
 import 'package:autospotify/ui/auth/account_page.dart';
+import 'package:autospotify/ui/auth/login_page.dart';
 import 'package:autospotify/ui/auth/register_page.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/utils.dart';
+import 'package:autospotify/utils/back_button_handle.dart';
 import 'package:autospotify/utils/youtube_utils.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/button.dart';
+import 'package:autospotify/widgets/dialogs.dart';
 import 'package:autospotify/widgets/textfields.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme_provider/theme_provider.dart';
+
+final FirebaseAuth _auth = FirebaseAuth.instance;
 
 class HomePage extends StatefulWidget {
   @override
@@ -28,9 +35,39 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  User _user;
+  var _isUserLoggedIn = false;
+  String _username;
+  String _userEmail;
+  String _userAvatarUrl;
+
+  var _avatarLoadError = false;
+
+  String _provider;
+  var _isGoogleUser = false;
+
   @override
   void initState() {
     initialTimer();
+
+    _user = _auth.currentUser;
+    if (_user != null) {
+      _isUserLoggedIn = true;
+      _username = _user.displayName;
+      _userEmail = _user.email;
+      _userAvatarUrl = _user.photoURL;
+
+      if (!_user.emailVerified) {
+        //_isVerified = true;
+        Timer.run(() => _showEmailVerifyDialog(context));
+      }
+
+      _provider = _user.providerData.elementAt(0).providerId;
+    }
+
+    if (_provider == 'google.com') {
+      _isGoogleUser = true;
+    }
 
     _spotifyUsernameController = new TextEditingController();
     _ytPlaylistUrlController = new TextEditingController();
@@ -39,14 +76,26 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    _spotifyUsernameController.dispose();
+    _ytPlaylistUrlController.dispose();
+
     super.dispose();
+  }
+
+  void _showEmailVerifyDialog(BuildContext context) {
+    showDialog(context: context,
+      builder: (context) => VerifyEmailDialog(
+        user: _user,
+        email: _userEmail,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => Utils.onBackButtonExit(context),
+      onWillPop: () => BackButtonHandle.onBackButtonExit(context),
       child: Scaffold(
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         body: SingleChildScrollView(
@@ -79,39 +128,66 @@ class _HomePageState extends State<HomePage> {
                           color: Colors.grey,
                         ),
                       ),
+                      
+                      Padding(padding: EdgeInsets.only(left: 10)),
 
                       // Account Button
-                      FlatButton.icon(
-                        // TODO: Open Login Page or Account Fullscreen Dialog
+                      FlatButton(
                         onPressed: () => {
-                          Navigator.of(context).push(
-                            new MaterialPageRoute<Null>(
-                              builder: (BuildContext context) {
-                                return RegisterPage();
-                              },
-                              fullscreenDialog: true,
-                            )
-                          )
-                        /*   Navigator.pushReplacement(
-                            context,
-                            PageTransition(child: AccountPage(), type: PageTransitionType.fade)
-                          ), */
+                          if (_isUserLoggedIn) {
+                            Navigator.pushReplacement(
+                              context,
+                              PageTransition(child: AccountPage(), type: PageTransitionType.fade)
+                            ),
+                          }
+                          else {
+                            Navigator.pushReplacement(
+                              context,
+                              PageTransition(child: LoginPage(), type: PageTransitionType.fade)
+                            ),
+                          }
                         },
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        label: Text(
-                          'Account', // TODO: Says 'Login' or 'Account'
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.grey,
-                          ),
-                        ),              
-                        icon: Icon(
-                          Icons.account_circle,
-                          color: Colors.grey,
-                        ),          
+                        //clipBehavior: Clip.antiAlias,
+                        padding: EdgeInsets.zero,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            if (_isUserLoggedIn && _isGoogleUser)
+                              CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  _userAvatarUrl,
+                                ),
+                                radius: 10,
+                                backgroundColor: Colors.transparent,
+                                onBackgroundImageError: (_,__) {
+                                  setState(() {
+                                    this._avatarLoadError = true;
+                                  });
+                                },
+                                child: _avatarLoadError ? Icon(Icons.account_circle, color: Colors.grey, size: 20) : null,
+                              )
+                            else 
+                              Icon(
+                                Icons.account_circle,
+                                color: Colors.grey,
+                                size: 20
+                              ),
+
+                            Padding(padding: EdgeInsets.only(left: 5)),
+                            Text(
+                              (_isUserLoggedIn && _isGoogleUser) ? _username : _userEmail ?? 'Sign In',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

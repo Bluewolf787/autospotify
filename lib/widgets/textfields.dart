@@ -4,18 +4,24 @@ import 'package:theme_provider/theme_provider.dart';
 class CustomTextField extends StatelessWidget {
   CustomTextField({
     Key key,
-    this.controller,
+    @required this.controller,
     this.onEditingComplete,
+    this.readOnly,
     this.obscureText,
     this.labelText,
-    this.hintText
+    this.hintText,
+    this.prefixIcon,
+    this.suffixIcon,
   }) : super(key: key);
 
   final TextEditingController controller;
   final Function onEditingComplete;
+  final bool readOnly;
   final bool obscureText;
   final String hintText;
   final String labelText;
+  final Widget prefixIcon;
+  final Widget suffixIcon;
 
 
   @override
@@ -23,11 +29,14 @@ class CustomTextField extends StatelessWidget {
     return TextField(
       controller: controller,
       onEditingComplete: onEditingComplete,
+      readOnly: readOnly,
       obscureText: obscureText ? true : false,
       enableSuggestions: obscureText ? false : true,
       autocorrect: obscureText ? false : true,
       decoration: InputDecoration(
         border: InputBorder.none,
+        prefixIcon: prefixIcon,
+        suffixIcon: suffixIcon,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           borderSide: BorderSide(
@@ -58,7 +67,6 @@ class CustomTextField extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
       ),
-      textAlign: TextAlign.center,
       cursorColor: ThemeProvider.themeOf(context).data.accentColor,
       style: TextStyle(
         fontFamily: 'Montserrat',

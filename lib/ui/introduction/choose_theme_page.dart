@@ -1,7 +1,7 @@
 import 'package:autospotify/ui/introduction/intro_start_page.dart';
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/utils.dart';
+import 'package:autospotify/utils/back_button_handle.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/button.dart';
 import 'package:autospotify/widgets/circles.dart';
@@ -35,7 +35,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => Utils.onBackButtonExit(context), 
+      onWillPop: () => BackButtonHandle.onBackButtonExit(context), 
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,

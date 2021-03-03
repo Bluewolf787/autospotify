@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-class Utils {
+class BackButtonHandle {
 
   static Future<bool> onBackButtonExit(BuildContext context) {
     return showDialog(

@@ -1,7 +1,7 @@
 import 'package:autospotify/ui/home/home_page.dart';
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/utils.dart';
+import 'package:autospotify/utils/back_button_handle.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/button.dart';
 import 'package:autospotify/widgets/circles.dart';
@@ -37,7 +37,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => Utils.onBackButtonExit(context),
+      onWillPop: () => BackButtonHandle.onBackButtonExit(context),
       child: Scaffold(
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         body: SingleChildScrollView(

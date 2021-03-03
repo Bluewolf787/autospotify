@@ -1,5 +1,6 @@
 import 'package:autospotify/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class CustomButton extends StatelessWidget {
   final String label;
@@ -18,16 +19,16 @@ class CustomButton extends StatelessWidget {
         onPressed: onPressed,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30.0),
-          side: BorderSide(color: Colors.blue),
         ),
-        color: Colors.blue,
+        color: ThemeProvider.themeOf(context).data.accentColor,
         textColor: Colors.white,
         child: Text(
-          label,
+          label.toUpperCase(),
           style: TextStyle(
             fontFamily: 'Montserrat',
             fontSize: 26.0,
             fontWeight: FontWeight.w400,
+            letterSpacing: 2,
           ),
         ),
       ),

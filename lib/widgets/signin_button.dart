@@ -27,6 +27,7 @@ class SignInButton extends StatelessWidget {
         color: color,
       ),
       highlightColor: color,
+      highlightedBorderColor: color,
       child: Padding(
         padding: EdgeInsets.zero,
         child: Row(

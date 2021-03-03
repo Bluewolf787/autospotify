@@ -10,7 +10,8 @@ class CustomTheme {
         brightness: Brightness.dark,
         primaryColor: Colors.white,
         accentColor: Colors.blue[700],
-        scaffoldBackgroundColor: Colors.black,
+        scaffoldBackgroundColor: Colors.black, //Color.fromARGB(255, 30, 39, 46),
+        canvasColor: Color.fromARGB(255, 30, 39, 46),
         unselectedWidgetColor: Colors.grey,
       ),
     );
