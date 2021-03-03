@@ -38,7 +38,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => BackButtonHandle.onBackButtonExit(context),
+      onWillPop: () => onBackButtonExit(context),
       child: Scaffold(
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         body: SingleChildScrollView(

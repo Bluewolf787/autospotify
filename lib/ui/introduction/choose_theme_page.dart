@@ -35,7 +35,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => BackButtonHandle.onBackButtonExit(context), 
+      onWillPop: () => onBackButtonExit(context), 
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,

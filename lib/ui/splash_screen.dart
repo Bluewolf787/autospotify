@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:autospotify/ui/introduction/intro_start_page.dart';
+import 'package:autospotify/ui/no_network_connection_page.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,15 +22,26 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<Splas
 
     await new Future.delayed(const Duration(seconds: 5));
     
-    if (_introSeen) {
+    try {
+      // Check for Network Connection
+      final connectionResult = await InternetAddress.lookup('google.com');
+      
+      // Network Connection start app normally
+      if (_introSeen) {
+        Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new HomePage())
+        );
+      }
+      else {
+        await sharedPrefs.setBool('introSeen', true);
+        Navigator.of(context).pushReplacement(
+          new MaterialPageRoute(builder: (context) => new IntroStartPage())
+        );
+      }
+    } on SocketException catch (exception) {
+      // No Network Connection show error page
       Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(builder: (context) => new HomePage())
-      );
-    }
-    else {
-      await sharedPrefs.setBool('introSeen', true);
-      Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(builder: (context) => new IntroStartPage())
+        new MaterialPageRoute(builder: (context) => new NoNetworkConnectionPage())
       );
     }
   }

@@ -77,7 +77,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => BackButtonHandle.onBackButtonExit(context),
+      onWillPop: () => onBackButtonExit(context),
       child: Scaffold(
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         body: Builder(
