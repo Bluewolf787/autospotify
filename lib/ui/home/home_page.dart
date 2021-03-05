@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:autospotify/ui/auth/account_page.dart';
 import 'package:autospotify/ui/auth/login_page.dart';
-import 'package:autospotify/ui/no_network_connection_page.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/back_button_handle.dart';
 import 'package:autospotify/utils/spotify_utils.dart';

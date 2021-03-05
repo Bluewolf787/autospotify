@@ -1,34 +1,39 @@
+import 'dart:convert';
+
 import 'package:autospotify/ui/spotifyauth_webview.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spotify/spotify.dart';
 
-Future<SpotifyApi> connectToSpotify(BuildContext context) async {
-  try {
-    final credentials = SpotifyApiCredentials(clientId, secret);
+Future<SpotifyApi> connectToSpotify(BuildContext context) async { 
 
-    final grant = SpotifyApi.authorizationCodeGrant(credentials);
+  // Get Client ID, Client Secret and Redirect Url from json
+  Map spotifySecretsMap = await rootBundle.loadStructuredData('assets/spotify_secrets.json', (String data) async {
+    return json.decode(data);
+  });
 
-    final redirectUri = '';
+  // Get Spotify credentials
+  final credentials = SpotifyApiCredentials(spotifySecretsMap['clientID'], spotifySecretsMap['clientSecret']);
 
-    final scopes = ['user-read-email', 'user-read-private', 'playlist-modify-private', 'playlist-modify-public'];
+  final grant = SpotifyApi.authorizationCodeGrant(credentials);
 
-    final authUri = grant.getAuthorizationUrl(
-      Uri.parse(redirectUri),
-      scopes: scopes,
-    );
+  final redirectUri = spotifySecretsMap['redirectUrl'];
 
-    final responseUri = await navigateToWebViewAndGetResponseUri(context, authUri.toString(), redirectUri);
+  // Define scopes
+  final scopes = ['user-read-email', 'user-read-private', 'playlist-modify-private', 'playlist-modify-public'];
 
-    final spotify = SpotifyApi.fromAuthCodeGrant(grant, responseUri);
+  // Create auth Url
+  final authUri = grant.getAuthorizationUrl(
+    Uri.parse(redirectUri),
+    scopes: scopes,
+  );
 
-    print('SUCCESS');
+  // Open auth WebView
+  final responseUri = await navigateToWebViewAndGetResponseUri(context, authUri.toString(), redirectUri);
 
-    return spotify;
-  } catch (exception) {
-    print(exception);
-    return null;
-  }
+  final spotify = SpotifyApi.fromAuthCodeGrant(grant, responseUri);
 
+  return spotify;
 }
 
 navigateToWebViewAndGetResponseUri(BuildContext context, String initalUrl, String redirectUrl) async {
