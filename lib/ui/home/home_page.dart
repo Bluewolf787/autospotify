@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:autospotify/ui/auth/account_page.dart';
 import 'package:autospotify/ui/auth/login_page.dart';
 import 'package:autospotify/ui/no_network_connection_page.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/back_button_handle.dart';
+import 'package:autospotify/utils/spotify_utils.dart';
 import 'package:autospotify/utils/youtube_utils.dart';
 import 'package:autospotify/widgets/button.dart';
 import 'package:autospotify/widgets/dialogs.dart';
@@ -336,19 +336,7 @@ class _HomePageState extends State<HomePage> {
                     curve: Curves.ease,
                     child: CustomButton(
                       label: 'Sync',
-                      onPressed: () {
-                        if (_spotifyUsernameController.text.isEmpty) {
-                          CustomSnackbar.show(context, 'Please enter a Spotify username');
-                          return;
-                        }
-                        if (_ytPlaylistUrlController.text.isEmpty) {
-                          CustomSnackbar.show(context, 'Please enter a YouTube playlist');
-                          return;
-                        }
-
-                        // TODO: Sync Playlists
-                        YouTubeUtils().checkPlaylistId(_ytPlaylistUrlController.text, context);
-                      },
+                      onPressed: () => _onSyncPressed(context),
                     ),
                   ),
                 ],
@@ -359,4 +347,22 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  void _onSyncPressed(BuildContext context) async {
+    if (_ytPlaylistUrlController.text.isEmpty) {
+      CustomSnackbar.show(context, 'Please enter a YouTube playlist');
+      return;
+    }
+
+    // TODO: Sync Playlists
+
+    // Connect to Spotify
+    var spotify = await connectToSpotify(context);
+    // Create a playlist
+    await createPrivatePlaylist(spotify);
+
+    
+    //YouTubeUtils().checkPlaylistId(_ytPlaylistUrlController.text, context);
+  }
+
 }
