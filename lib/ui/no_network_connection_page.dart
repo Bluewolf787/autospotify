@@ -1,5 +1,5 @@
 import 'package:autospotify/ui/splash_screen.dart';
-import 'package:autospotify/utils/back_button_handle.dart';
+import 'package:autospotify/utils/button_handlers.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -45,14 +45,18 @@ class _NoNetworkConnectionPageState extends State<NoNetworkConnectionPage> {
                   ),
                 ),
                 Padding(padding: EdgeInsets.only(bottom: 40)),
-                FlatButton(
+                TextButton(
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
                       PageTransition(child: SplashScreen(), type: PageTransitionType.fade)
                     );
                   },
-                  color: ThemeProvider.themeOf(context).data.canvasColor,
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.resolveWith((states) {
+                      return ThemeProvider.themeOf(context).data.canvasColor;
+                    }),
+                  ),
                   child: Text(
                     'try again'.toUpperCase(),
                     style: TextStyle(

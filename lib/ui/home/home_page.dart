@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:autospotify/ui/auth/account_page.dart';
 import 'package:autospotify/ui/auth/login_page.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/back_button_handle.dart';
+import 'package:autospotify/utils/button_handlers.dart';
 import 'package:autospotify/utils/spotify_utils.dart';
 import 'package:autospotify/utils/youtube_utils.dart';
 import 'package:autospotify/widgets/button.dart';
@@ -118,6 +118,7 @@ class _HomePageState extends State<HomePage> {
                           icon: ThemeProvider.themeOf(context).id == 'light_theme' ? Icon(Icons.wb_sunny) : Icon(Icons.nightlight_round),
                           color: ThemeProvider.themeOf(context).id == 'light_theme' ? Colors.yellow : Colors.grey,
                           tooltip: ThemeProvider.themeOf(context).id == 'light_theme' ? 'Activate Dark Theme' : 'Activate Light Theme',
+                          highlightColor: Colors.transparent,
                           onPressed: () => ThemeProvider.controllerOf(context).nextTheme(),
                         ),
 
@@ -134,7 +135,7 @@ class _HomePageState extends State<HomePage> {
                         Padding(padding: EdgeInsets.only(left: 10)),
 
                         // Account Button
-                        FlatButton(
+                        TextButton(
                           onPressed: () => {
                             if (_isUserLoggedIn) {
                               Navigator.pushReplacement(
@@ -149,9 +150,6 @@ class _HomePageState extends State<HomePage> {
                               ),
                             }
                           },
-                          //clipBehavior: Clip.antiAlias,
-                          padding: EdgeInsets.zero,
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             mainAxisSize: MainAxisSize.min,

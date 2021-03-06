@@ -11,10 +11,8 @@ class CustomBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton.icon(
+    return TextButton.icon(
       onPressed: onPressed,
-      color: Colors.transparent,
-      padding: EdgeInsets.zero,
       icon: Icon(
         Icons.keyboard_arrow_left,
         color: ThemeProvider.themeOf(context).data.primaryColor,
@@ -29,6 +27,11 @@ class CustomBackButton extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
       ),
+      style: ButtonStyle(
+        overlayColor: MaterialStateProperty.resolveWith((states) {
+          return Colors.transparent;
+        }),
+      )
     );
   }
 }

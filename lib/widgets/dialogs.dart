@@ -24,7 +24,7 @@ class ErrorDialog extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           onPressed: () => {
             Navigator.of(context).pop(),
           },
@@ -74,7 +74,7 @@ class VerifyEmailDialog extends StatelessWidget {
         ),
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           onPressed: () => {
             Navigator.of(context).pop(),
           },
@@ -87,7 +87,7 @@ class VerifyEmailDialog extends StatelessWidget {
             ),
           ),
         ),
-        FlatButton(
+        TextButton(
           onPressed: () async {
             await user.sendEmailVerification();
             Navigator.of(context).pop();

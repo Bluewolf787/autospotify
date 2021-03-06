@@ -14,20 +14,28 @@ class CustomButton extends StatelessWidget {
     return Container(
       width: SizeConfig.widthMultiplier * 100,
       alignment: Alignment.center,
-      child: RaisedButton(
-        padding: EdgeInsets.fromLTRB(45, 10, 45 , 10),
-        onPressed: onPressed,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
+      child: ElevatedButton(
+        style: ButtonStyle(
+          padding: MaterialStateProperty.resolveWith((states) {
+            return EdgeInsets.fromLTRB(45, 10, 45 , 10);
+          }),
+          shape: MaterialStateProperty.resolveWith((states) {
+            return RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(30.0)
+            );
+          }),
+          backgroundColor: MaterialStateProperty.resolveWith((states) {
+            return ThemeProvider.themeOf(context).data.accentColor;
+          }),
         ),
-        color: ThemeProvider.themeOf(context).data.accentColor,
-        textColor: Colors.white,
+        onPressed: onPressed,
         child: Text(
           label.toUpperCase(),
           style: TextStyle(
             fontFamily: 'Montserrat',
             fontSize: 26.0,
             fontWeight: FontWeight.w400,
+            color: Colors.white,
             letterSpacing: 2,
           ),
         ),

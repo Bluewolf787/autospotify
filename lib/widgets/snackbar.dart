@@ -11,8 +11,9 @@ class CustomSnackbar {
   final SnackBarAction action;
 
   static show(BuildContext context, String text, [SnackBarAction action]) {
-    Scaffold.of(context).showSnackBar(
+    ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration: Duration(seconds: 4),
         backgroundColor: ThemeProvider.themeOf(context).data.canvasColor,
         content: Text(
           text,

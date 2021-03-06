@@ -3,7 +3,7 @@ import 'package:autospotify/ui/introduction/intro_start_page.dart';
 import 'package:autospotify/utils/auth/fire_auth.dart';
 import 'package:autospotify/utils/auth/google_auth.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/back_button_handle.dart';
+import 'package:autospotify/utils/button_handlers.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/snackbar.dart';
 import 'package:autospotify/widgets/textfields.dart';
@@ -234,11 +234,10 @@ class _AccountPageState extends State<AccountPage> {
                       child: SizedBox(
                         height: SizeConfig.heightMultiplier * 8,
                         width: SizeConfig.widthMultiplier * 80,
-                        child: OutlineButton.icon(
+                        child: OutlinedButton.icon(
                           icon: Icon(
                             Icons.vpn_key_outlined,
                             size: 18,
-                            color: Colors.grey,
                           ),
                           label: Text(
                             'Change Password',
@@ -249,15 +248,32 @@ class _AccountPageState extends State<AccountPage> {
                               color: ThemeProvider.themeOf(context).data.primaryColor,
                             ),
                           ),
-                          highlightColor: ThemeProvider.themeOf(context).data.accentColor,
-                          highlightedBorderColor: ThemeProvider.themeOf(context).data.accentColor,
-                          disabledBorderColor: Colors.grey,
-                          borderSide: BorderSide(
-                            color: ThemeProvider.themeOf(context).data.accentColor,
-                            width: 2.0,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.resolveWith((states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return ThemeProvider.themeOf(context).data.primaryColor;
+                              }
+
+                              return Colors.grey;
+                            }),
+                            overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return Colors.grey;
+                              }
+                              
+                              return ThemeProvider.themeOf(context).data.accentColor;
+                            }),
+                            side: MaterialStateProperty.resolveWith((states) {
+                              return BorderSide(
+                                color: ThemeProvider.themeOf(context).data.accentColor,
+                                width: 2.0,
+                              );
+                            }),
+                            shape: MaterialStateProperty.resolveWith((states) {
+                              return RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              );
+                            }),
                           ),
                           onPressed: () => {
                             if (_isGoogleUser) {
@@ -302,11 +318,10 @@ class _AccountPageState extends State<AccountPage> {
                       alignment: Alignment.center,
                       child: SizedBox(
                         width: SizeConfig.widthMultiplier * 80,
-                        child: OutlineButton.icon(
+                        child: OutlinedButton.icon(
                           icon: Icon(
                             Icons.book_outlined,
                             size: 18,
-                            color: Colors.grey,
                           ),
                           label: Text(
                             'Start introduction',
@@ -317,14 +332,32 @@ class _AccountPageState extends State<AccountPage> {
                               color: ThemeProvider.themeOf(context).data.primaryColor,
                             ),
                           ),
-                          highlightColor: ThemeProvider.themeOf(context).data.accentColor,
-                          highlightedBorderColor: ThemeProvider.themeOf(context).data.accentColor,
-                          borderSide: BorderSide(
-                            color: ThemeProvider.themeOf(context).data.accentColor,
-                            width: 2.0,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.resolveWith((states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return ThemeProvider.themeOf(context).data.primaryColor;
+                              }
+
+                              return Colors.grey;
+                            }),
+                            overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return Colors.grey;
+                              }
+                              
+                              return ThemeProvider.themeOf(context).data.accentColor;
+                            }),
+                            side: MaterialStateProperty.resolveWith((states) {
+                              return BorderSide(
+                                color: ThemeProvider.themeOf(context).data.accentColor,
+                                width: 2.0,
+                              );
+                            }),
+                            shape: MaterialStateProperty.resolveWith((states) {
+                              return RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              );
+                            }),
                           ),
                           onPressed: () => {
                             Navigator.pushReplacement(
@@ -349,11 +382,10 @@ class _AccountPageState extends State<AccountPage> {
                       alignment: Alignment.center,
                       child: SizedBox(
                         width: SizeConfig.widthMultiplier * 80,
-                        child: OutlineButton.icon(
+                        child: OutlinedButton.icon(
                           icon: Icon(
                             Icons.logout,
                             size: 18,
-                            color: Colors.grey,
                           ),
                           label: Text(
                             'Logout',
@@ -364,14 +396,32 @@ class _AccountPageState extends State<AccountPage> {
                               color: ThemeProvider.themeOf(context).data.primaryColor,
                             ),
                           ),
-                          highlightColor: Colors.red,
-                          highlightedBorderColor: Colors.red,
-                          borderSide: BorderSide(
-                            color: Colors.red,
-                            width: 2.0,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.resolveWith((states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return ThemeProvider.themeOf(context).data.primaryColor;
+                              }
+
+                              return Colors.grey;
+                            }),
+                            overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return Colors.grey;
+                              }
+                              
+                              return Colors.red;
+                            }),
+                            side: MaterialStateProperty.resolveWith((states) {
+                              return BorderSide(
+                                color: Colors.red,
+                                width: 2.0,
+                              );
+                            }),
+                            shape: MaterialStateProperty.resolveWith((states) {
+                              return RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              );
+                            }),
                           ),
                           onPressed: () async {
                             // Sign user out
@@ -416,11 +466,10 @@ class _AccountPageState extends State<AccountPage> {
                       alignment: Alignment.center,
                       child: SizedBox(
                         width: SizeConfig.widthMultiplier * 80,
-                        child: OutlineButton.icon(
+                        child: OutlinedButton.icon(
                           icon: Icon(
                             Icons.delete_outline,
                             size: 18,
-                            color: Colors.grey,
                           ),
                           label: Text(
                             'Delete Account',
@@ -431,14 +480,32 @@ class _AccountPageState extends State<AccountPage> {
                               color: ThemeProvider.themeOf(context).data.primaryColor,
                             ),
                           ),
-                          highlightColor: Colors.red,
-                          highlightedBorderColor: Colors.red,
-                          borderSide: BorderSide(
-                            color: Colors.red,
-                            width: 2.0,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                          style: ButtonStyle(
+                            foregroundColor: MaterialStateProperty.resolveWith((states) {
+                              if (states.contains(MaterialState.pressed)) {
+                                return ThemeProvider.themeOf(context).data.primaryColor;
+                              }
+
+                              return Colors.grey;
+                            }),
+                            overlayColor: MaterialStateProperty.resolveWith<Color>((states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return Colors.grey;
+                              }
+                              
+                              return Colors.red;
+                            }),
+                            side: MaterialStateProperty.resolveWith((states) {
+                              return BorderSide(
+                                color: Colors.red,
+                                width: 2.0,
+                              );
+                            }),
+                            shape: MaterialStateProperty.resolveWith((states) {
+                              return RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              );
+                            }),
                           ),
                           onPressed: () async { 
                             await deleteUser().then((success) async {

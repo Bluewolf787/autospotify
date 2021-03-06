@@ -262,7 +262,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 ),
                               ),
                               actions: <Widget>[
-                                FlatButton(
+                                TextButton(
                                   onPressed: () => {
                                     // Close Register Page and open Home Page
                                     Navigator.pushReplacement(
@@ -299,7 +299,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Container(
                       width: SizeConfig.widthMultiplier * 100,
                       alignment: Alignment.center,
-                      child: FlatButton(
+                      child: TextButton(
                         onPressed: () => {
                           Navigator.of(context).pushReplacement(
                             new MaterialPageRoute<Null>(
@@ -310,7 +310,6 @@ class _RegisterPageState extends State<RegisterPage> {
                             )
                           )
                         },
-                        padding: EdgeInsets.all(0),
                         child: Text(
                           'Already have one? Login',
                           style: TextStyle(

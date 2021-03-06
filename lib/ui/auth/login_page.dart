@@ -252,7 +252,71 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
 
-                // Password Forgot Button
+                Positioned(
+                  bottom: SizeConfig.heightMultiplier * 4,
+                  child: AnimatedOpacity(
+                    duration: _duration,
+                    opacity: startAnimation ? 1.0 : 0.0,
+                    curve: Curves.linear,
+                    child: Container(
+                      width: SizeConfig.widthMultiplier * 100,
+                      alignment: Alignment.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          // Password Forgot Button
+                          TextButton(
+                            onPressed: () => {
+                              null
+                            },
+                            child: Text(
+                              'Forgot password?',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: ThemeProvider.themeOf(context).data.primaryColor,
+                                height: 1.3,
+                              ),
+                            ),
+                          ),
+                          
+                          // Go to Register Button
+                          TextButton(
+                            onPressed: () => {
+                              Navigator.of(context).pushReplacement(
+                                new MaterialPageRoute<Null>(
+                                  builder: (BuildContext context) {
+                                    return RegisterPage();
+                                  },
+                                  fullscreenDialog: true,
+                                )
+                              )
+                            },
+                            style: ButtonStyle(
+                              padding: MaterialStateProperty.resolveWith((states) {
+                                return EdgeInsets.all(0);
+                              }),
+                            ),
+                            child: Text(
+                              'New at AutoSpotify? Sign Up',
+                              style: TextStyle(
+                                fontFamily: 'Montserrat',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w400,
+                                color: ThemeProvider.themeOf(context).data.primaryColor,
+                                height: 1.3,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ),
+                ),
+
+                /* // Password Forgot Button
                 Positioned(
                   bottom: SizeConfig.heightMultiplier * 12,
                   child: AnimatedOpacity(
@@ -262,11 +326,10 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       width: SizeConfig.widthMultiplier * 100,
                       alignment: Alignment.center,
-                      child: FlatButton(
+                      child: TextButton(
                         onPressed: () => {
                           null
                         },
-                        padding: EdgeInsets.all(0),
                         child: Text(
                           'Forgot password?',
                           style: TextStyle(
@@ -292,7 +355,7 @@ class _LoginPageState extends State<LoginPage> {
                     child: Container(
                       width: SizeConfig.widthMultiplier * 100,
                       alignment: Alignment.center,
-                      child: FlatButton(
+                      child: TextButton(
                         onPressed: () => {
                           Navigator.of(context).pushReplacement(
                             new MaterialPageRoute<Null>(
@@ -303,7 +366,11 @@ class _LoginPageState extends State<LoginPage> {
                             )
                           )
                         },
-                        padding: EdgeInsets.all(0),
+                        style: ButtonStyle(
+                          padding: MaterialStateProperty.resolveWith((states) {
+                            return EdgeInsets.all(0);
+                          }),
+                        ),
                         child: Text(
                           'New at AutoSpotify? Sign Up',
                           style: TextStyle(
@@ -317,7 +384,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                   ),
-                ),
+                ), */
 
                 // Back Button
                 Positioned(

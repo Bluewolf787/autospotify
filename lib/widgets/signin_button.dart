@@ -17,17 +17,23 @@ class SignInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return OutlineButton(
+    return OutlinedButton(
       onPressed: onPressed,
-      splashColor: Colors.grey,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(40),
+      style: ButtonStyle(
+        overlayColor: MaterialStateProperty.resolveWith((states) {
+          return color;
+        }),
+        shape: MaterialStateProperty.resolveWith((states) {
+          return RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(40.0),
+          );
+        }),
+        side: MaterialStateProperty.resolveWith((states) {
+          return BorderSide(
+            color: color,
+          );
+        }),
       ),
-      borderSide: BorderSide(
-        color: color,
-      ),
-      highlightColor: color,
-      highlightedBorderColor: color,
       child: Padding(
         padding: EdgeInsets.zero,
         child: Row(

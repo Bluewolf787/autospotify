@@ -1,8 +1,6 @@
-import 'package:autospotify/ui/introduction/intro_start_page.dart';
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/back_button_handle.dart';
-import 'package:autospotify/widgets/back_button.dart';
+import 'package:autospotify/utils/button_handlers.dart';
 import 'package:autospotify/widgets/button.dart';
 import 'package:autospotify/widgets/circles.dart';
 import 'package:autospotify/widgets/introduction_page_indicator.dart';
@@ -135,8 +133,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[  
                       // Light Theme selection
-                      FlatButton.icon(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      TextButton.icon(
                         onPressed: () => ThemeProvider.controllerOf(context).setTheme('light_theme'),
                         label: Text(
                           'Light',
@@ -153,11 +150,15 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                           ThemeProvider.themeOf(context).id.toString() == 'light_theme' ? Icons.done : Icons.wb_sunny,
                           color: ThemeProvider.themeOf(context).id.toString() == 'light_theme' ? Colors.grey : Colors.yellow,
                         ),
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateColor.resolveWith((states) {
+                            return Colors.transparent;
+                          }),
+                        ),
                       ),
                       
                       // Dark Theme selection
-                      FlatButton.icon(
-                        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                      TextButton.icon(
                         onPressed: () => ThemeProvider.controllerOf(context).setTheme('dark_theme'),
                         label: Text(
                           'Dark',
@@ -173,6 +174,11 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                         icon: Icon(
                           ThemeProvider.themeOf(context).id.toString() == 'dark_theme' ? Icons.done : Icons.nightlight_round,
                           color: Colors.grey,
+                        ),
+                        style: ButtonStyle(
+                          overlayColor: MaterialStateColor.resolveWith((states) {
+                            return Colors.transparent;
+                          }),
                         ),
                       ),
                     ],
@@ -202,19 +208,6 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                 currentPage: 1,
                 maxPages: 3,
               ),
-
-              Positioned(
-                top: SizeConfig.heightMultiplier * 3.160806006,
-                left: SizeConfig.widthMultiplier * 0,
-                child: CustomBackButton(
-                  onPressed: () => {
-                    Navigator.of(context).pushReplacement(
-                        PageTransition(child: IntroStartPage(), type: PageTransitionType.fade)
-                      ),
-                  },
-                ),
-              ),
-
             ],
           ),
         ),  

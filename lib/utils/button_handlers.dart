@@ -15,7 +15,7 @@ Future<bool> onBackButtonExit(BuildContext context) {
         style: TextStyle(color: ThemeProvider.themeOf(context).data.primaryColor),
       ),
       actions: <Widget>[
-        FlatButton(
+        TextButton(
           onPressed: () => {
             WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
               Navigator.of(context).pop(false);
@@ -26,7 +26,7 @@ Future<bool> onBackButtonExit(BuildContext context) {
             style: TextStyle(color: ThemeProvider.themeOf(context).data.accentColor)
           ),
         ),
-        FlatButton(
+        TextButton(
           onPressed: () => {
               WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
                 Navigator.of(context).pop(true);

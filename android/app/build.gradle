@@ -28,6 +28,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 dependencies {
   // Import the Firebase BoM
   implementation platform('com.google.firebase:firebase-bom:26.5.0')
+  implementation 'com.android.support:multidex:1.0.3'
 
   // Add the dependencies for the desired Firebase products
   // https://firebase.google.com/docs/android/setup#available-libraries
@@ -47,6 +48,7 @@ android {
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        multiDexEnabled true
     }
 
     buildTypes {

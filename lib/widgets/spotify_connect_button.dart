@@ -16,7 +16,7 @@ class ConnectSpotifyButton extends StatelessWidget {
     return SizedBox(
       height: SizeConfig.heightMultiplier * 8,
       width: SizeConfig.widthMultiplier * 80,
-      child: OutlineButton(
+      child: OutlinedButton(
         child: Text(
           'Connect Spotify',
           textAlign: TextAlign.center,
@@ -27,14 +27,21 @@ class ConnectSpotifyButton extends StatelessWidget {
             color: ThemeProvider.themeOf(context).data.primaryColor,
           ),
         ),
-        highlightColor: const Color(0xff1db954),
-        highlightedBorderColor: const Color(0xff1db954),
-        borderSide: BorderSide(
-          color: const Color(0xff1db954),
-          width: 2.0,
-        ),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
+        style: ButtonStyle(
+          overlayColor: MaterialStateProperty.resolveWith((states) {
+            return const Color(0xff1db954);
+          }),
+          side: MaterialStateProperty.resolveWith((states) {
+            return BorderSide(
+              color: const Color(0xff1db954),
+              width: 2.0,
+            );
+          }),
+          shape: MaterialStateProperty.resolveWith((states) {
+            return RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            );
+          }),
         ),
         onPressed: onPressed,
       ),

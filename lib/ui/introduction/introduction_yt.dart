@@ -1,7 +1,7 @@
 import 'package:autospotify/ui/home/home_page.dart';
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/back_button_handle.dart';
+import 'package:autospotify/utils/button_handlers.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/button.dart';
 import 'package:autospotify/widgets/circles.dart';
