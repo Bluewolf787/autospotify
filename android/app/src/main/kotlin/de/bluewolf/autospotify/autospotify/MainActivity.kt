@@ -1,0 +1,6 @@
+package de.bluewolf.autospotify.autospotify
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}

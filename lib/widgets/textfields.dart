@@ -87,7 +87,8 @@ class SpotifyUsernameInputField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      onEditingComplete: onEditingComplete,
+      readOnly: true,
+      onTap: () => null,
       decoration: InputDecoration(
         border: InputBorder.none,
         enabledBorder: OutlineInputBorder(
@@ -104,13 +105,6 @@ class SpotifyUsernameInputField extends StatelessWidget {
         ),
         labelText: 'Spotify username',
         labelStyle: TextStyle(
-          fontFamily: 'Montserrat',
-          fontSize: 14,
-          color: ThemeProvider.themeOf(context).data.primaryColor,
-          fontWeight: FontWeight.w400,
-        ),
-        hintText: 'Enter your Spotify username',
-        hintStyle: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 14,
           color: ThemeProvider.themeOf(context).data.primaryColor,
