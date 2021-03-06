@@ -80,9 +80,8 @@ class CustomTextField extends StatelessWidget {
 
 class SpotifyUsernameInputField extends StatelessWidget {
   final TextEditingController controller;
-  final Function onEditingComplete;
 
-  SpotifyUsernameInputField({this.controller, this.onEditingComplete});
+  SpotifyUsernameInputField({this.controller});
 
   @override
   Widget build(BuildContext context) {

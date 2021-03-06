@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<Splas
       final connectionResult = await InternetAddress.lookup('google.com');
       
       // Network Connection start app normally
-      if (_introSeen) {
+      if (_introSeen) {    
         Navigator.of(context).pushReplacement(
           new MaterialPageRoute(builder: (context) => new HomePage())
         );

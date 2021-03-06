@@ -306,7 +306,6 @@ class _HomePageState extends State<HomePage> {
                       alignment: Alignment.center,
                       child: SpotifyUsernameInputField(
                         controller: _spotifyUsernameController,
-                        onEditingComplete: null, // TODO: Test connection when changed
                       ),
                     ),
                   ),
