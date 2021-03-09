@@ -1,6 +1,6 @@
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/button_handlers.dart';
+import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/widgets/button.dart';
 import 'package:autospotify/widgets/circles.dart';
 import 'package:autospotify/widgets/introduction_page_indicator.dart';
@@ -33,7 +33,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => onBackButtonExit(context), 
+      onWillPop: () => ButtonPressedHandler().onBackButtonExit(context), 
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
@@ -134,7 +134,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                     children: <Widget>[  
                       // Light Theme selection
                       TextButton.icon(
-                        onPressed: () => ThemeProvider.controllerOf(context).setTheme('light_theme'),
+                        onPressed: () => ButtonPressedHandler().changeThemeButton(context),
                         label: Text(
                           'Light',
                           style: TextStyle(
@@ -159,7 +159,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                       
                       // Dark Theme selection
                       TextButton.icon(
-                        onPressed: () => ThemeProvider.controllerOf(context).setTheme('dark_theme'),
+                        onPressed: () => ButtonPressedHandler().changeThemeButton(context),
                         label: Text(
                           'Dark',
                           style: TextStyle(

@@ -1,7 +1,7 @@
 import 'package:autospotify/ui/auth/register_page.dart';
-import 'package:autospotify/ui/home/home_page.dart';
 import 'package:autospotify/utils/auth/fire_auth.dart';
 import 'package:autospotify/utils/auth/google_auth.dart';
+import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/button.dart';
@@ -9,7 +9,6 @@ import 'package:autospotify/widgets/signin_button.dart';
 import 'package:autospotify/widgets/snackbar.dart';
 import 'package:autospotify/widgets/textfields.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class LoginPage extends StatefulWidget {
@@ -139,10 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                                       // Wait two seconds
                                       await Future.delayed(const Duration(seconds: 2));
                                       // Close Login Page and open Home Page
-                                      Navigator.pushReplacement(
-                                        context,
-                                        PageTransition(child: HomePage(), type: PageTransitionType.fade)
-                                      );
+                                      Navigator.of(context).pop();
                                     }
                                   });
                                 },
@@ -242,10 +238,7 @@ class _LoginPageState extends State<LoginPage> {
                           // Wait two seconds
                           await Future.delayed(const Duration(seconds: 2));
                           // Close Sign In Page and open Home Page
-                          Navigator.pushReplacement(
-                            context,
-                            PageTransition(child: HomePage(), type: PageTransitionType.fade)
-                          );
+                          Navigator.of(context).pop();
                         }
                       });
                     },
@@ -285,14 +278,9 @@ class _LoginPageState extends State<LoginPage> {
                           // Go to Register Button
                           TextButton(
                             onPressed: () => {
-                              Navigator.of(context).pushReplacement(
-                                new MaterialPageRoute<Null>(
-                                  builder: (BuildContext context) {
-                                    return RegisterPage();
-                                  },
-                                  fullscreenDialog: true,
-                                )
-                              )
+                              ButtonPressedHandler().pushToPage(context, RegisterPage(), () {
+                                Navigator.of(context).pop();
+                              })
                             },
                             style: ButtonStyle(
                               padding: MaterialStateProperty.resolveWith((states) {
@@ -315,77 +303,7 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ),
                 ),
-
-                /* // Password Forgot Button
-                Positioned(
-                  bottom: SizeConfig.heightMultiplier * 12,
-                  child: AnimatedOpacity(
-                    duration: _duration,
-                    opacity: startAnimation ? 1.0 : 0.0,
-                    curve: Curves.linear,
-                    child: Container(
-                      width: SizeConfig.widthMultiplier * 100,
-                      alignment: Alignment.center,
-                      child: TextButton(
-                        onPressed: () => {
-                          null
-                        },
-                        child: Text(
-                          'Forgot password?',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: ThemeProvider.themeOf(context).data.primaryColor,
-                            height: 1.3,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-
-                // Go to Register Button
-                 Positioned(
-                  bottom: SizeConfig.heightMultiplier * 8,
-                  child: AnimatedOpacity(
-                    duration: _duration,
-                    opacity: startAnimation ? 1.0 : 0.0,
-                    curve: Curves.linear,
-                    child: Container(
-                      width: SizeConfig.widthMultiplier * 100,
-                      alignment: Alignment.center,
-                      child: TextButton(
-                        onPressed: () => {
-                          Navigator.of(context).pushReplacement(
-                            new MaterialPageRoute<Null>(
-                              builder: (BuildContext context) {
-                                return RegisterPage();
-                              },
-                              fullscreenDialog: true,
-                            )
-                          )
-                        },
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.resolveWith((states) {
-                            return EdgeInsets.all(0);
-                          }),
-                        ),
-                        child: Text(
-                          'New at AutoSpotify? Sign Up',
-                          style: TextStyle(
-                            fontFamily: 'Montserrat',
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: ThemeProvider.themeOf(context).data.primaryColor,
-                            height: 1.3,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ), */
-
+                
                 // Back Button
                 Positioned(
                   top: SizeConfig.heightMultiplier * 3.160806006,
@@ -395,11 +313,8 @@ class _LoginPageState extends State<LoginPage> {
                     opacity: startAnimation ? 1.0 : 0.0,
                     curve: Curves.linear,
                     child: CustomBackButton(
-                      onPressed: () => {
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(child: HomePage(), type: PageTransitionType.fade)
-                        ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
                       },
                     ),
                   ),

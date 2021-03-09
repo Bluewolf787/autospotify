@@ -1,7 +1,7 @@
 import 'package:autospotify/ui/introduction/choose_theme_page.dart';
 import 'package:autospotify/ui/introduction/introduction_yt.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/button_handlers.dart';
+import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/spotify_utils.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/button.dart';
@@ -38,6 +38,10 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
   initState() {
     initialTimer();
 
+    final _user = _auth.currentUser;
+    if (_user != null)
+      _userId = _user.uid;
+
     _spotifyUsernameController = new TextEditingController();
 
     super.initState();
@@ -47,7 +51,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => onBackButtonExit(context),
+      onWillPop: () => ButtonPressedHandler().onBackButtonExit(context),
       child: Scaffold(
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         body: Builder(
@@ -278,9 +282,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                       onPressed: () {
                         if (_spotifyConnected) {
                           // Open next introduction page (package:autospotify/ui/introduction/introduction_yt.dart)
-                          Navigator.of(context).pushReplacement(
-                            PageTransition(child: YouTubeIntroductionPage(), type: PageTransitionType.fade)
-                          );
+                          ButtonPressedHandler().pushAndReplaceToPage(context, YouTubeIntroductionPage());
                         }
                         else {
                           CustomSnackbar.show(

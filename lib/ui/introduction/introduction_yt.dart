@@ -8,7 +8,6 @@ import 'package:autospotify/widgets/circles.dart';
 import 'package:autospotify/widgets/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/textfields.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class YouTubeIntroductionPage extends StatefulWidget {
@@ -37,7 +36,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => onBackButtonExit(context),
+      onWillPop: () => ButtonPressedHandler().onBackButtonExit(context),
       child: Scaffold(
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         body: SingleChildScrollView(
@@ -207,11 +206,9 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                   curve: Curves.ease,
                   child: CustomButton(
                     label: 'Finish',
-                    onPressed: () => {
+                    onPressed: () async {
                       // Open home page (package:autospotify/ui/home/home_page.dart)
-                      Navigator.of(context).pushReplacement(
-                        PageTransition(child: HomePage(), type: PageTransitionType.fade)
-                      ),
+                      ButtonPressedHandler().pushAndReplaceToPage(context, HomePage());
                     },
                   ),
                 ),
@@ -229,9 +226,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                   child: CustomBackButton(
                     onPressed: () => {
                       // Open prevoiuse indroduction page (package:autospotify/ui/introduction/introduction_spotify.dart)
-                      Navigator.of(context).pushReplacement(
-                        PageTransition(child: SpotifyIntroductionPage(), type: PageTransitionType.fade)
-                      ),
+                      ButtonPressedHandler().pushAndReplaceToPage(context, SpotifyIntroductionPage())
                     },
                   ),
                 ),

@@ -1,7 +1,7 @@
 import 'package:autospotify/ui/auth/login_page.dart';
-import 'package:autospotify/ui/home/home_page.dart';
 import 'package:autospotify/utils/auth/fire_auth.dart';
 import 'package:autospotify/utils/auth/google_auth.dart';
+import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/button.dart';
@@ -9,7 +9,6 @@ import 'package:autospotify/widgets/signin_button.dart';
 import 'package:autospotify/widgets/snackbar.dart';
 import 'package:autospotify/widgets/textfields.dart';
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -138,10 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                       // Wait two seconds
                                       await Future.delayed(const Duration(seconds: 2));
                                       // Close Register Page and open Home Page
-                                      Navigator.pushReplacement(
-                                        context,
-                                        PageTransition(child: HomePage(), type: PageTransitionType.fade)
-                                      );
+                                      Navigator.of(context).pop();
                                     }
                                     else {
                                       CustomSnackbar.show(context, 'Oops! Something went wrong. May check your internet connection');
@@ -263,12 +259,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               actions: <Widget>[
                                 TextButton(
-                                  onPressed: () => {
+                                  onPressed: () {
                                     // Close Register Page and open Home Page
-                                    Navigator.pushReplacement(
-                                      context,
-                                      PageTransition(child: HomePage(), type: PageTransitionType.fade)
-                                    )
+                                    Navigator.of(context).pop();
                                   },
                                   child: Text(
                                     'OK',
@@ -300,15 +293,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       width: SizeConfig.widthMultiplier * 100,
                       alignment: Alignment.center,
                       child: TextButton(
-                        onPressed: () => {
-                          Navigator.of(context).pushReplacement(
-                            new MaterialPageRoute<Null>(
-                              builder: (BuildContext context) {
-                                return LoginPage();
-                              },
-                              fullscreenDialog: true,
-                            )
-                          )
+                        onPressed: () {
+                          ButtonPressedHandler().pushToPage(context, LoginPage(), () {
+                            Navigator.of(context).pop();
+                          });
                         },
                         child: Text(
                           'Already have one? Login',
@@ -334,11 +322,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     opacity: startAnimation ? 1.0 : 0.0,
                     curve: Curves.linear,
                     child: CustomBackButton(
-                      onPressed: () => {
-                        Navigator.pushReplacement(
-                          context,
-                          PageTransition(child: HomePage(), type: PageTransitionType.fade)
-                        ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
                       },
                     ),
                   ),

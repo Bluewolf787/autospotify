@@ -1,5 +1,5 @@
 import 'package:autospotify/ui/splash_screen.dart';
-import 'package:autospotify/utils/button_handlers.dart';
+import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -17,7 +17,7 @@ class _NoNetworkConnectionPageState extends State<NoNetworkConnectionPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => onBackButtonExit(context),
+      onWillPop: () => ButtonPressedHandler().onBackButtonExit(context),
       child: Scaffold(
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         body: Container(

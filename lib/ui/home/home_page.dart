@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:autospotify/ui/auth/account_page.dart';
 import 'package:autospotify/ui/auth/login_page.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/button_handlers.dart';
+import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/spotify_utils.dart';
 import 'package:autospotify/utils/youtube_utils.dart';
 import 'package:autospotify/widgets/button.dart';
@@ -95,7 +95,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => onBackButtonExit(context),
+      onWillPop: () => ButtonPressedHandler().onBackButtonExit(context),
       child: Scaffold(
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         body: Builder(
@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> {
                           color: ThemeProvider.themeOf(context).id == 'light_theme' ? Colors.yellow : Colors.grey,
                           tooltip: ThemeProvider.themeOf(context).id == 'light_theme' ? 'Activate Dark Theme' : 'Activate Light Theme',
                           highlightColor: Colors.transparent,
-                          onPressed: () => ThemeProvider.controllerOf(context).nextTheme(),
+                          onPressed: () => ButtonPressedHandler().changeThemeButton(context),
                         ),
 
                         Text(
@@ -136,18 +136,16 @@ class _HomePageState extends State<HomePage> {
 
                         // Account Button
                         TextButton(
-                          onPressed: () => {
+                          onPressed: () async {
                             if (_isUserLoggedIn) {
-                              Navigator.pushReplacement(
-                                context,
-                                PageTransition(child: AccountPage(), type: PageTransitionType.fade)
-                              ),
+                              ButtonPressedHandler().pushAndReplaceToPage(context, AccountPage());
                             }
                             else {
-                              Navigator.pushReplacement(
-                                context,
-                                PageTransition(child: LoginPage(), type: PageTransitionType.fade)
-                              ),
+                              ButtonPressedHandler().pushToPage(context, LoginPage(), () {
+                                setState(() {
+                                  getUserData();                                
+                                });
+                              });                         
                             }
                           },
                           child: Row(

@@ -3,7 +3,7 @@ import 'package:autospotify/ui/introduction/intro_start_page.dart';
 import 'package:autospotify/utils/auth/fire_auth.dart';
 import 'package:autospotify/utils/auth/google_auth.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/button_handlers.dart';
+import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/snackbar.dart';
 import 'package:autospotify/widgets/textfields.dart';
@@ -77,7 +77,7 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return WillPopScope(
-      onWillPop: () => onBackButtonExit(context),
+      onWillPop: () => ButtonPressedHandler().onBackButtonExit(context),
       child: Scaffold(
         backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         body: Builder(
