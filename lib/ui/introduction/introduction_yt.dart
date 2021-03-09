@@ -1,13 +1,14 @@
 import 'package:autospotify/ui/home/home_page.dart';
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/utils/button_handlers.dart';
+import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/button.dart';
 import 'package:autospotify/widgets/circles.dart';
 import 'package:autospotify/widgets/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/textfields.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class YouTubeIntroductionPage extends StatefulWidget {
@@ -16,7 +17,7 @@ class YouTubeIntroductionPage extends StatefulWidget {
 }
 
 class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
-  TextEditingController _spotifyUsernameController;
+  TextEditingController _ytPlaylistUrlController;
   
   var startAnimation = false;
   initialTimer() async {
@@ -30,6 +31,13 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
   initState() {
     initialTimer();
     super.initState();
+    _ytPlaylistUrlController = new TextEditingController();
+
+  @override
+  void dispose() {
+    _ytPlaylistUrlController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -190,7 +198,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         YtPlaylistUrlInputField(
-                          controller: _spotifyUsernameController,
+                          controller: _ytPlaylistUrlController,
                           onEditingComplete: null,
                         ),
                       ],
@@ -207,6 +215,10 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                   child: CustomButton(
                     label: 'Finish',
                     onPressed: () async {
+
+                      SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
+                      await sharedPrefs.setBool('introSeen', true);
+
                       // Open home page (package:autospotify/ui/home/home_page.dart)
                       ButtonPressedHandler().pushAndReplaceToPage(context, HomePage());
                     },
@@ -215,8 +227,8 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
 
                 // Page Number
                 PageIndicator(
-                  currentPage: 3,
-                  maxPages: 3,
+                  currentPage: 4,
+                  maxPages: 4,
                 ),
 
                 // Back Button

@@ -1,4 +1,5 @@
 import 'package:autospotify/ui/introduction/choose_theme_page.dart';
+import 'package:autospotify/ui/introduction/create_account_page.dart';
 import 'package:autospotify/ui/introduction/introduction_yt.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
@@ -186,7 +187,15 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                           height: 1.3,
                         ),
                         children: [
-                          TextSpan(text: 'Provide us your\n',),
+                          TextSpan(text: 'You must authorize\n',),
+                          TextSpan(
+                            text: 'AutoSpotify',
+                            style: TextStyle(
+                              color: ThemeProvider.themeOf(context).data.accentColor,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          TextSpan(text: ' to connect\nto your ',),
                           TextSpan(
                             text: 'Spotify',
                             style: TextStyle(
@@ -194,7 +203,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                               fontWeight: FontWeight.w800,
                             ),
                           ),
-                          TextSpan(text: ' username',),
+                          TextSpan(text: ' account',),
                           TextSpan(
                             text: '.',
                             style: TextStyle(
@@ -296,8 +305,8 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
 
                   // Page Number
                   PageIndicator(
-                    currentPage: 2,
-                    maxPages: 3,
+                    currentPage: 3,
+                    maxPages: 4,
                   ),
 
                   // Back Button
@@ -308,7 +317,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                       onPressed: () => {
                         // Open prevoiuse indroduction page (package:autospotify/ui/introduction/choose_theme_page.dart)
                         Navigator.of(context).pushReplacement(
-                          PageTransition(child: ChooseThemePage(), type: PageTransitionType.fade)
+                          PageTransition(child: CreateAccountPage(), type: PageTransitionType.fade)
                         )
                       },
                     ),
