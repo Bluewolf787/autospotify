@@ -46,10 +46,7 @@ class _HomePageState extends State<HomePage> {
   String _provider;
   var _isGoogleUser = false;
 
-  @override
-  void initState() {
-    initialTimer();
-
+  void getUserData() {
     _user = _auth.currentUser;
     if (_user != null) {
       _isUserLoggedIn = true;
@@ -68,6 +65,13 @@ class _HomePageState extends State<HomePage> {
     if (_provider == 'google.com') {
       _isGoogleUser = true;
     }
+  }
+
+  @override
+  void initState() {
+    initialTimer();
+
+    getUserData();
 
     _spotifyUsernameController = new TextEditingController();
     _ytPlaylistUrlController = new TextEditingController();
