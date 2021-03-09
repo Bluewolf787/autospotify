@@ -425,13 +425,13 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                           onPressed: () async {
                             // Sign user out
-                            await userSignOut().then((success) async {
+                            await FireAuth().userSignOut().then((success) async {
                               // Check if sign out was successfully
                               if (success) {
                                 // Check if the user was signed in with Google
                                 if (_isGoogleUser) {
                                   // Sign Google user out
-                                  await googleSignOut();
+                                  await GoogleAuth().googleSignOut();
                                 }
                                 // Show success SnackBar
                                 CustomSnackbar.show(context, 'Successfully signed out');
@@ -508,12 +508,12 @@ class _AccountPageState extends State<AccountPage> {
                             }),
                           ),
                           onPressed: () async { 
-                            await deleteUser().then((success) async {
+                            await FireAuth().deleteUser().then((success) async {
                               if (success) {
                                 // Check if the user was signed in with Google
                                 if (_isGoogleUser) {
                                   // Sign Google user out
-                                  await googleSignOut();
+                                  await GoogleAuth().googleSignOut();
                                 }
                                 // Show success SnackBar
                                 CustomSnackbar.show(context, 'Account successfully deleted');

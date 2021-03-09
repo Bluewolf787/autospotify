@@ -15,8 +15,10 @@ Future<SpotifyApi> connectToSpotify(BuildContext context) async {
   // Get Spotify credentials
   final credentials = SpotifyApiCredentials(spotifySecretsMap['clientID'], spotifySecretsMap['clientSecret']);
 
+  // Get auth code grant
   final grant = SpotifyApi.authorizationCodeGrant(credentials);
 
+  // Get redirect URI
   final redirectUri = spotifySecretsMap['redirectUrl'];
 
   // Define scopes
@@ -36,6 +38,7 @@ Future<SpotifyApi> connectToSpotify(BuildContext context) async {
   return spotify;
 }
 
+// Open a WebView with Spotify auth URL
 navigateToWebViewAndGetResponseUri(BuildContext context, String initalUrl, String redirectUrl) async {
   final responseUrl = Navigator.push(
     context,
@@ -45,11 +48,12 @@ navigateToWebViewAndGetResponseUri(BuildContext context, String initalUrl, Strin
   return responseUrl;
 }
 
+// Create a private Spotify playlist
 createPrivatePlaylist(SpotifyApi spotify) async {
   var user = await spotify.me.get();
   await spotify.playlists.createPlaylist(
     user.id,
-    'AutoPlaylist',
+    'AutoPlaylist', // The name of the playlist
     description: 'Here you find all the songs you synced from YouTube playlists',
     public: false,
   ).then((playlist) {

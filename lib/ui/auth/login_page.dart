@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
                               SignInButton(
                                 onPressed: ()async {
                                   // Sign user in with Google
-                                  await signinWithGoogle().then((success) async {
+                                  await GoogleAuth().signinWithGoogle().then((success) async {
                                     // Check if sign in was successfully
                                     if (success) {
                                       // Show success SnackBar
@@ -228,7 +228,7 @@ class _LoginPageState extends State<LoginPage> {
                         CustomSnackbar.show(context, 'Please enter a password');
                         return;
                       }
-                      await signInWithEmailAndPassword(
+                      await FireAuth().signInWithEmailAndPassword(
                         context,
                         _emailInputController.text,
                         _passwordInputController.text,
