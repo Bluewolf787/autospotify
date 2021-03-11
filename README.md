@@ -25,8 +25,10 @@
   | --- | --- |
   | [<img src="https://raw.githubusercontent.com/github/explore/cebd63002168a05a6a642f309227eefeccd92950/topics/flutter/flutter.png" alt="Flutter" width="24">](https://flutter.dev/) | [Flutter](https://flutter.dev/) |
   | [<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/firebase/firebase.png" alt="Flutter" width="24">](https://firebase.google.com/) | [Firebase (FlutterFire)](https://firebase.flutter.dev/) |
-  |  | [Authentication](https://pub.dev/packages/cloud_firestore) |
-  | [<img src="https://pub.dev/static/img/pub-dev-logo-2x.png" alt="Flutter" width="24">](https://pub.dev/packages/spotify) | [spotify-dart](https://pub.dev/packages/spotify) |
+  |  | [Authentication](https://pub.dev/packages/firebase_auth) |
+  |  | [Cloud Firestore](https://pub.dev/packages/cloud_firestore) |
+  | [<img src="https://pub.dev/static/img/pub-dev-logo-2x.png" alt="Flutter" width="38">](https://pub.dev/packages/spotify) | [spotify-dart](https://pub.dev/packages/spotify) |
+  | [<img src="https://pub.dev/static/img/pub-dev-logo-2x.png" alt="Flutter" width="38">](hhttps://pub.dev/packages/youtube_explode_dart) | [youtube_explode_dart](https://pub.dev/packages/youtube_explode_dart) |
   | | |
 
 
