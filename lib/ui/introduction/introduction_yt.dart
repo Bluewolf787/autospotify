@@ -1,5 +1,6 @@
 import 'package:autospotify/ui/home/home_page.dart';
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
+import 'package:autospotify/utils/firestore_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/widgets/back_button.dart';
@@ -7,9 +8,12 @@ import 'package:autospotify/widgets/button.dart';
 import 'package:autospotify/widgets/circles.dart';
 import 'package:autospotify/widgets/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/textfields.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
+
+FirebaseAuth _auth = FirebaseAuth.instance;
 
 class YouTubeIntroductionPage extends StatefulWidget {
   @override
@@ -27,11 +31,19 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
     });
   }
   
+  String _userId;
+
   @override
   initState() {
-    initialTimer();
     super.initState();
+    initialTimer();
+
+    final _user = _auth.currentUser;
+    if (_user != null)
+      _userId = _user.uid;
+
     _ytPlaylistUrlController = new TextEditingController();
+  }
 
   @override
   void dispose() {
@@ -215,6 +227,8 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                   child: CustomButton(
                     label: 'Finish',
                     onPressed: () async {
+
+                      await FirestoreHelper().saveYouTubePlaylistUrl(_ytPlaylistUrlController.text, _userId);
 
                       SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
                       await sharedPrefs.setBool('introSeen', true);

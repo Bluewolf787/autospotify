@@ -1,6 +1,6 @@
-import 'package:autospotify/ui/introduction/choose_theme_page.dart';
 import 'package:autospotify/ui/introduction/create_account_page.dart';
 import 'package:autospotify/ui/introduction/introduction_yt.dart';
+import 'package:autospotify/utils/firestore_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/spotify_utils.dart';
@@ -11,10 +11,13 @@ import 'package:autospotify/widgets/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/snackbar.dart';
 import 'package:autospotify/widgets/spotify_connect_button.dart';
 import 'package:autospotify/widgets/textfields.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:spotify/spotify.dart';
 import 'package:theme_provider/theme_provider.dart';
+
+FirebaseAuth _auth = FirebaseAuth.instance;
 
 class SpotifyIntroductionPage extends StatefulWidget {
   @override
@@ -34,6 +37,8 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
   }
   
   var _spotifyConnected = false;
+
+  String _userId;
 
   @override
   initState() {
@@ -256,17 +261,15 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                               }
                               
                               await connectToSpotify(context).then((SpotifyApi spotify) async {
-                                // Open next introduction page (package:autospotify/ui/introduction/introduction_yt.dart)
-                                Navigator.of(context).pushReplacement(
-                                  PageTransition(child: YouTubeIntroductionPage(), type: PageTransitionType.fade)
-                                );
 
+                                SpotifyApiCredentials _spotifyCredentials = await spotify.getCredentials();
+                                await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId);
+                                
                                 setState(() {
                                   _spotifyConnected = true;
-                                  // TODO Get Spotify username
-                                  //_spotifyUsernameController.text = '';
                                 });
-                              }).catchError((error) {
+                              })
+                              .catchError((error) {
                                 print('ERROR $error');
                                 CustomSnackbar.show(
                                   context,

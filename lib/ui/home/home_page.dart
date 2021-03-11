@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:autospotify/ui/auth/account_page.dart';
 import 'package:autospotify/ui/auth/login_page.dart';
+import 'package:autospotify/utils/firestore_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/spotify_utils.dart';
@@ -9,13 +10,14 @@ import 'package:autospotify/utils/youtube_utils.dart';
 import 'package:autospotify/widgets/button.dart';
 import 'package:autospotify/widgets/dialogs.dart';
 import 'package:autospotify/widgets/snackbar.dart';
+import 'package:autospotify/widgets/spotify_connect_button.dart';
 import 'package:autospotify/widgets/textfields.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:spotify/spotify.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-final FirebaseAuth _auth = FirebaseAuth.instance;
+final Firebase.FirebaseAuth _auth = Firebase.FirebaseAuth.instance;
 
 class HomePage extends StatefulWidget {
   @override
@@ -35,8 +37,12 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  User _user;
+  var _spotifyConnected = false;
+
+  // User variables 
+  Firebase.User _user;
   var _isUserLoggedIn = false;
+  String _userId;
   String _username;
   String _userEmail;
   String _userAvatarUrl;
@@ -46,10 +52,12 @@ class _HomePageState extends State<HomePage> {
   String _provider;
   var _isGoogleUser = false;
 
-  void getUserData() {
+  // Get the data of current user
+  void _getUserData() {
     _user = _auth.currentUser;
     if (_user != null) {
       _isUserLoggedIn = true;
+      _userId = _user.uid;
       _username = _user.displayName;
       _userEmail = _user.email;
       _userAvatarUrl = _user.photoURL;
@@ -66,16 +74,28 @@ class _HomePageState extends State<HomePage> {
       _isGoogleUser = true;
     }
   }
+  
+  // Get the in Firestore saved YouTube playlist URL 
+  Future<String> _getPlaylistUrl() async {
+    return await FirestoreHelper().getYouTubePlaylistUrl(_userId);
+  }
 
   @override
   void initState() {
+    super.initState();
     initialTimer();
 
-    getUserData();
-
-    _spotifyUsernameController = new TextEditingController();
     _ytPlaylistUrlController = new TextEditingController();
-    super.initState();
+    _spotifyUsernameController = new TextEditingController();
+
+    _getUserData();
+
+    // Set YouTube textfield text with the saved playlist URL
+    _getPlaylistUrl().then((String url) {
+      setState(() {
+        _ytPlaylistUrlController.text = url;
+      });
+    });
   }
 
   @override
@@ -147,7 +167,7 @@ class _HomePageState extends State<HomePage> {
                             else {
                               ButtonPressedHandler().pushToPage(context, LoginPage(), () {
                                 setState(() {
-                                  getUserData();                                
+                                  _getUserData();                                
                                 });
                               });                         
                             }
@@ -299,12 +319,38 @@ class _HomePageState extends State<HomePage> {
                     duration: Duration(seconds: 1,),
                     left: startAnimation ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * -100,
                     curve: Curves.ease,
-                    child: Container(
-                      height: SizeConfig.heightMultiplier * 100,
-                      width: SizeConfig.widthMultiplier * 80,
-                      alignment: Alignment.center,
-                      child: SpotifyUsernameInputField(
-                        controller: _spotifyUsernameController,
+                    child: Opacity(
+                      opacity: _spotifyConnected ? 0.0 : 1.0,
+                      child: Container(
+                        height: SizeConfig.heightMultiplier * 100,
+                        width: SizeConfig.widthMultiplier * 80,
+                        alignment: Alignment.center,
+                        child: Center(
+                          child: ConnectSpotifyButton(
+                            onPressed: () async {
+                              if (_spotifyConnected) {
+                                return null;
+                              }
+                              
+                              await connectToSpotify(context).then((SpotifyApi spotify) async {
+
+                                SpotifyApiCredentials _spotifyCredentials = await spotify.getCredentials();
+                                await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId);
+                                
+                                setState(() {
+                                  _spotifyConnected = true;
+                                });
+                              })
+                              .catchError((error) {
+                                print('ERROR $error');
+                                CustomSnackbar.show(
+                                  context,
+                                  'Oops! Something went wrong. Please try again.',
+                                );
+                              });
+                            },
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -321,7 +367,7 @@ class _HomePageState extends State<HomePage> {
                       alignment: Alignment.center,
                       child: YtPlaylistUrlInputField(
                         controller: _ytPlaylistUrlController,
-                        onEditingComplete: () => YouTubeUtils().checkPlaylistId(_ytPlaylistUrlController.text, context), // TODO: Test connection when changed
+                        onEditingComplete: () => YouTubeUtils().getPlaylistId(context, _ytPlaylistUrlController.text), // TODO: Test connection when changed
                       ),
                     ),
                   ),
@@ -334,7 +380,9 @@ class _HomePageState extends State<HomePage> {
                     curve: Curves.ease,
                     child: CustomButton(
                       label: 'Sync',
-                      onPressed: () => _onSyncPressed(context),
+                      onPressed: () async {
+                        await ButtonPressedHandler().syncPlaylistsButton(context, '', _ytPlaylistUrlController.text, _userId);
+                      },
                     ),
                   ),
                 ],
@@ -345,22 +393,4 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
-
-  void _onSyncPressed(BuildContext context) async {
-    if (_ytPlaylistUrlController.text.isEmpty) {
-      CustomSnackbar.show(context, 'Please enter a YouTube playlist');
-      return;
-    }
-
-    // TODO: Sync Playlists
-
-    // Connect to Spotify
-    var spotify = await connectToSpotify(context);
-    // Create a playlist
-    await createPrivatePlaylist(spotify);
-
-    
-    //YouTubeUtils().checkPlaylistId(_ytPlaylistUrlController.text, context);
-  }
-
 }

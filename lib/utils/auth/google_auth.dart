@@ -1,3 +1,4 @@
+import 'package:autospotify/utils/firestore_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -27,6 +28,7 @@ class GoogleAuth {
         assert(user.uid == currentUser.uid);
       }
       
+      await FirestoreHelper().addUser(user.uid, user.providerData.elementAt(0).providerId);
 
       print('Google Sign in successful: ${user.uid} ${user.displayName}');
       return true;

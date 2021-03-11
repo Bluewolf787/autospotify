@@ -1,5 +1,4 @@
 import 'package:autospotify/ui/introduction/create_account_page.dart';
-import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/widgets/button.dart';

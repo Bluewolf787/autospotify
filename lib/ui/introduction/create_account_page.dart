@@ -242,6 +242,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   child: CustomButton(
                     label: 'Next',
                     onPressed: () async {
+                      FirestoreHelper().addUser(_userId, _provider);
                       ButtonPressedHandler().pushAndReplaceToPage(context, SpotifyIntroductionPage());
                     },
                   ),

@@ -1,5 +1,6 @@
 import 'package:autospotify/ui/auth/login_page.dart';
 import 'package:autospotify/ui/auth/register_page.dart';
+import 'package:autospotify/utils/firestore_helper.dart';
 import 'package:autospotify/widgets/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,7 @@ class FireAuth {
         await user.sendEmailVerification();
       }
 
+      await FirestoreHelper().addUser(user.uid, user.providerData.elementAt(0).providerId);
 
       print('User successful created: $_email'); 
       return true;
