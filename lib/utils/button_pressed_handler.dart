@@ -7,6 +7,16 @@ import 'package:theme_provider/theme_provider.dart';
 
 class ButtonPressedHandler {
 
+  Future<void> syncPlaylistsButton(BuildContext context, String spotifyPlaylistId, String youtubePlaylistUrl, String userId) async {
+    if (youtubePlaylistUrl.isEmpty) {
+      CustomSnackbar.show(context, 'Please enter a YouTube playlist');
+      return;
+    }
+
+    // TODO: Sync Playlists
+
+  }
+
   void changeThemeButton(BuildContext context) {
     ThemeProvider.controllerOf(context).nextTheme();
   }
