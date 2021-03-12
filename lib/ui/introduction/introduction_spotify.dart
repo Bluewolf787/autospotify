@@ -11,13 +11,13 @@ import 'package:autospotify/widgets/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/snackbar.dart';
 import 'package:autospotify/widgets/spotify_connect_button.dart';
 import 'package:autospotify/widgets/textfields.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:spotify/spotify.dart';
 import 'package:theme_provider/theme_provider.dart';
 
-FirebaseAuth _auth = FirebaseAuth.instance;
+Firebase.FirebaseAuth _auth = Firebase.FirebaseAuth.instance;
 
 class SpotifyIntroductionPage extends StatefulWidget {
   @override
@@ -233,7 +233,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            SpotifyUsernameInputField(
+                            SpotifyUsernameField(
                               controller: _spotifyUsernameController,
                             ),
                           ],
@@ -260,13 +260,16 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                                 return null;
                               }
                               
-                              await connectToSpotify(context).then((SpotifyApi spotify) async {
+                              await SpotifyUtils().connect(context).then((SpotifyApi spotify) async {
 
                                 SpotifyApiCredentials _spotifyCredentials = await spotify.getCredentials();
                                 await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId);
                                 
+                                final User user = await SpotifyUtils().getUser(spotify);
+
                                 setState(() {
                                   _spotifyConnected = true;
+                                  _spotifyUsernameController.text = user.displayName;
                                 });
                               })
                               .catchError((error) {

@@ -37,8 +37,6 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  var _spotifyConnected = false;
-
   // User variables 
   Firebase.User _user;
   var _isUserLoggedIn = false;
@@ -75,9 +73,25 @@ class _HomePageState extends State<HomePage> {
     }
   }
   
-  // Get the in Firestore saved YouTube playlist URL 
+  // Get the saved YouTube playlist URL
   Future<String> _getPlaylistUrl() async {
     return await FirestoreHelper().getYouTubePlaylistUrl(_userId);
+  }
+
+  var _spotifyConnected = false;
+  SpotifyApi _spotify;
+  // Get the saved Spotify credentials and connect
+  Future<SpotifyApi> _connectToSpotify() async {
+    Map<String, dynamic> credentials = await FirestoreHelper().getSpotifyCredentials(_userId);
+    final spotifyApi = await SpotifyUtils().connectWithCredentials(_userId, credentials);
+    await FirestoreHelper().saveSpotifyCredentials(await spotifyApi.getCredentials(), _userId);
+
+    return spotifyApi;
+  }
+
+  Future<String> _getSpotifyUsername(SpotifyApi spotifyApi) async {
+    final User user = await SpotifyUtils().getUser(spotifyApi);
+    return user.displayName;
   }
 
   @override
@@ -90,12 +104,30 @@ class _HomePageState extends State<HomePage> {
 
     _getUserData();
 
-    // Set YouTube textfield text with the saved playlist URL
-    _getPlaylistUrl().then((String url) {
-      setState(() {
-        _ytPlaylistUrlController.text = url;
+    if (_user != null)
+    {
+      // Set YouTube textfield text with the saved playlist URL
+      _getPlaylistUrl().then((String url) {
+        setState(() {
+          _ytPlaylistUrlController.text = url;
+        });
       });
-    });
+
+      // Connect Spotify
+      _connectToSpotify().then((SpotifyApi spotifyApi) {
+        setState(() {
+          _spotifyConnected = true;
+          _spotify = spotifyApi;
+
+          // Set Spotify textfield text with current Spotify users name
+          _getSpotifyUsername(_spotify).then((String username) {
+            setState(() {
+              _spotifyUsernameController.text = username;        
+            });
+          }); 
+        });
+      });
+    }
   }
 
   @override
@@ -314,7 +346,28 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
-                  // Spotify Username Input
+                  // Display Spotify username when connected
+                  Positioned(
+                    right: SizeConfig.widthMultiplier * 10,
+                    child: Opacity(
+                      opacity: _spotifyConnected ? 1.0 : 0.0,
+                      child: Container(
+                        height: SizeConfig.heightMultiplier * 100,
+                        width: SizeConfig.widthMultiplier * 80,
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SpotifyUsernameField(
+                              controller: _spotifyUsernameController,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Spotify Connect Button
                   AnimatedPositioned(
                     duration: Duration(seconds: 1,),
                     left: startAnimation ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * -100,
@@ -332,13 +385,16 @@ class _HomePageState extends State<HomePage> {
                                 return null;
                               }
                               
-                              await connectToSpotify(context).then((SpotifyApi spotify) async {
+                              await SpotifyUtils().connect(context).then((SpotifyApi spotifyApi) async {
 
-                                SpotifyApiCredentials _spotifyCredentials = await spotify.getCredentials();
+                                SpotifyApiCredentials _spotifyCredentials = await spotifyApi.getCredentials();
                                 await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId);
                                 
                                 setState(() {
                                   _spotifyConnected = true;
+                                  _getSpotifyUsername(spotifyApi).then((String username) {
+                                    _spotifyUsernameController.text = username;
+                                  }); 
                                 });
                               })
                               .catchError((error) {

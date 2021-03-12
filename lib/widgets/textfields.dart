@@ -78,10 +78,10 @@ class CustomTextField extends StatelessWidget {
   }
 }
 
-class SpotifyUsernameInputField extends StatelessWidget {
+class SpotifyUsernameField extends StatelessWidget {
   final TextEditingController controller;
 
-  SpotifyUsernameInputField({this.controller});
+  SpotifyUsernameField({this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +118,7 @@ class SpotifyUsernameInputField extends StatelessWidget {
         color: ThemeProvider.themeOf(context).data.primaryColor,
         fontWeight: FontWeight.w400,
       ),
+      textAlign: TextAlign.center,
     );
   }
 }
