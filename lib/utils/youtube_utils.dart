@@ -1,4 +1,4 @@
-import 'package:autospotify/widgets/dialogs.dart';
+import 'package:autospotify/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
@@ -6,45 +6,69 @@ class YouTubeUtils {
 
   final YoutubeExplode _youtubeExplode = YoutubeExplode();
 
-  checkPlaylistId(String playlistUrl, BuildContext context) async {
-    String playlistId = '';
-    Playlist playlist;
-
+  // Get the ID from a YouTube playlist
+  Future<String> getPlaylistId(BuildContext context, String playlistUrl) async {
     // Extrac playlist id
     try {
-      playlistId = playlistUrl.replaceRange(0, 'https://youtube.com/playlist?list='.length, '');
+      final String playlistId = playlistUrl.replaceRange(0, 'https://youtube.com/playlist?list='.length, '');
+      
+      final valid = _checkPlaylistId(context, playlistId);
+      if (valid != null)
+        return null;
+
+      return playlistId;
     } catch (RangeError) {
       print('RangeError: $RangeError');
-      showDialog(context: context, builder: (context) => ErrorDialog(text: '$RangeError',));
-    }
-    // Get the playlist by the extraced id
-    try {
-      playlist = await _youtubeExplode.playlists.get(playlistId);
-      getPlaylist(playlist);
-    } catch (Invalid) {
-      print('Invalid Error: $Invalid');
-      showDialog(context: context, builder: (context) => ErrorDialog(text: '$Invalid',));
-    }
+      CustomSnackbar.show(context, 'Oops! Something went wrong getting the playlist ID please check the provided link');
 
+      return null;
+    }
   }
 
-  getPlaylist(Playlist playlist) async {
+  // Check if a YouTube playlist ID is actual valid
+  Future<Playlist> _checkPlaylistId(BuildContext context, String playlistId) async {
+    // Get the playlist by ID
+    try {
+      final playlist = await _youtubeExplode.playlists.get(playlistId);
+      
+      return playlist;
+    } catch (Invalid) {
+      print('Invalid Error: $Invalid');
+      CustomSnackbar.show(context, 'The provided playlist ID is not valid');
+      
+      return null;
+    }
+  }
+
+  // Get infos of a YouTube playlist
+  getPlaylistInfos(Playlist playlist) async {
     var title = playlist.title;
     var author = playlist.author;
 
     print('Playlist title: $title and author $author');
   }
 
-  getVideosFromPlaylist(String playlistId) async {
-    var playlistVideos = _youtubeExplode .playlists.getVideos(playlistId);
+  // Get all videos from a YouTube playlist
+  Future<Map<String, String>> getVideosFromPlaylist(BuildContext context, String playlistUrl) async {
+    try {
+      final playlistVideos = _youtubeExplode.playlists.getVideos(playlistUrl);
 
-    Map<String, String> videos = Map<String, String>();
+      Map<String, String> videos = Map<String, String>();
 
-    await for (var video in playlistVideos) {
-      var videoTitle = video.title;
-      var videoAuthor = video.author;
+      await for (var video in playlistVideos) {
+        var videoTitle = video.title;
+        var videoAuthor = video.author;
 
-      videos.putIfAbsent(videoTitle, () => videoAuthor);
+        videos.putIfAbsent(videoTitle, () => videoAuthor);
+      }
+      
+      print(videos);
+      return videos;
+    } catch (exception) {
+      print('YT-Utils: $exception');
+      CustomSnackbar.show(context, 'The provided playlist URL is not valied');
+      
+      return null;
     }
   }
 
