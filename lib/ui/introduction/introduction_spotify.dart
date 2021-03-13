@@ -267,9 +267,11 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                                 
                                 final User user = await SpotifyUtils().getUser(spotify);
 
+                                await SpotifyUtils().createPlaylist(context, spotify, _userId);
+
                                 setState(() {
                                   _spotifyConnected = true;
-                                  _spotifyUsernameController.text = user.displayName;
+                                  _spotifyUsernameController.text = 'Hello, ${user.displayName}';
                                 });
                               })
                               .catchError((error) {

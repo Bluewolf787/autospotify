@@ -9,6 +9,7 @@ import 'package:autospotify/utils/spotify_utils.dart';
 import 'package:autospotify/utils/youtube_utils.dart';
 import 'package:autospotify/widgets/button.dart';
 import 'package:autospotify/widgets/dialogs.dart';
+import 'package:autospotify/widgets/dropdownbutton.dart';
 import 'package:autospotify/widgets/snackbar.dart';
 import 'package:autospotify/widgets/spotify_connect_button.dart';
 import 'package:autospotify/widgets/textfields.dart';
@@ -72,31 +73,37 @@ class _HomePageState extends State<HomePage> {
       _isGoogleUser = true;
     }
   }
-  
-  // Get the saved YouTube playlist URL
-  Future<String> _getPlaylistUrl() async {
-    return await FirestoreHelper().getYouTubePlaylistUrl(_userId);
-  }
 
+  // Spotify variables
   var _spotifyConnected = false;
   SpotifyApi _spotify;
-  // Get the saved Spotify credentials and connect
-  Future<SpotifyApi> _connectToSpotify() async {
-    Map<String, dynamic> credentials = await FirestoreHelper().getSpotifyCredentials(_userId);
-    final spotifyApi = await SpotifyUtils().connectWithCredentials(_userId, credentials);
-    await FirestoreHelper().saveSpotifyCredentials(await spotifyApi.getCredentials(), _userId);
+  String _spotifyDisplayName = '';
+  List<String> _spotifyPlaylists = [];
+  String _dropdownMenuValue;
 
-    return spotifyApi;
+  void getSpotifyUser(SpotifyApi spotifyApi) {
+    // Set Spotify textfield text with current Spotify users name
+    SpotifyUtils().getUser(_spotify).then((User user) {
+      setState(() {
+        _spotifyUsernameController.text = user.displayName;
+        _spotifyDisplayName = user.displayName;
+      });
+    }); 
   }
 
-  Future<String> _getSpotifyUsername(SpotifyApi spotifyApi) async {
-    final User user = await SpotifyUtils().getUser(spotifyApi);
-    return user.displayName;
+  void getSpotifyPlaylists(SpotifyApi spotifyApi) {
+    SpotifyUtils().getAllPlaylists(_spotify).then((Map<String, String> playlists) {
+      setState(() {
+        playlists.forEach((key, value) { 
+          _spotifyPlaylists.add(value);
+        });
+        _dropdownMenuValue = _spotifyPlaylists.first;
+      });
+    });
   }
 
   @override
   void initState() {
-    super.initState();
     initialTimer();
 
     _ytPlaylistUrlController = new TextEditingController();
@@ -104,30 +111,29 @@ class _HomePageState extends State<HomePage> {
 
     _getUserData();
 
+    // Check if user is signed in
     if (_user != null)
     {
       // Set YouTube textfield text with the saved playlist URL
-      _getPlaylistUrl().then((String url) {
+      FirestoreHelper().getYouTubePlaylistUrl(_userId).then((String url) {
         setState(() {
           _ytPlaylistUrlController.text = url;
         });
       });
 
       // Connect Spotify
-      _connectToSpotify().then((SpotifyApi spotifyApi) {
+      SpotifyUtils().connectWithCredentials(_userId).then((SpotifyApi spotifyApi) {
         setState(() {
           _spotifyConnected = true;
           _spotify = spotifyApi;
 
-          // Set Spotify textfield text with current Spotify users name
-          _getSpotifyUsername(_spotify).then((String username) {
-            setState(() {
-              _spotifyUsernameController.text = username;        
-            });
-          }); 
+          getSpotifyUser(spotifyApi);
+          getSpotifyUser(spotifyApi);
         });
       });
     }
+
+    super.initState();
   }
 
   @override
@@ -346,27 +352,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
-                  // Display Spotify username when connected
-                  Positioned(
-                    right: SizeConfig.widthMultiplier * 10,
-                    child: Opacity(
-                      opacity: _spotifyConnected ? 1.0 : 0.0,
-                      child: Container(
-                        height: SizeConfig.heightMultiplier * 100,
-                        width: SizeConfig.widthMultiplier * 80,
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SpotifyUsernameField(
-                              controller: _spotifyUsernameController,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
                   // Spotify Connect Button
                   AnimatedPositioned(
                     duration: Duration(seconds: 1,),
@@ -390,11 +375,14 @@ class _HomePageState extends State<HomePage> {
                                 SpotifyApiCredentials _spotifyCredentials = await spotifyApi.getCredentials();
                                 await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId);
                                 
+                                await SpotifyUtils().createPlaylist(context, spotifyApi, _userId);
+
+
                                 setState(() {
                                   _spotifyConnected = true;
-                                  _getSpotifyUsername(spotifyApi).then((String username) {
-                                    _spotifyUsernameController.text = username;
-                                  }); 
+                                  _spotify = spotifyApi;
+                                  getSpotifyUser(spotifyApi);
+                                  getSpotifyPlaylists(spotifyApi);
                                 });
                               })
                               .catchError((error) {
@@ -406,6 +394,41 @@ class _HomePageState extends State<HomePage> {
                               });
                             },
                           ),
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  // Display Spotify username when connected
+                  Positioned(
+                    right: _spotifyConnected ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * 100,
+                    child: Opacity(
+                      opacity: _spotifyConnected ? 1.0 : 0.0,
+                      child: Container(
+                        height: SizeConfig.heightMultiplier * 100,
+                        width: SizeConfig.widthMultiplier * 80,
+                        alignment: Alignment.center,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            /* SpotifyUsernameField(
+                              controller: _spotifyUsernameController,
+                            ), */
+                            SpotifyPlaylistSelectButton(
+                              value: _dropdownMenuValue,
+                              spotifyDisplayName: _spotifyDisplayName,
+                              items: _spotifyPlaylists
+                                .map((String item) {
+                                  return new DropdownMenuItem<String>(value: item, child: Text(item));
+                                })
+                                .toList(),
+                              onChanged: (var value) {
+                                setState(() {
+                                  _dropdownMenuValue = value;
+                                });
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     ),

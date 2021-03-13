@@ -1,7 +1,6 @@
 import 'package:autospotify/ui/spotifyauth_webview.dart';
 import 'package:autospotify/utils/firestore_helper.dart';
 import 'package:autospotify/utils/spotify_secrets.dart';
-import 'package:autospotify/widgets/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:spotify/spotify.dart';
 
@@ -48,8 +47,9 @@ class SpotifyUtils {
   }
 
   // Connect to Spotify user using saved credentials
-  Future<SpotifyApi> connectWithCredentials(String userId, Map<String, dynamic> credentials) async {
+  Future<SpotifyApi> connectWithCredentials(String userId) async {
     Map<String, dynamic> spotifySecretsMap = await SpotifySecrets().get();
+    Map<String, dynamic> credentials = await FirestoreHelper().getSpotifyCredentials(userId);
     
     // Get Spotify credentials
     final spotifyCredentials = SpotifyApiCredentials(
@@ -63,6 +63,8 @@ class SpotifyUtils {
 
     final spotify = SpotifyApi(spotifyCredentials);
 
+    await FirestoreHelper().saveSpotifyCredentials(await spotify.getCredentials(), userId);
+
     return spotify;
   }
 
@@ -71,33 +73,34 @@ class SpotifyUtils {
     return await spotify.me.get();
   }
 
-  Future<List<String>> getAllPlaylists(SpotifyApi spotify) async {
-    List<String> playlistsList = [];
+  Future<Map<String, String>> getAllPlaylists(SpotifyApi spotify) async {
+    Map<String, String> playlistsMap = new Map<String, String>();
 
     User user = await getUser(spotify);
 
-    // TODO: Get all playlist (Pages?)
-    var playlists = spotify.users.playlists(user.id).all();
+    var playlistsIterable = await spotify.users.playlists(user.id).all();
     
-    return playlistsList;
+    playlistsIterable.forEach((playlistSimple) {
+      playlistsMap[playlistSimple.id] = playlistSimple.name;
+    });
+
+    return playlistsMap;
   }
 
   // Create a private Spotify playlist
-  Future<void> createPrivatePlaylist(BuildContext context, SpotifyApi spotify, String userId) async {
+  Future<void> createPlaylist(BuildContext context, SpotifyApi spotify, String userId) async {
     User user = await getUser(spotify);
 
     await spotify.playlists.createPlaylist(
       user.id,
       'AutoPlaylist', // The name of the playlist
       description: 'Here you find all the songs you synced from YouTube playlists',
-      public: false,
+      public: true,
     ).then((Playlist playlist) {
       print('Private playlist created! ${playlist.href}');
 
       // Save playlist ID to Firestore
       FirestoreHelper().saveSpotifyPlaylistId(playlist.id, userId);
-
-      CustomSnackbar.show(context, 'Playlist "AutoPlaylist" created');
     }).catchError((error) => _printError(error));
   }
 
