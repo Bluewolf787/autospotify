@@ -13,6 +13,7 @@
   - [Technologies](#technologies)
   - [Collaborators](#collaborators)
   - [Logo Credits](#logo-credits)
+  - [TODO](#todo)
 
 ## Screenshots
 
@@ -31,7 +32,6 @@
   | [<img src="https://pub.dev/static/img/pub-dev-logo-2x.png" alt="Flutter" width="38">](hhttps://pub.dev/packages/youtube_explode_dart) | [youtube_explode_dart](https://pub.dev/packages/youtube_explode_dart) |
   | | |
 
-
 ## Collaborators
   * [Bluewolf787](https://github.com/Bluewolf787)
  
@@ -39,3 +39,10 @@
   * [Folder icon](https://iconscout.com/icon/musicfolder-1706780) by [Itim2101](https://iconscout.com/contributors/komkrit-noenpoempisut)
   * [Spotify icon](https://iconscout.com/icon/spotify-2690370) by [Anton Kalashnyk](https://iconscout.com/contributors/kolo-design)
   * [YouTube icon](https://iconscout.com/icon/youtube-2690358) by [Anton Kalashnyk](https://iconscout.com/contributors/kolo-design)
+
+## TODO
+  * [ ] Bug fixes and improvments
+  * [ ] Error handling
+  * [ ] Better network connection checks
+  * [ ] Design changes
+  * [ ] Testings
