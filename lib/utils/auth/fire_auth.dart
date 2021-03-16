@@ -13,8 +13,6 @@ class FireAuth {
 
   Future<bool> signUpWithEmailAndPassword(BuildContext context, String email, String password) async {
     try {
-      print('$email\n$password');
-
       final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,

@@ -74,12 +74,23 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void getYtPlaylist() {
+    // Set YouTube textfield text with the saved playlist URL
+    FirestoreHelper().getYouTubePlaylistUrl(_userId).then((String url) {
+      setState(() {
+        _ytPlaylistUrlController.text = url;
+      });
+    });
+  }
+
   // Spotify variables
   var _spotifyConnected = false;
   SpotifyApi _spotify;
   String _spotifyDisplayName = '';
-  List<String> _spotifyPlaylists = [];
+  Map<String, String> _spotifyPlaylists = new Map<String, String>();
+  List<String> _spotifyPlaylistsNames = [];
   String _dropdownMenuValue;
+
 
   void getSpotifyUser(SpotifyApi spotifyApi) {
     // Set Spotify textfield text with current Spotify users name
@@ -91,15 +102,42 @@ class _HomePageState extends State<HomePage> {
     }); 
   }
 
-  void getSpotifyPlaylists(SpotifyApi spotifyApi) {
+  Map<String, String> getSpotifyPlaylists(SpotifyApi spotifyApi) {
+    Map<String, String> spotifyPlaylists = new Map<String, String>();
     SpotifyUtils().getAllPlaylists(_spotify).then((Map<String, String> playlists) {
       setState(() {
         playlists.forEach((key, value) { 
-          _spotifyPlaylists.add(value);
+          _spotifyPlaylistsNames.add(value);
         });
-        _dropdownMenuValue = _spotifyPlaylists.first;
+        _dropdownMenuValue = _spotifyPlaylistsNames.first;
+      });
+      spotifyPlaylists = playlists;
+    });
+    
+    return spotifyPlaylists;
+  }
+
+  void connectToSpotify(BuildContext context) {
+    // Connect Spotify
+    SpotifyUtils().connectWithCredentials(context, _userId).then((SpotifyApi spotifyApi) {
+      if (spotifyApi == null)
+        return;
+
+      setState(() {
+        _spotifyConnected = true;
+        _spotify = spotifyApi;
+
+        getSpotifyUser(spotifyApi);
+        getSpotifyPlaylists(spotifyApi);
       });
     });
+  }
+
+  String getSpotifyPlaylistId(String playlistName) {
+    String playlistId = '';
+    playlistId = _spotifyPlaylists.keys.firstWhere((key) => _spotifyPlaylists[key] == playlistName, orElse: () => '');
+
+    return playlistId;
   }
 
   @override
@@ -114,23 +152,8 @@ class _HomePageState extends State<HomePage> {
     // Check if user is signed in
     if (_user != null)
     {
-      // Set YouTube textfield text with the saved playlist URL
-      FirestoreHelper().getYouTubePlaylistUrl(_userId).then((String url) {
-        setState(() {
-          _ytPlaylistUrlController.text = url;
-        });
-      });
-
-      // Connect Spotify
-      SpotifyUtils().connectWithCredentials(_userId).then((SpotifyApi spotifyApi) {
-        setState(() {
-          _spotifyConnected = true;
-          _spotify = spotifyApi;
-
-          getSpotifyUser(spotifyApi);
-          getSpotifyUser(spotifyApi);
-        });
-      });
+      getYtPlaylist();
+      connectToSpotify(context);     
     }
 
     super.initState();
@@ -205,7 +228,9 @@ class _HomePageState extends State<HomePage> {
                             else {
                               ButtonPressedHandler().pushToPage(context, LoginPage(), () {
                                 setState(() {
-                                  _getUserData();                                
+                                  _getUserData();
+                                  connectToSpotify(context);
+                                  getYtPlaylist();                             
                                 });
                               });                         
                             }
@@ -417,7 +442,7 @@ class _HomePageState extends State<HomePage> {
                             SpotifyPlaylistSelectButton(
                               value: _dropdownMenuValue,
                               spotifyDisplayName: _spotifyDisplayName,
-                              items: _spotifyPlaylists
+                              items: _spotifyPlaylistsNames
                                 .map((String item) {
                                   return new DropdownMenuItem<String>(value: item, child: Text(item));
                                 })
@@ -446,7 +471,17 @@ class _HomePageState extends State<HomePage> {
                       alignment: Alignment.center,
                       child: YtPlaylistUrlInputField(
                         controller: _ytPlaylistUrlController,
-                        onEditingComplete: () => YouTubeUtils().getPlaylistId(context, _ytPlaylistUrlController.text), // TODO: Test connection when changed
+                        onEditingComplete: () => YouTubeUtils().getPlaylistId(context, _ytPlaylistUrlController.text),
+                        suffixIconButton: IconButton(
+                          icon: Icon(Icons.delete_outline_rounded),
+                          iconSize: 20,
+                          padding: EdgeInsets.zero,
+                          color: ThemeProvider.themeOf(context).data.primaryColor,
+                          onPressed: () {
+                            _ytPlaylistUrlController.clear();
+                          },
+                          tooltip: 'Clear YouTube playlist URL',
+                        ),
                       ),
                     ),
                   ),
@@ -460,7 +495,13 @@ class _HomePageState extends State<HomePage> {
                     child: CustomButton(
                       label: 'Sync',
                       onPressed: () async {
-                        await ButtonPressedHandler().syncPlaylistsButton(context, '', _ytPlaylistUrlController.text, _userId);
+                        await ButtonPressedHandler().syncPlaylistsButton(
+                          context,
+                          _spotify,
+                          getSpotifyPlaylistId(_dropdownMenuValue),
+                          _ytPlaylistUrlController.text,
+                          _userId
+                        );
                       },
                     ),
                   ),

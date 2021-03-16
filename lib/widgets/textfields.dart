@@ -124,10 +124,17 @@ class SpotifyUsernameField extends StatelessWidget {
 }
 
 class YtPlaylistUrlInputField extends StatelessWidget {
+  YtPlaylistUrlInputField({
+    Key key,
+    this.controller,
+    this.onEditingComplete,
+    this.suffixIconButton,
+  }) : super(key: key);
+  
   final TextEditingController controller;
   final Function onEditingComplete;
+  final IconButton suffixIconButton;
 
-  YtPlaylistUrlInputField({this.controller, this.onEditingComplete});
 
   @override
   Widget build(BuildContext context) {
@@ -136,16 +143,19 @@ class YtPlaylistUrlInputField extends StatelessWidget {
       onEditingComplete: onEditingComplete,
       decoration: InputDecoration(
         border: InputBorder.none,
+        suffixIcon: suffixIconButton,
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           borderSide: BorderSide(
-            color: const Color(0xffff0000), width: 2.0,
+            color: const Color(0xffff0000),
+            width: 2.0,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           borderSide: BorderSide(
-            color: const Color(0xffff0000), width: 2.0,
+            color: const Color(0xffff0000),
+            width: 2.0,
           ),
         ),
         labelText: 'YouTube playlist URL',
@@ -155,6 +165,7 @@ class YtPlaylistUrlInputField extends StatelessWidget {
           color: ThemeProvider.themeOf(context).data.primaryColor,
           fontWeight: FontWeight.w400,
         ),
+        alignLabelWithHint: true,
         hintText: 'Enter your YouTube playlist URL',
         hintStyle: TextStyle(
           fontFamily: 'Montserrat',

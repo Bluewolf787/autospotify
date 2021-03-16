@@ -49,17 +49,17 @@ class YouTubeUtils {
   }
 
   // Get all videos from a YouTube playlist
-  Future<Map<String, String>> getVideosFromPlaylist(BuildContext context, String playlistUrl) async {
+  Future<List<String>> getVideosFromPlaylist(BuildContext context, String playlistUrl) async {
     try {
       final playlistVideos = _youtubeExplode.playlists.getVideos(playlistUrl);
 
-      Map<String, String> videos = Map<String, String>();
+      List<String> videos = [];
+
 
       await for (var video in playlistVideos) {
         var videoTitle = video.title;
-        var videoAuthor = video.author;
 
-        videos.putIfAbsent(videoTitle, () => videoAuthor);
+        videos.add(videoTitle);
       }
       
       print(videos);

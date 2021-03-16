@@ -51,7 +51,7 @@ class FirestoreHelper {
             spotifyCredentials.addAll(documentSnapshot.data()['spotify_credentials']);
           }
           else {
-            print('Document does not exists');
+            print('Document does not exists (Failed getting: \'spotify_credentials\')');
           }
         })
         .onError((error, stackTrace) {
@@ -75,7 +75,7 @@ class FirestoreHelper {
   }
 
   /// Get the Spotify playlist ID of the auto-generated playlist
-  Future<String> getSpotifyPlaylistId(String userId) async {
+  Future<String> getSpotifyAutoPlaylistId(String userId) async {
     String playlistId = '';
     if (userId != null) {
       await users
@@ -86,7 +86,7 @@ class FirestoreHelper {
             playlistId = documentSnapshot.data()['spotify_auto_playlist'];
           }
           else {
-            print('Document does not exists');
+            print('Document does not exists (Failed getting: \'spotify_auto_playlist\')');
           }
         })
         .onError((error, stackTrace) {
@@ -122,7 +122,7 @@ class FirestoreHelper {
             playlistUrl = documentSnapshot.data()['youtube_playlist'];
           }
           else {
-            print('Document does not exists');
+            print('Document does not exists (Failed getting: \'youtube_playlist\')');
           }
         })
         .onError((error, stackTrace) {
