@@ -425,7 +425,7 @@ class _AccountPageState extends State<AccountPage> {
                           ),
                           onPressed: () async {
                             // Sign user out
-                            await FireAuth().userSignOut().then((success) async {
+                            await FireAuth().userSignOut(_user).then((success) async {
                               // Check if sign out was successfully
                               if (success) {
                                 // Check if the user was signed in with Google
@@ -508,7 +508,7 @@ class _AccountPageState extends State<AccountPage> {
                             }),
                           ),
                           onPressed: () async { 
-                            await FireAuth().deleteUser().then((success) async {
+                            await FireAuth().deleteUser(_user).then((success) async {
                               if (success) {
                                 // Check if the user was signed in with Google
                                 if (_isGoogleUser) {

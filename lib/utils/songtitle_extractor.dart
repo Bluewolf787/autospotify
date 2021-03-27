@@ -1,4 +1,8 @@
 class SongTitleExtractor {
+  ///
+  /// Searches for round brackets in the video title and remove them
+  /// Returns the video title without the substring in round bracket
+  ///
   List<String> _removeRoundBrackets(List<String> rawVideos) {
     List<String> videos = [];
     rawVideos.forEach((video) {
@@ -20,6 +24,10 @@ class SongTitleExtractor {
     return videos;
   }
 
+  ///
+  /// Searches for square brackets in the video title and remove them
+  /// Returns the video title without the substring in square bracket
+  ///
   List<String> _removeSquareBrackets(List<String> rawVideos) {
     List<String> videos = [];
     rawVideos.forEach((video) {
@@ -41,6 +49,10 @@ class SongTitleExtractor {
     return videos;
   }
 
+  ///
+  /// Seareches for '-' or '~' and removes them + artist
+  /// Retruns only the track title from the video title
+  ///
   List<String> _getSongTitle(List<String> rawVideos) {
     List<String> videos = [];
     rawVideos.forEach((video) { 
@@ -58,6 +70,11 @@ class SongTitleExtractor {
     return videos;
   }
 
+
+  ///
+  /// Get the track title from a YouTube video title
+  /// Returns a List<String> of track titles
+  ///
   List<String> extract(List<String> rawVideos) {
     final videosWithoutRoundBrackets = _removeRoundBrackets(rawVideos);
     final videosWithoutSquareBrackets = _removeSquareBrackets(videosWithoutRoundBrackets);

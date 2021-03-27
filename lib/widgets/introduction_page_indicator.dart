@@ -2,10 +2,14 @@ import 'package:autospotify/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 class PageIndicator extends StatelessWidget {
+  PageIndicator({
+    Key key,
+    @required this.currentPage,
+    @required this.maxPages
+  }) : super(key: key);
+  
   final int currentPage;
   final int maxPages;
-
-  PageIndicator({this.currentPage, this.maxPages});
 
   @override
   Widget build(BuildContext context) {

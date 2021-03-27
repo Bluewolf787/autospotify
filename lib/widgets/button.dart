@@ -3,10 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class CustomButton extends StatelessWidget {
+  CustomButton({
+    Key key,
+    @required this.onPressed,
+    this.label,
+  }) : super(key: key);
+
   final String label;
   final Function onPressed;
-
-  CustomButton({this.label, this.onPressed});
 
   @override
   Widget build(BuildContext context) {

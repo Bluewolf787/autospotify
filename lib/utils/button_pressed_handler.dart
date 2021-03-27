@@ -10,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:spotify/spotify.dart';
 import 'package:theme_provider/theme_provider.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class ButtonPressedHandler {
 
@@ -31,9 +30,7 @@ class ButtonPressedHandler {
       );
       return;
     }
-
-    // TODO: Sync Playlists
-    
+        
     // Get YouTube Video titles
     List<String> videosRaw = await YouTubeUtils().getVideosFromPlaylist(context, youtubePlaylistUrl);
     FirestoreHelper().saveYouTubePlaylistUrl(youtubePlaylistUrl, userId);

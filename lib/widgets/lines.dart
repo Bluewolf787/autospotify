@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 class Lines extends StatelessWidget {
-  final bool positionTop;
+  Lines({
+    Key key,
+    @required this.positionTop
+  }) : super(key: key);
 
-  Lines({this.positionTop});
+  final bool positionTop;
 
   @override
   Widget build(BuildContext context) {

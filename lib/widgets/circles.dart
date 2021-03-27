@@ -2,13 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 
 class Circle extends StatelessWidget {
+  Circle({
+    Key key,
+    this.diameter, 
+    this.color,
+    this.shadowOffset,
+    this.shadowBlurRadius,
+    this.notFilled,
+  }) : super(key: key);
+  
   final double diameter;
   final Color color;
   final Offset shadowOffset;
   final double shadowBlurRadius;
   final bool notFilled;
-
-  Circle({this.diameter, this.color, this.shadowOffset, this.shadowBlurRadius, this.notFilled});
 
   @override
   Widget build(BuildContext context) {

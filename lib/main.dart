@@ -59,13 +59,8 @@ class MyApp extends StatelessWidget {
         }
 
         return Center(
-          child: Text(
-            'AutoSpotify',
-            textDirection: TextDirection.ltr,
-            style: TextStyle(
-              fontFamily: 'Montserrat',
-              fontSize: 14,
-            ),
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
           ),
         );
       },

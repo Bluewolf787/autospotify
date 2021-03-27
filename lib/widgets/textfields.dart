@@ -79,9 +79,12 @@ class CustomTextField extends StatelessWidget {
 }
 
 class SpotifyUsernameField extends StatelessWidget {
+  SpotifyUsernameField({
+    Key key,
+    @required this.controller
+  }) : super(key: key);
+  
   final TextEditingController controller;
-
-  SpotifyUsernameField({this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +129,7 @@ class SpotifyUsernameField extends StatelessWidget {
 class YtPlaylistUrlInputField extends StatelessWidget {
   YtPlaylistUrlInputField({
     Key key,
-    this.controller,
+    @required this.controller,
     this.onEditingComplete,
     this.suffixIconButton,
   }) : super(key: key);

@@ -4,9 +4,9 @@ import 'package:theme_provider/theme_provider.dart';
 class SignInButton extends StatelessWidget {
   const SignInButton({
     Key key,
-    this.onPressed,
-    this.assetImage,
-    this.label,
+    @required this.onPressed,
+    @required this.assetImage,
+    @required this.label,
     this.color,
   }) : super(key: key);
 

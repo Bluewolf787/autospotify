@@ -3,11 +3,17 @@ import 'package:spotify/spotify.dart';
 
 class FirestoreHelper {
 
+  // Get the Firestore Collection where all user documents get stored
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
+  ///
+  /// Check if there is a document in Firestore for a specific user
+  /// Returns a bool value
+  ///
   Future<bool> _checkIfUserDocumentExists(String userId) async {
     bool _userDocumentExists = false;
 
+    // Get user document
     await users
       .doc(userId)
       .get()
@@ -33,17 +39,19 @@ class FirestoreHelper {
     bool _userAlreadyExists = await _checkIfUserDocumentExists(userId);
 
     if (_userAlreadyExists) {
-      // Create document with the ID of the user as name
-      return await users.doc(userId).update({
-        // Save the used provider
+      // User document already exists
+      // Update user document
+      await users.doc(userId).update({
+        // Update the used provider
         'provider': provider
       })
-      .then((value) => print('New user added to Firestore'))
+      .then((value) => print('User document $userId updated'))
       .catchError((error) => print('Failed to update user in Firestore: $error'));
     }
     else {
+      // User document does not exists
       // Create document with the ID of the user as name
-      return await users.doc(userId).set({
+      await users.doc(userId).set({
         // Save the used provider
         'provider': provider
       })
@@ -63,40 +71,41 @@ class FirestoreHelper {
     _spotifyCredentials['scopes'] = credentials.scopes;
     _spotifyCredentials['expiration'] = credentials.expiration;
 
-    // Only save when user is signed in
-    if (userId != null) {
-      // Save the credentials in the users document
-      return await users.doc(userId).update({
-        'spotify_credentials': _spotifyCredentials
-      })
-      .then((value) => print('Spotify credentials saved'))
-      .onError((error, stackTrace) => print('Failed to save Spotify credentials $error\nStackTrace:\n$stackTrace'));
-    }
+
+    // Save the credentials in the user document
+    await users.doc(userId).update({
+      'spotify_credentials': _spotifyCredentials
+    })
+    .then((value) => print('Spotify credentials saved'))
+    .onError((error, stackTrace) => print('Failed to save Spotify credentials $error\nStackTrace:\n$stackTrace'));
   }
 
   ///
   /// Get the Spotify credentials from Firestore
+  /// Retruns a Map with all values needed to authenticate
   /// 
   Future<Map<String, dynamic>> getSpotifyCredentials(String userId) async {
     Map<String, dynamic> spotifyCredentials = new Map<String, dynamic>();
-    if (userId != null) {
-      await users
-        .doc(userId)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-          if (documentSnapshot.exists) {
-            if (documentSnapshot.data().entries.contains('spotify_credentials')) {
-              spotifyCredentials.addAll(documentSnapshot.data()['spotify_credentials']);
-            }
+
+    // Gets Spotify Credentials from the user document
+    await users
+      .doc(userId)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          // Check if Spotify credentials are saved
+          if (documentSnapshot.data().entries.contains('spotify_credentials')) {
+            // Save the Spotify credentials in the Map
+            spotifyCredentials.addAll(documentSnapshot.data()['spotify_credentials']);
           }
-          else {
-            print('Document does not exists (Failed getting: \'spotify_credentials\')');
-          }
-        })
-        .onError((error, stackTrace) {
-          print('Failed to get Spotify credentials $error\nStackTrace:\n$stackTrace');
-        });
-    }
+        }
+        else {
+          print('Document does not exists (Failed getting: \'spotify_credentials\')');
+        }
+      })
+      .onError((error, stackTrace) {
+        print('Failed to get Spotify credentials $error\nStackTrace:\n$stackTrace');
+      });
 
     return spotifyCredentials;
   }
@@ -105,39 +114,39 @@ class FirestoreHelper {
   /// Save the Spotify playlist ID of the auto-generate playlist
   /// 
   Future<void> saveSpotifyPlaylistId(String playlistId, String userId) async {
-    // Only save when user is signed in
-    if (userId != null) {
-      return await users.doc(userId).update({
-        'spotify_auto_playlist': playlistId
-      })
-      .then((value) => print('Spotify playlist ID saved'))
-      .onError((error, stackTrace) => print('Failed to save Spotify playlist ID $error\nStackTrace:\n$stackTrace'));
-    }
+    // Save the playlist ID of the auto-generated Spotify playlist in user doucment
+    await users.doc(userId).update({
+      'spotify_auto_playlist': playlistId
+    })
+    .then((value) => print('Spotify playlist ID saved'))
+    .onError((error, stackTrace) => print('Failed to save Spotify playlist ID $error\nStackTrace:\n$stackTrace'));
   }
 
   ///
   /// Get the Spotify playlist ID of the auto-generated playlist
+  /// Returns a the ID of the auto-generated Spotify playlist as String
   /// 
   Future<String> getSpotifyAutoPlaylistId(String userId) async {
     String playlistId = '';
-    if (userId != null) {
-      await users
-        .doc(userId)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-          if (documentSnapshot.exists) {
-            if (documentSnapshot.data().entries.contains('spotify_auto_playlist')) {
-              playlistId = documentSnapshot.data()['spotify_auto_playlist'];
-            }
+
+    // Get the ID of the auto-generated Spotify playlist from the user document
+    await users
+      .doc(userId)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          // Check if the ID of the auto-generated Spotify playlist are saved
+          if (documentSnapshot.data().entries.contains('spotify_auto_playlist')) {
+            playlistId = documentSnapshot.data()['spotify_auto_playlist'];
           }
-          else {
-            print('Document does not exists (Failed getting: \'spotify_auto_playlist\')');
-          }
-        })
-        .onError((error, stackTrace) {
-          print('Failed to get Spotify playlist ID $error\nStackTrace:\n$stackTrace');
-        });
-    }
+        }
+        else {
+          print('Document does not exists (Failed getting: \'spotify_auto_playlist\')');
+        }
+      })
+      .onError((error, stackTrace) {
+        print('Failed to get Spotify playlist ID $error\nStackTrace:\n$stackTrace');
+      });
 
     return playlistId;
   }
@@ -146,40 +155,39 @@ class FirestoreHelper {
   /// Save the YouTube playlist URL to Firestore
   /// 
   Future<void> saveYouTubePlaylistUrl(String playlistUrl, String userId) async {
-    // Only save when user is signed in
-    if (userId != null) {
-      // Save the URL in the users document
-      return await users.doc(userId).update({
+      // Save the YouTube playlist URL in the user document
+      await users.doc(userId).update({
         'youtube_playlist': playlistUrl
       })
       .then((value) => print('YouTube playlist URL saved'))
       .onError((error, stackTrace) => print('Failed to save YouTube playlist URL $error\nStackTrace:\n$stackTrace'));
-    }
   }
 
   ///
   /// Get the YouTube playlist URL from Firestore
+  /// Returns the saved YouTube playlist URL as String
   /// 
   Future<String> getYouTubePlaylistUrl(String userId) async {
     String playlistUrl = '';
-    if (userId != null) {
-      await users
-        .doc(userId)
-        .get()
-        .then((DocumentSnapshot documentSnapshot) {
-          if (documentSnapshot.exists) {
-            if (documentSnapshot.data().entries.contains('youtube_playlist')) {
-              playlistUrl = documentSnapshot.data()['youtube_playlist'];
-            }
+
+    // Get the YouTube playlist URL from the user document
+    await users
+      .doc(userId)
+      .get()
+      .then((DocumentSnapshot documentSnapshot) {
+        if (documentSnapshot.exists) {
+          // Check if a YouTube playlist URL are saved
+          if (documentSnapshot.data().entries.contains('youtube_playlist')) {
+            playlistUrl = documentSnapshot.data()['youtube_playlist'];
           }
-          else {
-            print('Document does not exists (Failed getting: \'youtube_playlist\')');
-          }
-        })
-        .onError((error, stackTrace) {
-          print('Failed to get YouTube playlist URL $error\nStackTrace:\n$stackTrace');
-        });
-    }
+        }
+        else {
+          print('Document does not exists (Failed getting: \'youtube_playlist\')');
+        }
+      })
+      .onError((error, stackTrace) {
+        print('Failed to get YouTube playlist URL $error\nStackTrace:\n$stackTrace');
+      });
 
     return playlistUrl;
   }

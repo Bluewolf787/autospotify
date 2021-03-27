@@ -5,7 +5,7 @@ import 'package:theme_provider/theme_provider.dart';
 class ConnectSpotifyButton extends StatelessWidget {
   const ConnectSpotifyButton({
     Key key,
-    this.onPressed,
+    @required this.onPressed,
   }) : super(key: key);
 
   final Function onPressed;

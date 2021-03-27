@@ -30,11 +30,11 @@ class _HomePageState extends State<HomePage> {
   TextEditingController _spotifyUsernameController;
   TextEditingController _ytPlaylistUrlController;
 
-  var startAnimation = false;
+  var _startAnimation = false;
   initialTimer() async {
     await new Future.delayed(const Duration(milliseconds: 500));
     setState(() {
-      startAnimation = true;
+      _startAnimation = true;
     });
   }
 
@@ -74,7 +74,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void getYtPlaylist() {
+  void _getYtPlaylist() {
     // Set YouTube textfield text with the saved playlist URL
     FirestoreHelper().getYouTubePlaylistUrl(_userId).then((String url) {
       setState(() {
@@ -92,7 +92,7 @@ class _HomePageState extends State<HomePage> {
   String _dropdownMenuValue;
 
 
-  void getSpotifyUser(SpotifyApi spotifyApi) {
+  void _getSpotifyUser(SpotifyApi spotifyApi) {
     // Set Spotify textfield text with current Spotify users name
     SpotifyUtils().getUser(_spotify).then((User user) {
       setState(() {
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
     }); 
   }
 
-  Map<String, String> getSpotifyPlaylists(SpotifyApi spotifyApi) {
+  Map<String, String> _getSpotifyPlaylists(SpotifyApi spotifyApi) {
     Map<String, String> spotifyPlaylists = new Map<String, String>();
     SpotifyUtils().getAllPlaylists(_spotify).then((Map<String, String> playlists) {
       setState(() {
@@ -117,7 +117,7 @@ class _HomePageState extends State<HomePage> {
     return spotifyPlaylists;
   }
 
-  void connectToSpotify(BuildContext context) {
+  void _connectToSpotify(BuildContext context) {
     // Connect Spotify
     SpotifyUtils().connectWithCredentials(context, _userId).then((SpotifyApi spotifyApi) {
       if (spotifyApi == null)
@@ -127,13 +127,13 @@ class _HomePageState extends State<HomePage> {
         _spotifyConnected = true;
         _spotify = spotifyApi;
 
-        getSpotifyUser(spotifyApi);
-        getSpotifyPlaylists(spotifyApi);
+        _getSpotifyUser(spotifyApi);
+        _getSpotifyPlaylists(spotifyApi);
       });
     });
   }
 
-  String getSpotifyPlaylistId(String playlistName) {
+  String _getSpotifyPlaylistId(String playlistName) {
     String playlistId = '';
     playlistId = _spotifyPlaylists.keys.firstWhere((key) => _spotifyPlaylists[key] == playlistName, orElse: () => '');
 
@@ -152,8 +152,8 @@ class _HomePageState extends State<HomePage> {
     // Check if user is signed in
     if (_user != null)
     {
-      getYtPlaylist();
-      connectToSpotify(context);     
+      _getYtPlaylist();
+      _connectToSpotify(context);     
     }
 
     super.initState();
@@ -229,8 +229,8 @@ class _HomePageState extends State<HomePage> {
                               ButtonPressedHandler().pushToPage(context, LoginPage(), () {
                                 setState(() {
                                   _getUserData();
-                                  connectToSpotify(context);
-                                  getYtPlaylist();                             
+                                  _connectToSpotify(context);
+                                  _getYtPlaylist();                             
                                 });
                               });                         
                             }
@@ -281,8 +281,8 @@ class _HomePageState extends State<HomePage> {
                   // Header Text
                   AnimatedPositioned(
                     duration: Duration(seconds: 1,),
-                    top: startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
-                    left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -80,
+                    top: _startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
+                    left: _startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -80,
                     curve: Curves.ease,
                     child: Text.rich(
                       TextSpan(
@@ -327,8 +327,8 @@ class _HomePageState extends State<HomePage> {
                   // Lines
                   AnimatedPositioned(
                     duration: Duration(seconds: 1,),
-                    top: startAnimation ? SizeConfig.heightMultiplier * 38 : SizeConfig.heightMultiplier * 38,
-                    right: startAnimation ? SizeConfig.widthMultiplier * 2 : SizeConfig.widthMultiplier * -140,
+                    top: _startAnimation ? SizeConfig.heightMultiplier * 38 : SizeConfig.heightMultiplier * 38,
+                    right: _startAnimation ? SizeConfig.widthMultiplier * 2 : SizeConfig.widthMultiplier * -140,
                     curve: Curves.ease,
                     child: SizedBox(
                       width: 256.0,
@@ -380,7 +380,7 @@ class _HomePageState extends State<HomePage> {
                   // Spotify Connect Button
                   AnimatedPositioned(
                     duration: Duration(seconds: 1,),
-                    left: startAnimation ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * -100,
+                    left: _startAnimation ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * -100,
                     curve: Curves.ease,
                     child: Opacity(
                       opacity: _spotifyConnected ? 0.0 : 1.0,
@@ -406,8 +406,8 @@ class _HomePageState extends State<HomePage> {
                                 setState(() {
                                   _spotifyConnected = true;
                                   _spotify = spotifyApi;
-                                  getSpotifyUser(spotifyApi);
-                                  getSpotifyPlaylists(spotifyApi);
+                                  _getSpotifyUser(spotifyApi);
+                                  _getSpotifyPlaylists(spotifyApi);
                                 });
                               })
                               .catchError((error) {
@@ -462,7 +462,7 @@ class _HomePageState extends State<HomePage> {
                   // YouTube Playlist Input
                   AnimatedPositioned(
                     duration: Duration(seconds: 1,),
-                    right: startAnimation ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * -100,
+                    right: _startAnimation ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * -100,
                     curve: Curves.ease,
                     child: Container(
                       height: SizeConfig.heightMultiplier * 100,
@@ -490,7 +490,7 @@ class _HomePageState extends State<HomePage> {
                   AnimatedPositioned(
                     duration: Duration(seconds: 1,),
                     bottom: SizeConfig.heightMultiplier * 20,
-                    left: startAnimation ? SizeConfig.widthMultiplier * 0 : SizeConfig.widthMultiplier * -100,
+                    left: _startAnimation ? SizeConfig.widthMultiplier * 0 : SizeConfig.widthMultiplier * -100,
                     curve: Curves.ease,
                     child: CustomButton(
                       label: 'Sync',
@@ -498,7 +498,7 @@ class _HomePageState extends State<HomePage> {
                         await ButtonPressedHandler().syncPlaylistsButton(
                           context,
                           _spotify,
-                          getSpotifyPlaylistId(_dropdownMenuValue),
+                          _getSpotifyPlaylistId(_dropdownMenuValue),
                           _ytPlaylistUrlController.text,
                           _userId
                         );
