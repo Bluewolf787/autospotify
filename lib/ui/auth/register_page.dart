@@ -168,7 +168,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: CustomTextField(
                       controller: _emailInputController,
                       readOnly: false,
-                      obscureText: false,
+                      passwordField: false,
+                      emailField: true,
                       hintText: 'Enter your E-Mail address',
                       labelText: 'E-Mail Address',
                       suffixIcon: Icon(
@@ -193,7 +194,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: CustomTextField(
                       controller: _passwordInputController,
                       readOnly: false,
-                      obscureText: _hidePassword,
+                      passwordField: _hidePassword,
+                      emailField: false,
                       hintText: 'Enter a password',
                       labelText: 'Password',
                       suffixIcon: IconButton(
@@ -276,6 +278,8 @@ class _RegisterPageState extends State<RegisterPage> {
                               ],
                             ),
                           );
+                          // Close Register Page and open Home Page
+                          Navigator.of(context).pop();
                         }
                       });
                     },

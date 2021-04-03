@@ -5,6 +5,7 @@ import 'package:autospotify/utils/auth/google_auth.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/widgets/back_button.dart';
+import 'package:autospotify/widgets/dialogs.dart';
 import 'package:autospotify/widgets/snackbar.dart';
 import 'package:autospotify/widgets/textfields.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -208,7 +209,8 @@ class _AccountPageState extends State<AccountPage> {
                           controller: _emailContoller,
                           onEditingComplete: () => null, // TODO Alert that email is changed
                           readOnly: _isGoogleUser ? true : false,
-                          obscureText: false,
+                          passwordField: false,
+                          emailField: true,
                           labelText: 'E-Mail',
                           hintText: 'Your E-Mail Address',
                           prefixIcon: Icon(
@@ -275,13 +277,38 @@ class _AccountPageState extends State<AccountPage> {
                               );
                             }),
                           ),
-                          onPressed: () => {
+                          onPressed: () async {
+                            // Check if user is Signed In
+                            if (_user == null)
+                              return;
+
+                            // Check if user is Signed in via Google
                             if (_isGoogleUser) {
-                              CustomSnackbar.show(context, 'You can not do this when signed in with Google',)
+                              CustomSnackbar.show(context, 'You can not do this when signed in with Google');
+                              return;
                             }
-                            else {
-                              // TODO Open Dialog
+                            
+                            // Check if user verified the E-Mail
+                            if (!_user.emailVerified)
+                            {
+                              // Show Dialog if not verified
+                              showDialog(context: context,
+                                builder: (context) => VerifyEmailDialog(
+                                  user: _user,
+                                  email: _userEmail,
+                                ),
+                              );
+                              return;
                             }
+
+                            await FireAuth().sendPasswordResetEmail(_userEmail).then((success) {
+                              if (success) {
+                                CustomSnackbar.show(context, 'We sent you a E-Mail to reset your password');
+                              }
+                              else {
+                                CustomSnackbar.show(context, 'Oops! Something went wrong. Please try again');
+                              }
+                            });
                           }, 
                         ),
                       ),

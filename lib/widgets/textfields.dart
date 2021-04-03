@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -7,7 +8,8 @@ class CustomTextField extends StatelessWidget {
     @required this.controller,
     this.onEditingComplete,
     this.readOnly,
-    this.obscureText,
+    this.passwordField,
+    this.emailField,
     this.labelText,
     this.hintText,
     this.prefixIcon,
@@ -17,7 +19,8 @@ class CustomTextField extends StatelessWidget {
   final TextEditingController controller;
   final Function onEditingComplete;
   final bool readOnly;
-  final bool obscureText;
+  final bool passwordField;
+  final bool emailField;
   final String hintText;
   final String labelText;
   final Widget prefixIcon;
@@ -30,9 +33,10 @@ class CustomTextField extends StatelessWidget {
       controller: controller,
       onEditingComplete: onEditingComplete,
       readOnly: readOnly,
-      obscureText: obscureText ? true : false,
-      enableSuggestions: obscureText ? false : true,
-      autocorrect: obscureText ? false : true,
+      obscureText: passwordField ? true : false,
+      enableSuggestions: passwordField ? false : true,
+      autocorrect: passwordField ? false : true ?? true,
+      keyboardType: emailField ? TextInputType.emailAddress : TextInputType.text,
       decoration: InputDecoration(
         border: InputBorder.none,
         prefixIcon: prefixIcon,
@@ -144,6 +148,7 @@ class YtPlaylistUrlInputField extends StatelessWidget {
     return TextField(
       controller: controller,
       onEditingComplete: onEditingComplete,
+      keyboardType: TextInputType.url,
       decoration: InputDecoration(
         border: InputBorder.none,
         suffixIcon: suffixIconButton,

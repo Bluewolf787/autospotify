@@ -5,6 +5,7 @@ import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/button.dart';
+import 'package:autospotify/widgets/dialogs.dart';
 import 'package:autospotify/widgets/signin_button.dart';
 import 'package:autospotify/widgets/snackbar.dart';
 import 'package:autospotify/widgets/textfields.dart';
@@ -20,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
 
   TextEditingController _emailInputController;
   TextEditingController _passwordInputController;
+  TextEditingController _forgotPasswordDialogController;
 
   Duration _duration;
   var startAnimation = false;
@@ -41,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
 
     _emailInputController = new TextEditingController();
     _passwordInputController = new TextEditingController();
+    _forgotPasswordDialogController = new TextEditingController();
   }
 
   @override
@@ -167,7 +170,8 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _emailInputController,
                       onEditingComplete: () => null,
                       readOnly: false,
-                      obscureText: false,
+                      passwordField: false,
+                      emailField: true,
                       hintText: 'Enter your E-Mail address',
                       labelText: 'E-Mail Address',
                       suffixIcon: Icon(
@@ -193,7 +197,8 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordInputController,
                       onEditingComplete: () => null,
                       readOnly: false,
-                      obscureText: _hidePassword,
+                      passwordField: _hidePassword,
+                      emailField: false,
                       hintText: 'Enter your password',
                       labelText: 'Password',
                       suffixIcon: IconButton(
@@ -260,8 +265,13 @@ class _LoginPageState extends State<LoginPage> {
                         children: <Widget>[
                           // Password Forgot Button
                           TextButton(
-                            onPressed: () => {
-                              null
+                            onPressed: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => ForgotPasswordDialog(
+                                  controller: _forgotPasswordDialogController
+                                )
+                              );
                             },
                             child: Text(
                               'Forgot password?',

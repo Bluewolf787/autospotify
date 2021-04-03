@@ -218,7 +218,30 @@ class FireAuth {
   }
 
   ///
-  /// Delete users entrys
+  /// Password reset helper; Send Firebase password reset E-Mail
+  /// Returns a bool as success state
+  ///
+  Future<bool> sendPasswordResetEmail(String email) async {
+    try {
+      // Try to send passwaord reset mail
+      await _auth.sendPasswordResetEmail(email: email);
+
+      print('Send password reset mail');
+
+      // Send mail was successful
+      return true;
+    } catch (exception) {
+      // An unexpected exception occurred
+
+      print('Send password reset mail: $exception');
+
+      // Send password reset mail failed
+      return false;
+    }
+  }
+
+  ///
+  /// Delete user entrys
   /// Returns a bool as success state
   ///
   Future<bool> deleteUser(User user) async {    
