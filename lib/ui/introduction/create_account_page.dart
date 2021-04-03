@@ -6,6 +6,7 @@ import 'package:autospotify/utils/firestore_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/widgets/back_button.dart';
 import 'package:autospotify/widgets/button.dart';
+import 'package:autospotify/widgets/circles.dart';
 import 'package:autospotify/widgets/introduction_page_indicator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -80,6 +81,45 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             width: SizeConfig.widthMultiplier * 100,
             child: Stack(
               children: <Widget>[
+                // Circle frame 1
+                AnimatedPositioned(
+                  duration: Duration(seconds: 1,),
+                  top: _startAnimation ? SizeConfig.heightMultiplier * -2 : SizeConfig.heightMultiplier * -20,
+                  right: _startAnimation ? SizeConfig.widthMultiplier * -14 : SizeConfig.widthMultiplier * -55,
+                  curve: Curves.ease,
+                  child: Circle(
+                    diameter: 194,
+                    color: ThemeProvider.themeOf(context).data.accentColor,
+                    notFilled: true,
+                  ),
+                ),
+
+                // Circle frame 2
+                AnimatedPositioned(
+                  duration: Duration(seconds: 1,),
+                  top: _startAnimation ? SizeConfig.heightMultiplier * -11 : SizeConfig.heightMultiplier * -40,
+                  right: _startAnimation ? SizeConfig.widthMultiplier * -6 : SizeConfig.widthMultiplier * 10,
+                  curve: Curves.ease,
+                  child: Circle(
+                    diameter: 210,
+                    color: ThemeProvider.themeOf(context).data.accentColor,
+                    notFilled: true,
+                  ),
+                ),
+
+                // Circle frame 3
+                AnimatedPositioned(
+                  duration: Duration(seconds: 1,),
+                  top: _startAnimation ? SizeConfig.heightMultiplier * -5 : SizeConfig.heightMultiplier * 10,
+                  right: _startAnimation ? SizeConfig.widthMultiplier * -33 : SizeConfig.widthMultiplier * -120,
+                  curve: Curves.ease,
+                  child: Circle(
+                    diameter: 296,
+                    color: ThemeProvider.themeOf(context).data.accentColor,
+                    notFilled: true,
+                  ),
+                ),
+
                 // Header Text
                 AnimatedPositioned(
                   duration: _duration,
