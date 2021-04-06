@@ -6,6 +6,7 @@ import 'package:autospotify/utils/firestore_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/spotify_utils.dart';
+import 'package:autospotify/utils/sync_status.dart';
 import 'package:autospotify/utils/youtube_utils.dart';
 import 'package:autospotify/widgets/button.dart';
 import 'package:autospotify/widgets/dialogs.dart';
@@ -37,6 +38,9 @@ class _HomePageState extends State<HomePage> {
       _startAnimation = true;
     });
   }
+
+  SyncStatus _syncStatus;
+  bool _syning = false;
 
   // User variables 
   Firebase.User _user;
@@ -143,6 +147,8 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     initialTimer();
+
+    _syncStatus = SyncStatus.noSync;
 
     _ytPlaylistUrlController = new TextEditingController();
     _spotifyUsernameController = new TextEditingController();
@@ -498,16 +504,34 @@ class _HomePageState extends State<HomePage> {
                     bottom: SizeConfig.heightMultiplier * 20,
                     left: _startAnimation ? SizeConfig.widthMultiplier * 0 : SizeConfig.widthMultiplier * -100,
                     curve: Curves.ease,
-                    child: CustomButton(
-                      label: 'Sync',
+                    child: SyncButton(
+                      syncStatus: _syncStatus,
                       onPressed: () async {
+                        setState(() {
+                          if (_syncStatus == SyncStatus.noSync) {
+                            _syncStatus = SyncStatus.syncing;
+                          }
+                          else
+                            return;
+                        });
+
                         await ButtonPressedHandler().syncPlaylistsButton(
                           context,
                           _spotify,
                           _getSpotifyPlaylistId(_dropdownMenuValue),
                           _ytPlaylistUrlController.text,
                           _userId
-                        );
+                        ).then((_) {
+                          setState(() {
+                            _syncStatus = SyncStatus.done;
+                          });
+
+                          Timer(Duration(milliseconds: 3300), () {
+                            setState(() {
+                              _syncStatus = SyncStatus.noSync;                            
+                            });
+                          });
+                        });
                       },
                     ),
                   ),
