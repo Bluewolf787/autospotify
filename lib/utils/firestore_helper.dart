@@ -94,9 +94,12 @@ class FirestoreHelper {
       .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           // Check if Spotify credentials are saved
-          if (documentSnapshot.data().entries.contains('spotify_credentials')) {
+          if (documentSnapshot.data().containsKey('spotify_credentials')) {
             // Save the Spotify credentials in the Map
             spotifyCredentials.addAll(documentSnapshot.data()['spotify_credentials']);
+          }
+          else {
+            print('Spotify Credentials not found in Firestore document');
           }
         }
         else {
@@ -136,7 +139,7 @@ class FirestoreHelper {
       .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           // Check if the ID of the auto-generated Spotify playlist are saved
-          if (documentSnapshot.data().entries.contains('spotify_auto_playlist')) {
+          if (documentSnapshot.data().containsKey('spotify_auto_playlist')) {
             playlistId = documentSnapshot.data()['spotify_auto_playlist'];
           }
         }
@@ -177,8 +180,11 @@ class FirestoreHelper {
       .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
           // Check if a YouTube playlist URL are saved
-          if (documentSnapshot.data().entries.contains('youtube_playlist')) {
+          if (documentSnapshot.data().containsKey('youtube_playlist')) {
             playlistUrl = documentSnapshot.data()['youtube_playlist'];
+          }
+          else {
+            print('YouTube Playlist not found in Firestore document');
           }
         }
         else {
