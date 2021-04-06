@@ -129,7 +129,7 @@ class SpotifyUtils {
     // Get ID of auto-generated Spotify playlist (if exists)
     String autoPlaylistId = await FirestoreHelper().getSpotifyAutoPlaylistId(userId);
 
-    if (autoPlaylistId.isEmpty) {
+    if (autoPlaylistId == null) {
       // Create playlist if does not exists
       await spotify.playlists.createPlaylist(
         user.id,
