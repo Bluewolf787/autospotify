@@ -103,7 +103,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   Map<String, String> _getSpotifyPlaylists(SpotifyApi spotifyApi) {
-    Map<String, String> spotifyPlaylists = new Map<String, String>();
     SpotifyUtils().getAllPlaylists(_spotify).then((Map<String, String> playlists) {
       setState(() {
         playlists.forEach((key, value) { 
@@ -111,10 +110,10 @@ class _HomePageState extends State<HomePage> {
         });
         _dropdownMenuValue = _spotifyPlaylistsNames.first;
       });
-      spotifyPlaylists = playlists;
+      _spotifyPlaylists = playlists;
     });
     
-    return spotifyPlaylists;
+    return _spotifyPlaylists;
   }
 
   void _connectToSpotify(BuildContext context) {

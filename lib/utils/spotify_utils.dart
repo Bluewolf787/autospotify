@@ -179,6 +179,26 @@ class SpotifyUtils {
   }
 
   ///
+  /// Go throught a Spotify playlist and check if tracks which should be added
+  /// are already in that playlist
+  /// Returns a List of Spotify track URIs without tracks which already exists in the playlist
+  ///
+  Future<List<String>> _checkTracksInPlaylist(SpotifyApi spotify, List<String> trackList, String playlistId) async {
+    // Get all tracks in a Spotify playlist
+    final tracksInPlaylist =  await spotify.playlists.getTracksByPlaylistId(playlistId).all();
+
+    // Go throught all the tracks
+    for (var track in tracksInPlaylist) {
+      // If a track from the playlist exists in trackList remove this track from the list
+      if (trackList.contains('spotify:track:${track.id}')) {
+        trackList.remove('spotify:track:${track.id}');
+      }
+    }
+
+    return trackList;
+  }
+
+  ///
   /// Add tracks to a Spotify playlist
   ///
   Future<void> addSongsToPlaylist(BuildContext context, SpotifyApi spotify, List<String> trackList, String playlistId, String userId) async {
@@ -187,8 +207,10 @@ class SpotifyUtils {
       playlistId = await FirestoreHelper().getSpotifyAutoPlaylistId(userId);
     }
 
+    List<String> finalTrackList = await _checkTracksInPlaylist(spotify, trackList, playlistId);
+
     // Add all tracks to the playlist
-    await spotify.playlists.addTracks(trackList, playlistId).whenComplete(() {
+    await spotify.playlists.addTracks(finalTrackList, playlistId).whenComplete(() {
       CustomSnackbar.show(context, 'Playlists successfully synced!');
     }).onError((error, stackTrace) => CustomSnackbar.show(context, 'Oops! Something went wrong while syncing.'));
   }
