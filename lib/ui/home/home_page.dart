@@ -410,8 +410,8 @@ class _HomePageState extends State<HomePage> {
                                   _getSpotifyPlaylists(spotifyApi);
                                 });
                               })
-                              .catchError((error) {
-                                print('ERROR $error');
+                              .onError((error, stackTrace) {
+                                print('ERROR Spotify Auth: $error, StackTrace:\n $stackTrace');
                                 CustomSnackbar.show(
                                   context,
                                   'Oops! Something went wrong. Please try again.',

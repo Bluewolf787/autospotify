@@ -46,7 +46,7 @@ class SpotifyUtils {
   /// Open a WebView with Spotify auth URL to authorize the user
   /// Returns the response URL from Spotify
   /// 
-  Future<String> _navigateToWebViewAndGetResponseUri(BuildContext context, String initalUrl, String redirectUrl) async {
+  Future<dynamic> _navigateToWebViewAndGetResponseUri(BuildContext context, String initalUrl, String redirectUrl) async {
     final responseUrl = Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => SpotifyAuthWebView(initalUrl: initalUrl, redirectUri: redirectUrl,))
