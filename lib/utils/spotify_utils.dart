@@ -163,14 +163,22 @@ class SpotifyUtils {
     for (var result in searchResults) {
       await result.first().then((songs) {
         try {
-          // Get first track from search result
-          track = songs.first.items.first;
-        } catch (exception) {
-          print(exception);
+          if (songs.first.items.isNotEmpty) {
+            // Get first track from search result
+            track = songs.first.items.first;
+          }
+        } catch (exception, stackTrace) {
+          print('ERROR Spotify search: $exception, StackTrace:\n$stackTrace');
         }
       }).whenComplete(() {
-        // Store in 'tracks' list as Spotify track URI
-        tracks.add('spotify:track:${track.id}');
+        try {
+          if (track != null) {
+            // Store in 'tracks' list as Spotify track URI
+            tracks.add('spotify:track:${track.id}');
+          }
+        } catch (exception, stackTrace) {
+          print('ERROR Spotify get Track IDs: $exception, StackTrace:\n$stackTrace');
+        }
       });
     }
 
@@ -209,10 +217,18 @@ class SpotifyUtils {
 
     List<String> finalTrackList = await _checkTracksInPlaylist(spotify, trackList, playlistId);
 
+    if (finalTrackList.isEmpty) {
+      CustomSnackbar.show(context, 'Those songs already in that Spotify playlist');
+      return;
+    }
+
     // Add all tracks to the playlist
     await spotify.playlists.addTracks(finalTrackList, playlistId).whenComplete(() {
       CustomSnackbar.show(context, 'Playlists successfully synced!');
-    }).onError((error, stackTrace) => CustomSnackbar.show(context, 'Oops! Something went wrong while syncing.'));
+    }).onError((error, stackTrace) {
+      print('ERROR Spotify add tracks: $error, StackTrace:\n$stackTrace');
+      CustomSnackbar.show(context, 'Oops! Something went wrong while syncing.');
+    });
   }
 
   ///

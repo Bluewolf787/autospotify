@@ -37,11 +37,14 @@ class ButtonPressedHandler {
 
     // Get song titles from YouTube video titles
     List<String> songTitles = SongTitleExtractor().extract(videosRaw);
-    print(songTitles);
+    //print('SONG TITLES: $songTitles');
 
     // Search for songs on Spotify
     var spotifyTracks = await SpotifyUtils().searchSongs(spotifyApi, songTitles);
-    print('Spotify tracks ::: $spotifyTracks');
+    //print('Spotify tracks ::: $spotifyTracks');
+    if (spotifyTracks.isEmpty) {
+      CustomSnackbar.show(context, 'Could not find any songs in that YouTube playlist');
+    }
 
     // Add songs to Spotify playlist
     await SpotifyUtils().addSongsToPlaylist(context, spotifyApi, spotifyTracks, spotifyPlaylistId, userId);
