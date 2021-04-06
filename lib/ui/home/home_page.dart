@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   SyncStatus _syncStatus;
-  bool _syning = false;
 
   // User variables 
   Firebase.User _user;
@@ -429,7 +428,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
-                  // Display Spotify username when connected
+                  // Display Spotify Dropdown-Menu with Spotify playlists when connected
                   Positioned(
                     right: _spotifyConnected ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * 100,
                     child: Opacity(
@@ -441,9 +440,6 @@ class _HomePageState extends State<HomePage> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            /* SpotifyUsernameField(
-                              controller: _spotifyUsernameController,
-                            ), */
                             SpotifyPlaylistSelectButton(
                               value: _dropdownMenuValue,
                               spotifyDisplayName: _spotifyDisplayName,
