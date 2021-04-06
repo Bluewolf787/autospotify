@@ -471,7 +471,13 @@ class _HomePageState extends State<HomePage> {
                       alignment: Alignment.center,
                       child: YtPlaylistUrlInputField(
                         controller: _ytPlaylistUrlController,
-                        onEditingComplete: () => YouTubeUtils().getPlaylistId(context, _ytPlaylistUrlController.text),
+                        onEditingComplete: () async {
+                          await YouTubeUtils().getPlaylistId(context, _ytPlaylistUrlController.text).then((value) async {
+                            if (value != null) {
+                              await FirestoreHelper().saveYouTubePlaylistUrl(_ytPlaylistUrlController.text, _userId);
+                            }
+                          });
+                        },
                         suffixIconButton: IconButton(
                           icon: Icon(Icons.delete_outline_rounded),
                           iconSize: 20,
