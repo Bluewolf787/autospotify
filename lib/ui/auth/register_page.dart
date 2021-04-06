@@ -3,11 +3,11 @@ import 'package:autospotify/utils/auth/fire_auth.dart';
 import 'package:autospotify/utils/auth/google_auth.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/widgets/back_button.dart';
-import 'package:autospotify/widgets/button.dart';
-import 'package:autospotify/widgets/signin_button.dart';
-import 'package:autospotify/widgets/snackbar.dart';
-import 'package:autospotify/widgets/textfields.dart';
+import 'package:autospotify/widgets/buttons/back_button.dart';
+import 'package:autospotify/widgets/buttons/button.dart';
+import 'package:autospotify/widgets/buttons/signin_button.dart';
+import 'package:autospotify/widgets/dialogs/snackbar.dart';
+import 'package:autospotify/widgets/input/textfields.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 

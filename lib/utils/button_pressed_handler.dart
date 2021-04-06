@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:autospotify/ui/no_network_connection_page.dart';
-import 'package:autospotify/utils/firestore_helper.dart';
-import 'package:autospotify/utils/songtitle_extractor.dart';
-import 'package:autospotify/utils/spotify_utils.dart';
-import 'package:autospotify/utils/youtube_utils.dart';
-import 'package:autospotify/widgets/snackbar.dart';
+import 'package:autospotify/utils/db/firestore_helper.dart';
+import 'package:autospotify/utils/youtube/songtitle_extractor.dart';
+import 'package:autospotify/utils/spotify/spotify_utils.dart';
+import 'package:autospotify/utils/youtube/youtube_utils.dart';
+import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:spotify/spotify.dart';

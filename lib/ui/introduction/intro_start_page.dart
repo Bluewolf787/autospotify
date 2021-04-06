@@ -1,8 +1,8 @@
 import 'package:autospotify/ui/introduction/choose_theme_page.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/widgets/button.dart';
-import 'package:autospotify/widgets/circles.dart';
-import 'package:autospotify/widgets/lines.dart';
+import 'package:autospotify/widgets/buttons/button.dart';
+import 'package:autospotify/widgets/layout/circles.dart';
+import 'package:autospotify/widgets/layout/lines.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';

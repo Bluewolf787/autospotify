@@ -1,7 +1,7 @@
 import 'package:autospotify/ui/spotifyauth_webview.dart';
-import 'package:autospotify/utils/firestore_helper.dart';
-import 'package:autospotify/utils/spotify_secrets.dart';
-import 'package:autospotify/widgets/snackbar.dart';
+import 'package:autospotify/utils/db/firestore_helper.dart';
+import 'package:autospotify/utils/spotify/spotify_secrets.dart';
+import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:spotify/spotify.dart';
 
@@ -218,7 +218,7 @@ class SpotifyUtils {
     List<String> finalTrackList = await _checkTracksInPlaylist(spotify, trackList, playlistId);
 
     if (finalTrackList.isEmpty) {
-      CustomSnackbar.show(context, 'Those songs already in that Spotify playlist');
+      CustomSnackbar.show(context, 'Those songs are already in that Spotify playlist');
       return;
     }
 

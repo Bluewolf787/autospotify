@@ -1,9 +1,9 @@
 import 'package:autospotify/ui/introduction/create_account_page.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
-import 'package:autospotify/widgets/button.dart';
-import 'package:autospotify/widgets/circles.dart';
-import 'package:autospotify/widgets/introduction_page_indicator.dart';
+import 'package:autospotify/widgets/buttons/button.dart';
+import 'package:autospotify/widgets/layout/circles.dart';
+import 'package:autospotify/widgets/layout/introduction_page_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:theme_provider/theme_provider.dart';

@@ -1,7 +1,7 @@
 import 'package:autospotify/utils/auth/fire_auth.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/widgets/snackbar.dart';
-import 'package:autospotify/widgets/textfields.dart';
+import 'package:autospotify/widgets/dialogs/snackbar.dart';
+import 'package:autospotify/widgets/input/textfields.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';

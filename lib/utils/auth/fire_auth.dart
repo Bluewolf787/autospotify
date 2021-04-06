@@ -1,7 +1,7 @@
 import 'package:autospotify/ui/auth/login_page.dart';
 import 'package:autospotify/ui/auth/register_page.dart';
-import 'package:autospotify/utils/firestore_helper.dart';
-import 'package:autospotify/widgets/snackbar.dart';
+import 'package:autospotify/utils/db/firestore_helper.dart';
+import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';

@@ -1,4 +1,4 @@
-import 'package:autospotify/utils/firestore_helper.dart';
+import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 

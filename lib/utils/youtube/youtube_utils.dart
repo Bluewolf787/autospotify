@@ -1,4 +1,4 @@
-import 'package:autospotify/widgets/snackbar.dart';
+import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
