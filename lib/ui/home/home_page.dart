@@ -34,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   var _startAnimation = false;
   initialTimer() async {
     await new Future.delayed(const Duration(milliseconds: 500));
+    if (!mounted) return;
     setState(() {
       _startAnimation = true;
     });
@@ -77,9 +78,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _getYtPlaylist() {
+  Future<void> _getYtPlaylist() async {
     // Set YouTube textfield text with the saved playlist URL
-    FirestoreHelper().getYouTubePlaylistUrl(_userId).then((String url) {
+    await FirestoreHelper().getYouTubePlaylistUrl(_userId).then((String url) {
+      if (!mounted) return;
+
       setState(() {
         _ytPlaylistUrlController.text = url;
       });
@@ -95,9 +98,11 @@ class _HomePageState extends State<HomePage> {
   String _dropdownMenuValue;
 
 
-  void _getSpotifyUser(SpotifyApi spotifyApi) {
+  Future<void> _getSpotifyUser(SpotifyApi spotifyApi) async {
     // Set Spotify textfield text with current Spotify users name
-    SpotifyUtils().getUser(_spotify).then((User user) {
+    await SpotifyUtils().getUser(_spotify).then((User user) {
+      if (!mounted) return;
+
       setState(() {
         _spotifyUsernameController.text = user.displayName;
         _spotifyDisplayName = user.displayName;
@@ -105,8 +110,10 @@ class _HomePageState extends State<HomePage> {
     }); 
   }
 
-  Map<String, String> _getSpotifyPlaylists(SpotifyApi spotifyApi) {
-    SpotifyUtils().getAllPlaylists(_spotify).then((Map<String, String> playlists) {
+  Future<Map<String, String>> _getSpotifyPlaylists(SpotifyApi spotifyApi) async {
+    await SpotifyUtils().getAllPlaylists(_spotify).then((Map<String, String> playlists) {
+      if (!mounted) return;
+
       setState(() {
         playlists.forEach((key, value) { 
           _spotifyPlaylistsNames.add(value);
@@ -119,7 +126,7 @@ class _HomePageState extends State<HomePage> {
     return _spotifyPlaylists;
   }
 
-  void _connectToSpotify(BuildContext context) {
+  Future<void> _connectToSpotify(BuildContext context) async {
     if (_spotifyConnectStatus == SpotifyConnectStatus.disconnected) {
       setState(() {
         _spotifyConnectStatus = SpotifyConnectStatus.connecting;        
@@ -127,9 +134,9 @@ class _HomePageState extends State<HomePage> {
     }
 
     // Connect Spotify
-    SpotifyUtils().connectWithCredentials(context, _userId).then((SpotifyApi spotifyApi) {
-      if (spotifyApi == null)
-        return;
+    await SpotifyUtils().connectWithCredentials(context, _userId).then((SpotifyApi spotifyApi) {
+      if (spotifyApi == null) return;
+      if (!mounted) return;
 
       setState(() {
         _spotify = spotifyApi;
@@ -238,10 +245,10 @@ class _HomePageState extends State<HomePage> {
                             }
                             else {
                               ButtonPressedHandler().pushToPage(context, LoginPage(), () {
-                                setState(() {
+                                setState(() async {
                                   _getUserData();
-                                  _connectToSpotify(context);
-                                  _getYtPlaylist();                             
+                                  await _connectToSpotify(context);
+                                  await _getYtPlaylist();                             
                                 });
                               });                         
                             }
@@ -416,6 +423,8 @@ class _HomePageState extends State<HomePage> {
                               await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId);
                             
                               await SpotifyUtils().createPlaylist(context, spotifyApi, _userId);
+
+                              if (!mounted) return;
 
                               setState(() {
                                 _spotify = spotifyApi;
