@@ -215,7 +215,7 @@ class _AccountPageState extends State<AccountPage> {
                           hintText: 'Your E-Mail Address',
                           prefixIcon: Icon(
                             Icons.mail_rounded,
-                            color: Colors.grey,
+                            color: ThemeProvider.themeOf(context).data.primaryColor,
                             size: 20,
                           ),
                         ),
@@ -239,6 +239,7 @@ class _AccountPageState extends State<AccountPage> {
                         child: OutlinedButton.icon(
                           icon: Icon(
                             Icons.vpn_key_outlined,
+                            color: ThemeProvider.themeOf(context).data.primaryColor,
                             size: 18,
                           ),
                           label: Text(
@@ -315,6 +316,7 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ),
 
+                  // Line
                   AnimatedOpacity(
                     duration: Duration(seconds: 1,),
                     opacity: _startAnimation ? 1.0 : 0.0,
@@ -348,6 +350,7 @@ class _AccountPageState extends State<AccountPage> {
                         child: OutlinedButton.icon(
                           icon: Icon(
                             Icons.book_outlined,
+                            color: ThemeProvider.themeOf(context).data.primaryColor,
                             size: 18,
                           ),
                           label: Text(
@@ -412,6 +415,7 @@ class _AccountPageState extends State<AccountPage> {
                         child: OutlinedButton.icon(
                           icon: Icon(
                             Icons.logout,
+                            color: ThemeProvider.themeOf(context).data.primaryColor,
                             size: 18,
                           ),
                           label: Text(
@@ -496,6 +500,7 @@ class _AccountPageState extends State<AccountPage> {
                         child: OutlinedButton.icon(
                           icon: Icon(
                             Icons.delete_outline,
+                            color: ThemeProvider.themeOf(context).data.primaryColor,
                             size: 18,
                           ),
                           label: Text(

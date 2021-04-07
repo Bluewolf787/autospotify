@@ -113,12 +113,14 @@ class _SyncButtonChild extends StatelessWidget {
     else if (syncStatus == SyncStatus.syncing) {
       return CircularProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+        strokeWidth: 2,
       );
     }
     else {
       return Icon(
         Icons.done_rounded,
         color: Colors.white,
+        size: 28,
       );
     }
   }
