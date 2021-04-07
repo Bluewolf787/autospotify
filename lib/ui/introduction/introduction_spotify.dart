@@ -180,7 +180,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                   AnimatedPositioned(
                     duration: Duration(seconds: 1,),
                     top: startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
-                    left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -60,
+                    left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -80,
                     curve: Curves.ease,
                     child: Text.rich(
                         TextSpan(
