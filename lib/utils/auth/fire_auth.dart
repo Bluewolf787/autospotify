@@ -1,6 +1,7 @@
 import 'package:autospotify/ui/auth/login_page.dart';
 import 'package:autospotify/ui/auth/register_page.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
+import 'package:autospotify/widgets/dialogs/dialogs.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -167,9 +168,14 @@ class FireAuth {
             // Give user the option to reset the password
             label: 'Forgot Password',
             textColor: ThemeProvider.themeOf(context).data.accentColor,
-            onPressed: () => {
-              null
-              // TODO Open Dialog
+            onPressed: () {
+              TextEditingController _forgotPasswordDialogController = new TextEditingController();
+              showDialog(
+                context: context,
+                builder: (context) => ForgotPasswordDialog(
+                  controller: _forgotPasswordDialogController
+                )
+              );
             }
           ),
         );
