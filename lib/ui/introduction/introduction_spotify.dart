@@ -3,14 +3,14 @@ import 'package:autospotify/ui/introduction/introduction_yt.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
+import 'package:autospotify/utils/spotify/spotify_connect_status.dart';
 import 'package:autospotify/utils/spotify/spotify_utils.dart';
 import 'package:autospotify/widgets/buttons/back_button.dart';
 import 'package:autospotify/widgets/buttons/button.dart';
 import 'package:autospotify/widgets/layout/circles.dart';
 import 'package:autospotify/widgets/layout/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
-import 'package:autospotify/widgets/buttons/spotify_connect_button.dart';
-import 'package:autospotify/widgets/input/textfields.dart';
+import 'package:autospotify/widgets/spotify_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -36,13 +36,15 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
     });
   }
   
-  var _spotifyConnected = false;
+  SpotifyConnectStatus _spotifyConnectStatus;
 
   String _userId;
 
   @override
   initState() {
     initialTimer();
+
+    _spotifyConnectStatus = SpotifyConnectStatus.disconnected;
 
     final _user = _auth.currentUser;
     if (_user != null)
@@ -221,68 +223,50 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                     ),
                   ),
 
-                  // Display Spotify username when connected
+                  // Spotify Widget
                   Positioned(
                     right: SizeConfig.widthMultiplier * 10,
-                    child: Opacity(
-                      opacity: _spotifyConnected ? 1.0 : 0.0,
-                      child: Container(
-                        height: SizeConfig.heightMultiplier * 100,
-                        width: SizeConfig.widthMultiplier * 80,
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SpotifyUsernameField(
-                              controller: _spotifyUsernameController,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  // Connect Spotify Button
-                  AnimatedPositioned(
-                    duration: Duration(seconds: 1),
-                    right: startAnimation ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * -100,
-                    curve: Curves.ease,
-                    child: Opacity(
-                      opacity: _spotifyConnected ? 0.0 : 1.0,
-                      child: Container(
-                        height: SizeConfig.heightMultiplier * 100,
-                        width: SizeConfig.widthMultiplier * 80,
-                        alignment: Alignment.center,
-                        child: Center(
-                          child: ConnectSpotifyButton(
-                            onPressed: () async {
-                              if (_spotifyConnected) {
-                                return null;
-                              }
-                              
-                              await SpotifyUtils().connect(context).then((SpotifyApi spotify) async {
-
-                                SpotifyApiCredentials _spotifyCredentials = await spotify.getCredentials();
-                                await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId);
-                                
-                                final User user = await SpotifyUtils().getUser(spotify);
-
-                                await SpotifyUtils().createPlaylist(context, spotify, _userId);
-
-                                setState(() {
-                                  _spotifyConnected = true;
-                                  _spotifyUsernameController.text = 'Hello, ${user.displayName}';
-                                });
-                              })
-                              .catchError((error) {
-                                print('ERROR $error');
-                                CustomSnackbar.show(
-                                  context,
-                                  'Oops! Something went wrong. Please try again.',
-                                );
+                    child: Container(
+                      height: SizeConfig.heightMultiplier * 100,
+                      width: SizeConfig.widthMultiplier * 80,
+                      alignment: Alignment.center,
+                      child: Center(
+                        child: SpotifyWidget(
+                          connectStatus: _spotifyConnectStatus,
+                          isIntroduction: true,
+                          textFieldController: _spotifyUsernameController,
+                          onConnectButtonPressed: () async {
+                            if (_spotifyConnectStatus == SpotifyConnectStatus.disconnected) {
+                              setState(() {
+                                _spotifyConnectStatus = SpotifyConnectStatus.connecting;                                
                               });
-                            },
-                          ),
+                            }
+                            else {
+                              return;
+                            }
+                            
+                            await SpotifyUtils().connect(context).then((SpotifyApi spotify) async {
+                              SpotifyApiCredentials _spotifyCredentials = await spotify.getCredentials();
+                              await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId);
+                              
+                              final User user = await SpotifyUtils().getUser(spotify);
+
+                              await SpotifyUtils().createPlaylist(context, spotify, _userId);
+
+                              setState(() {
+                                _spotifyUsernameController.text = 'Hello, ${user.displayName}';
+
+                                _spotifyConnectStatus = SpotifyConnectStatus.connected;
+                              });
+                            })
+                            .catchError((error) {
+                              print('ERROR $error');
+                              CustomSnackbar.show(
+                                context,
+                                'Oops! Something went wrong. Please try again.',
+                              );
+                            });
+                          },
                         ),
                       ),
                     ),
@@ -297,7 +281,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                     child: CustomButton(
                       label: 'Next',
                       onPressed: () {
-                        if (_spotifyConnected) {
+                        if (_spotifyConnectStatus == SpotifyConnectStatus.connected) {
                           // Open next introduction page (package:autospotify/ui/introduction/introduction_yt.dart)
                           ButtonPressedHandler().pushAndReplaceToPage(context, YouTubeIntroductionPage());
                         }

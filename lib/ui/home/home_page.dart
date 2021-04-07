@@ -5,15 +5,15 @@ import 'package:autospotify/ui/auth/login_page.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
+import 'package:autospotify/utils/spotify/spotify_connect_status.dart';
 import 'package:autospotify/utils/spotify/spotify_utils.dart';
 import 'package:autospotify/utils/sync_status.dart';
 import 'package:autospotify/utils/youtube/youtube_utils.dart';
 import 'package:autospotify/widgets/buttons/button.dart';
 import 'package:autospotify/widgets/dialogs/dialogs.dart';
-import 'package:autospotify/widgets/input/dropdownbutton.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
-import 'package:autospotify/widgets/buttons/spotify_connect_button.dart';
 import 'package:autospotify/widgets/input/textfields.dart';
+import 'package:autospotify/widgets/spotify_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:flutter/material.dart';
 import 'package:spotify/spotify.dart';
@@ -87,7 +87,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   // Spotify variables
-  var _spotifyConnected = false;
+  SpotifyConnectStatus _spotifyConnectStatus;
   SpotifyApi _spotify;
   String _spotifyDisplayName = '';
   Map<String, String> _spotifyPlaylists = new Map<String, String>();
@@ -120,17 +120,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _connectToSpotify(BuildContext context) {
+    if (_spotifyConnectStatus == SpotifyConnectStatus.disconnected) {
+      setState(() {
+        _spotifyConnectStatus = SpotifyConnectStatus.connecting;        
+      });
+    }
+
     // Connect Spotify
     SpotifyUtils().connectWithCredentials(context, _userId).then((SpotifyApi spotifyApi) {
       if (spotifyApi == null)
         return;
 
       setState(() {
-        _spotifyConnected = true;
         _spotify = spotifyApi;
 
         _getSpotifyUser(spotifyApi);
         _getSpotifyPlaylists(spotifyApi);
+        _spotifyConnectStatus = SpotifyConnectStatus.connected;
       });
     });
   }
@@ -147,6 +153,7 @@ class _HomePageState extends State<HomePage> {
     initialTimer();
 
     _syncStatus = SyncStatus.noSync;
+    _spotifyConnectStatus = SpotifyConnectStatus.disconnected;
 
     _ytPlaylistUrlController = new TextEditingController();
     _spotifyUsernameController = new TextEditingController();
@@ -167,7 +174,7 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     _spotifyUsernameController.dispose();
     _ytPlaylistUrlController.dispose();
-
+  
     super.dispose();
   }
 
@@ -381,80 +388,63 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
 
-                  // Spotify Connect Button
+                  // Spotify Widget
                   AnimatedPositioned(
                     duration: Duration(seconds: 1,),
                     left: _startAnimation ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * -100,
                     curve: Curves.ease,
-                    child: Opacity(
-                      opacity: _spotifyConnected ? 0.0 : 1.0,
-                      child: Container(
-                        height: SizeConfig.heightMultiplier * 100,
-                        width: SizeConfig.widthMultiplier * 80,
-                        alignment: Alignment.center,
-                        child: Center(
-                          child: ConnectSpotifyButton(
-                            onPressed: () async {
-                              if (_spotifyConnected) {
-                                return null;
-                              }
-                              
-                              await SpotifyUtils().connect(context).then((SpotifyApi spotifyApi) async {
-
-                                SpotifyApiCredentials _spotifyCredentials = await spotifyApi.getCredentials();
-                                await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId);
-                                
-                                await SpotifyUtils().createPlaylist(context, spotifyApi, _userId);
-
-
-                                setState(() {
-                                  _spotifyConnected = true;
-                                  _spotify = spotifyApi;
-                                  _getSpotifyUser(spotifyApi);
-                                  _getSpotifyPlaylists(spotifyApi);
-                                });
-                              })
-                              .onError((error, stackTrace) {
-                                print('ERROR Spotify Auth: $error, StackTrace:\n $stackTrace');
-                                CustomSnackbar.show(
-                                  context,
-                                  'Oops! Something went wrong. Please try again.',
-                                );
+                    child: Container(
+                      height: SizeConfig.heightMultiplier * 100,
+                      width: SizeConfig.widthMultiplier * 80,
+                      alignment: Alignment.center,
+                      child: Center(
+                        child: SpotifyWidget(
+                          connectStatus: _spotifyConnectStatus,
+                          isIntroduction: false,
+                          onConnectButtonPressed: () async {
+                            if (_spotifyConnectStatus == SpotifyConnectStatus.disconnected) {
+                              setState(() {
+                                _spotifyConnectStatus = SpotifyConnectStatus.connecting;                                
                               });
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                            }
+                            else {
+                              return;
+                            }
 
-                  // Display Spotify Dropdown-Menu with Spotify playlists when connected
-                  Positioned(
-                    right: _spotifyConnected ? SizeConfig.widthMultiplier * 10 : SizeConfig.widthMultiplier * 100,
-                    child: Opacity(
-                      opacity: _spotifyConnected ? 1.0 : 0.0,
-                      child: Container(
-                        height: SizeConfig.heightMultiplier * 100,
-                        width: SizeConfig.widthMultiplier * 80,
-                        alignment: Alignment.center,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SpotifyPlaylistSelectButton(
-                              value: _dropdownMenuValue,
-                              spotifyDisplayName: _spotifyDisplayName,
-                              items: _spotifyPlaylistsNames
-                                .map((String item) {
-                                  return new DropdownMenuItem<String>(value: item, child: Text(item));
-                                })
-                                .toList(),
-                              onChanged: (var value) {
-                                setState(() {
-                                  _dropdownMenuValue = value;
-                                });
-                              },
-                            ),
-                          ],
+                            await SpotifyUtils().connect(context).then((SpotifyApi spotifyApi) async {
+                              SpotifyApiCredentials _spotifyCredentials = await spotifyApi.getCredentials();
+                              await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId);
+                            
+                              await SpotifyUtils().createPlaylist(context, spotifyApi, _userId);
+
+                              setState(() {
+                                _spotify = spotifyApi;
+                                _getSpotifyUser(spotifyApi);
+                                _getSpotifyPlaylists(spotifyApi);
+
+                                _spotifyConnectStatus = SpotifyConnectStatus.connected;
+                              });
+                            })
+                            .onError((error, stackTrace) {
+                              print('ERROR Spotify Auth: $error, StackTrace:\n $stackTrace');
+                              CustomSnackbar.show(
+                                context,
+                                'Oops! Something went wrong. Please try again.',
+                              );
+                            });
+                          },
+                          spotifyDisplayName: _spotifyDisplayName,
+                          dropdownValue: _dropdownMenuValue,
+                          dropdownItems: _spotifyPlaylistsNames
+                            .map((String item) {
+                              return new DropdownMenuItem<String>(value: item, child: Text(item));
+                            })
+                            .toList(),
+                          onDropdownChanged: (var value) {
+                            setState(() {
+                              _dropdownMenuValue = value;
+                            });
+                          },
                         ),
                       ),
                     ),

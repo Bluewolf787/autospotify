@@ -11,7 +11,7 @@ class SpotifyPlaylistSelectButton extends StatelessWidget {
   }) : super(key: key);
 
   final List<DropdownMenuItem> items;
-  final value;
+  final dynamic value;
   final ValueChanged onChanged;
   final String spotifyDisplayName;
 
