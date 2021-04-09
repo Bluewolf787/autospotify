@@ -10,6 +10,7 @@ import 'package:autospotify/widgets/buttons/button.dart';
 import 'package:autospotify/widgets/layout/circles.dart';
 import 'package:autospotify/widgets/layout/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
+import 'package:autospotify/widgets/layout/no_network_connection.dart';
 import 'package:autospotify/widgets/spotify_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:flutter/material.dart';
@@ -318,6 +319,8 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                       },
                     ),
                   ),
+
+                  NoNetworkConnection(),
                 ],
               ),
             ),

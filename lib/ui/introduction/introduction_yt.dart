@@ -9,6 +9,7 @@ import 'package:autospotify/widgets/buttons/button.dart';
 import 'package:autospotify/widgets/layout/circles.dart';
 import 'package:autospotify/widgets/layout/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/input/textfields.dart';
+import 'package:autospotify/widgets/layout/no_network_connection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -255,6 +256,8 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                     },
                   ),
                 ),
+
+                NoNetworkConnection(),
               ],
             ),
           ),

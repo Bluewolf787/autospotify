@@ -1,8 +1,10 @@
 import 'package:autospotify/ui/splash_screen.dart';
 import 'package:autospotify/ui/theme/custom_theme.dart';
+import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 void main() {
@@ -41,18 +43,24 @@ class MyApp extends StatelessWidget {
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
-          return ThemeProvider(
-            saveThemesOnChange: true,
-            loadThemeOnInit: true,
-            themes: <AppTheme>[
-              CustomTheme().darkTheme(),
-              CustomTheme().lightTheme(),
-            ],
-            child: MaterialApp(
-              debugShowCheckedModeBanner: false,
-              debugShowMaterialGrid: false,
-              home: ThemeConsumer(
-                child: SplashScreen(),
+          return StreamProvider<DataConnectionStatus>(
+            create: (_) {
+              return DataConnectionChecker().onStatusChange;
+            },
+            initialData: DataConnectionStatus.connected,
+            child: ThemeProvider(
+              saveThemesOnChange: true,
+              loadThemeOnInit: true,
+              themes: <AppTheme>[
+                CustomTheme().darkTheme(),
+                CustomTheme().lightTheme(),
+              ],
+              child: MaterialApp(
+                debugShowCheckedModeBanner: false,
+                debugShowMaterialGrid: false,
+                home: ThemeConsumer(
+                  child: SplashScreen(),
+                ),
               ),
             ),
           );

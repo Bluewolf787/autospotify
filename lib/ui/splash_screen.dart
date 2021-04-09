@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:autospotify/ui/introduction/intro_start_page.dart';
-import 'package:autospotify/ui/no_network_connection_page.dart';
 import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -26,30 +23,17 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<Splas
     bool _introSeen = await SharedPreferencesHelper().getIntroSeenBool();
 
     await new Future.delayed(const Duration(seconds: 2));
-    
-    try {
-      // Check for Network Connection
-      await InternetAddress.lookup('google.com');
-      
-      // Network Connection start app normally
-      if (_introSeen) {
-        // If the user already saw the introduction, then open Home Page
-        Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new HomePage())
-        );
-      }
-      else {
-        // If the user starts the app for the first time, then open Introduction Start Page
-        Navigator.of(context).pushReplacement(
-          new MaterialPageRoute(builder: (context) => new IntroStartPage())
-        );
-      }
-    } on SocketException catch (exception) {
-      print(exception);
-
-      // No Network Connection show error page
+        
+    if (_introSeen) {
+      // If the user already saw the introduction, then open Home Page
       Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(builder: (context) => new NoNetworkConnectionPage())
+        new MaterialPageRoute(builder: (context) => new HomePage())
+      );
+    }
+    else {
+      // If the user starts the app for the first time, then open Introduction Start Page
+      Navigator.of(context).pushReplacement(
+        new MaterialPageRoute(builder: (context) => new IntroStartPage())
       );
     }
   }

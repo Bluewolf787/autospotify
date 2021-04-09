@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:autospotify/ui/no_network_connection_page.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/youtube/songtitle_extractor.dart';
 import 'package:autospotify/utils/spotify/spotify_utils.dart';
@@ -17,18 +14,6 @@ class ButtonPressedHandler {
   Future<void> syncPlaylistsButton(BuildContext context, SpotifyApi spotifyApi, String spotifyPlaylistId, String youtubePlaylistUrl, String userId) async {
     if (youtubePlaylistUrl.isEmpty) {
       CustomSnackbar.show(context, 'Please enter a YouTube playlist');
-      return;
-    }
-
-    try {
-      // Check for Network Connection
-      await InternetAddress.lookup('google.com');
-    } on SocketException catch (exception) {
-      print(exception);
-      // No Network Connection show error page
-      Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(builder: (context) => new NoNetworkConnectionPage())
-      );
       return;
     }
         

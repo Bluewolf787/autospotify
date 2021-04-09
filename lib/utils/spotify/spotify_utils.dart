@@ -85,7 +85,7 @@ class SpotifyUtils {
       // Return SpotifyApi object
       return spotify;
     } catch (exception) {
-      CustomSnackbar.show(context, 'Failed to connect to Spotify. Please reauthenticate.');
+      CustomSnackbar.show(context, 'Failed to connect to Spotify');
       return null;
     }
 
