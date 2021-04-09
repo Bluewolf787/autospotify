@@ -247,7 +247,11 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                             
                             await SpotifyUtils().connect(context).then((SpotifyApi spotify) async {
                               SpotifyApiCredentials _spotifyCredentials = await spotify.getCredentials();
-                              await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId);
+                              await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId).then((success) {
+                                if (!success) {
+                                  CustomSnackbar.show(context, 'Failed to save the credentials');
+                                }
+                              });
                               
                               final User user = await SpotifyUtils().getUser(spotify);
 

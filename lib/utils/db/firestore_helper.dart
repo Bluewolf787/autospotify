@@ -1,5 +1,7 @@
+import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spotify/spotify.dart';
+import 'package:uuid/uuid.dart';
 
 class FirestoreHelper {
 
@@ -38,15 +40,38 @@ class FirestoreHelper {
   Future<void> addUser(String userId, String provider) async {
     bool _userAlreadyExists = await _checkIfUserDocumentExists(userId);
 
-    if (_userAlreadyExists) {
+    if (userId == null) {
+      // User isn't signed in
+      // Generate a random UUID
+      String uuid = Uuid().v4();
+
+      // Create a user document with the generated uuid
+      await users.doc(uuid).set({
+        'provider': 'none'
+      })
+      .then((_) {
+        print('New user added to Firestore (no account)');
+      })
+      .onError((error, stackTrace) {
+        print('Failed to add new user to Firestore (no account): $error, StackTrace:\n$stackTrace');
+      });
+
+      // Save uuid with Shared Preferences
+      await SharedPreferencesHelper().saveUuid(uuid);
+    }
+    else if (_userAlreadyExists) {
       // User document already exists
       // Update user document
       await users.doc(userId).update({
         // Update the used provider
         'provider': provider
       })
-      .then((value) => print('User document $userId updated'))
-      .catchError((error) => print('Failed to update user in Firestore: $error'));
+      .then((_) {
+        print('User document $userId updated');
+      })
+      .onError((error, stackTrace) {
+        print('Failed to update user in Firestore: $error, StackTrace:\n$stackTrace');
+      });
     }
     else {
       // User document does not exists
@@ -55,15 +80,21 @@ class FirestoreHelper {
         // Save the used provider
         'provider': provider
       })
-      .then((value) => print('New user added to Firestore'))
-      .catchError((error) => print('Failed to add new user to Firestore: $error'));
+      .then((_) {
+        print('New user added to Firestore');
+      })
+      .catchError((error, stackTrace) {
+        print('Failed to add new user to Firestore: $error, StackTrace:\n$stackTrace');
+      });
     }
   }
 
   ///
-  /// Save Spotify credentials to Firestore
-  /// 
-  Future<void> saveSpotifyCredentials(SpotifyApiCredentials credentials, String userId) async {
+  /// Update Spotify credentials in Firestore
+  ///
+  Future<bool> _updateSpotifyCredentails(SpotifyApiCredentials credentials, String document) async {
+    bool success = false;
+
     // Create Map to store all Spotify credentials
     Map<String, dynamic> _spotifyCredentials = new Map<String, dynamic>();
     _spotifyCredentials['accessToken'] = credentials.accessToken;
@@ -71,25 +102,54 @@ class FirestoreHelper {
     _spotifyCredentials['scopes'] = credentials.scopes;
     _spotifyCredentials['expiration'] = credentials.expiration;
 
+    // Update the credentials in the user document
+    await users
+      .doc(document)
+      .update({
+        'spotify_credentials': _spotifyCredentials
+      })
+      .then((_) {
+        print('Spotify credentials saved');
+        success = true;
+      })
+      .onError((error, stackTrace) {
+        print('Failed to save Spotify credentials $error\nStackTrace:\n$stackTrace');
+        success = false;
+      });
 
-    // Save the credentials in the user document
-    await users.doc(userId).update({
-      'spotify_credentials': _spotifyCredentials
-    })
-    .then((value) => print('Spotify credentials saved'))
-    .onError((error, stackTrace) => print('Failed to save Spotify credentials $error\nStackTrace:\n$stackTrace'));
+    return success;
   }
 
   ///
-  /// Get the Spotify credentials from Firestore
-  /// Retruns a Map with all values needed to authenticate
+  /// Save Spotify credentials
+  /// Returns a bool as success state
   /// 
-  Future<Map<String, dynamic>> getSpotifyCredentials(String userId) async {
+  Future<bool> saveSpotifyCredentials(SpotifyApiCredentials credentials, String userId) async {
+    if (userId == null) {
+      // User isn't signed in
+      // Get uuid from Shared Prefs
+      String uuid = await SharedPreferencesHelper().getUuid();
+
+      // Save the credentials in the user document
+      return await _updateSpotifyCredentails(credentials, uuid);
+    }
+    else {
+      // User signed in
+      
+      // Save the credentials in the user document
+      return await _updateSpotifyCredentails(credentials, userId);
+    }
+  }
+
+  ///
+  /// Query the Spotify credentials from Firestore
+  ///
+  Future<Map<String, dynamic>> _querySpotifyCredentials(String document) async {
     Map<String, dynamic> spotifyCredentials = new Map<String, dynamic>();
 
     // Gets Spotify Credentials from the user document
     await users
-      .doc(userId)
+      .doc(document)
       .get()
       .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
@@ -114,27 +174,73 @@ class FirestoreHelper {
   }
 
   ///
-  /// Save the Spotify playlist ID of the auto-generate playlist
+  /// Retruns a Map with all values needed to authenticate
   /// 
-  Future<void> saveSpotifyPlaylistId(String playlistId, String userId) async {
-    // Save the playlist ID of the auto-generated Spotify playlist in user doucment
-    await users.doc(userId).update({
-      'spotify_auto_playlist': playlistId
-    })
-    .then((value) => print('Spotify playlist ID saved'))
-    .onError((error, stackTrace) => print('Failed to save Spotify playlist ID $error\nStackTrace:\n$stackTrace'));
+  Future<Map<String, dynamic>> getSpotifyCredentials(String userId) async {
+    if (userId == null) {
+      // User isn't sigend in
+      // Get uuid from Shared Prefs
+      String uuid = await SharedPreferencesHelper().getUuid();
+
+      // Get Spotify Credentails
+      return await _querySpotifyCredentials(uuid);
+    }
+    else {
+      // User is signed in
+      
+      // Get Spotify Credentails
+      return await _querySpotifyCredentials(userId);
+    }
   }
 
   ///
-  /// Get the Spotify playlist ID of the auto-generated playlist
-  /// Returns a the ID of the auto-generated Spotify playlist as String
+  /// Update the Spotify playlist ID of the auto-generate playlist in Firestore
+  ///
+  Future<void> _updateSpotifyPlaylistId(String playlistId, String document) async {
+    // Update the playlist ID in user doucment
+    await users
+    .doc(document)
+    .update({
+      'spotify_auto_playlist': playlistId
+    })
+    .then((_) {
+      print('Spotify playlist ID saved');
+    })
+    .onError((error, stackTrace) {
+      print('Failed to save Spotify playlist ID $error\nStackTrace:\n$stackTrace');
+    });
+  }
+
+  ///
+  /// Save the ID of the auto-generated Spotify playlist
   /// 
-  Future<String> getSpotifyAutoPlaylistId(String userId) async {
+  Future<void> saveSpotifyPlaylistId(String playlistId, String userId) async {
+    
+    if (userId == null) {
+      // User isn't signed in
+      // Get uuid from Shared Prefs
+      String uuid = await SharedPreferencesHelper().getUuid();
+
+      // Save the playlist ID of the auto-generated Spotify playlist in user doucment
+      await _updateSpotifyPlaylistId(playlistId, uuid);
+    }
+    else {
+      // User is signed in
+      
+      // Save the playlist ID of the auto-generated Spotify playlist in user doucment
+      await _updateSpotifyPlaylistId(playlistId, userId);
+    }
+  }
+
+  ///
+  /// Query the Spotify playlist ID of the auto-generated playlist from Firestore
+  ///
+  Future<String> _querySpotifyAutoPlaylistId(String document) async {
     String playlistId = '';
 
-    // Get the ID of the auto-generated Spotify playlist from the user document
+    // Query the playlist ID from the user document
     await users
-      .doc(userId)
+      .doc(document)
       .get()
       .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
@@ -155,27 +261,73 @@ class FirestoreHelper {
   }
 
   ///
-  /// Save the YouTube playlist URL to Firestore
+  /// Get the Spotify playlist ID
+  /// Returns a the ID of the auto-generated Spotify playlist as String
   /// 
-  Future<void> saveYouTubePlaylistUrl(String playlistUrl, String userId) async {
-      // Save the YouTube playlist URL in the user document
-      await users.doc(userId).update({
-        'youtube_playlist': playlistUrl
-      })
-      .then((value) => print('YouTube playlist URL saved'))
-      .onError((error, stackTrace) => print('Failed to save YouTube playlist URL $error\nStackTrace:\n$stackTrace'));
+  Future<String> getSpotifyAutoPlaylistId(String userId) async {
+    if (userId == null) {
+      // User isn't signed in
+      // Get uuid from Shared Prefs
+      String uuid = await SharedPreferencesHelper().getUuid();
+
+      // Get the playlist ID
+      return await _querySpotifyAutoPlaylistId(uuid);
+    }
+    else {
+      // User is signed in
+       
+      // Get the playlist ID
+      return await _querySpotifyAutoPlaylistId(userId);
+    }
   }
 
   ///
-  /// Get the YouTube playlist URL from Firestore
-  /// Returns the saved YouTube playlist URL as String
+  /// Updatethe YouTube playlist URL in Firestore
+  ///
+  Future<void> _updateYouTubePlaylistUrl(String playlistUrl, String document) async {
+    // Update the YouTube playlist URL in the user document
+    await users
+      .doc(document)
+      .update({
+        'youtube_playlist': playlistUrl
+      })
+      .then((_) {
+        print('YouTube playlist URL saved');
+      })
+      .onError((error, stackTrace) {
+        print('Failed to save YouTube playlist URL $error\nStackTrace:\n$stackTrace');
+      });
+  }
+
+  ///
+  /// Save the YouTube playlist URL
   /// 
-  Future<String> getYouTubePlaylistUrl(String userId) async {
+  Future<void> saveYouTubePlaylistUrl(String playlistUrl, String userId) async {
+    if (userId == null) {
+      // User isn't signed in
+      // Get uuid from Shared Prefs
+      String uuid = await SharedPreferencesHelper().getUuid();
+      
+      // Save the YouTube playlist URL
+      await _updateYouTubePlaylistUrl(playlistUrl, uuid);
+    }
+    else {
+      // User is signed id
+      
+      // Save the YouTube playlist URL in the user document
+      await _updateYouTubePlaylistUrl(playlistUrl, userId);
+    }
+  }
+
+  ///
+  /// Query the YouTube playlist URL from Firestore
+  ///
+  Future<String> _queryYouTubePlaylistUrl(String document) async {
     String playlistUrl = '';
 
-    // Get the YouTube playlist URL from the user document
+    // Query the YouTube playlist URL from the user document
     await users
-      .doc(userId)
+      .doc(document)
       .get()
       .then((DocumentSnapshot documentSnapshot) {
         if (documentSnapshot.exists) {
@@ -196,6 +348,27 @@ class FirestoreHelper {
       });
 
     return playlistUrl;
+  }
+
+  ///
+  /// Get the YouTube playlist URL 
+  /// Returns the saved YouTube playlist URL as String
+  /// 
+  Future<String> getYouTubePlaylistUrl(String userId) async {
+    if (userId == null) {
+      // User isn't signed in
+      // Get uuid from Shared Prefs
+      String uuid = await SharedPreferencesHelper().getUuid();
+
+      // Get the playlist URL
+      return await _queryYouTubePlaylistUrl(uuid);
+    }
+    else {
+      // User is signed in
+      
+      // Get the playlist URL
+      return await _queryYouTubePlaylistUrl(userId);
+    }
   }
 
 }

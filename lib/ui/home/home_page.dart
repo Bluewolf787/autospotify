@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:autospotify/ui/auth/account_page.dart';
 import 'package:autospotify/ui/auth/login_page.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
+import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/spotify/spotify_connect_status.dart';
@@ -42,7 +43,8 @@ class _HomePageState extends State<HomePage> {
 
   SyncStatus _syncStatus;
 
-  // User variables 
+  // User variables //
+  SharedPreferencesHelper _sharedPreferencesHelper;
   Firebase.User _user;
   var _isUserLoggedIn = false;
   String _userId;
@@ -56,14 +58,18 @@ class _HomePageState extends State<HomePage> {
   var _isGoogleUser = false;
 
   // Get the data of current user
-  void _getUserData() {
+  Future<void> _getUserData() async {
+    if (!mounted) return;
+
     _user = _auth.currentUser;
     if (_user != null) {
-      _isUserLoggedIn = true;
-      _userId = _user.uid;
-      _username = _user.displayName;
-      _userEmail = _user.email;
-      _userAvatarUrl = _user.photoURL;
+      setState(() {
+        _isUserLoggedIn = true;
+        _userId = _user.uid;
+        _username = _user.displayName;
+        _userEmail = _user.email;
+        _userAvatarUrl = _user.photoURL;
+      });
 
       if (!_user.emailVerified) {
         //_isVerified = true;
@@ -71,11 +77,29 @@ class _HomePageState extends State<HomePage> {
       }
 
       _provider = _user.providerData.elementAt(0).providerId;
+      
+      if (_provider == 'google.com') {
+        _isGoogleUser = true;
+      }
+    }
+    else {
+      final _uuid = await _sharedPreferencesHelper.getUuid();
+
+      if (_uuid == null) {
+        FirestoreHelper().addUser(null, null);
+        await _sharedPreferencesHelper.getUuid().then((uuid) {
+          setState(() {
+            _userId = uuid;            
+          });
+        });
+      }
+      else {
+        setState(() {
+          _userId = _uuid;          
+        });
+      }
     }
 
-    if (_provider == 'google.com') {
-      _isGoogleUser = true;
-    }
   }
 
   Future<void> _getYtPlaylist() async {
@@ -115,10 +139,12 @@ class _HomePageState extends State<HomePage> {
       if (!mounted) return;
 
       setState(() {
+        _spotifyPlaylistsNames.clear();
+
         playlists.forEach((key, value) { 
           _spotifyPlaylistsNames.add(value);
         });
-        _dropdownMenuValue = _spotifyPlaylistsNames.first;
+        _dropdownMenuValue = _spotifyPlaylistsNames.first;  
       });
       _spotifyPlaylists = playlists;
     });
@@ -127,7 +153,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _connectToSpotify(BuildContext context) async {
-    if (_spotifyConnectStatus == SpotifyConnectStatus.disconnected) {
+    if (_spotifyConnectStatus == SpotifyConnectStatus.disconnected && (_user != null || _userId != null)) {
       setState(() {
         _spotifyConnectStatus = SpotifyConnectStatus.connecting;        
       });
@@ -159,6 +185,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     initialTimer();
 
+    _sharedPreferencesHelper = new SharedPreferencesHelper();
+
     _syncStatus = SyncStatus.noSync;
     _spotifyConnectStatus = SpotifyConnectStatus.disconnected;
 
@@ -167,12 +195,8 @@ class _HomePageState extends State<HomePage> {
 
     _getUserData();
 
-    // Check if user is signed in
-    if (_user != null)
-    {
-      _getYtPlaylist();
-      _connectToSpotify(context);     
-    }
+    _getYtPlaylist();
+    _connectToSpotify(context);     
 
     super.initState();
   }
@@ -244,12 +268,12 @@ class _HomePageState extends State<HomePage> {
                               ButtonPressedHandler().pushAndReplaceToPage(context, AccountPage());
                             }
                             else {
-                              ButtonPressedHandler().pushToPage(context, LoginPage(), () {
-                                setState(() async {
-                                  _getUserData();
+                              ButtonPressedHandler().pushToPage(context, LoginPage(), () async {
+                                await _getUserData();
+                                if (_user != null) {
                                   await _connectToSpotify(context);
                                   await _getYtPlaylist();                             
-                                });
+                                }
                               });                         
                             }
                           },
