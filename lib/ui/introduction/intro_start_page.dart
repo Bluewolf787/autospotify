@@ -6,6 +6,7 @@ import 'package:autospotify/widgets/layout/lines.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 class IntroStartPage extends StatefulWidget {
   @override
@@ -33,7 +34,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
     SizeConfig().init(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
+      backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
       body: Container(
         width: SizeConfig.widthMultiplier * 100,
         height: SizeConfig.heightMultiplier * 100,
@@ -47,7 +48,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
               curve: Curves.ease,
               child: Circle(
                 diameter: 222,
-                color: Colors.blue,
+                color: ThemeProvider.themeOf(context).data.accentColor,
                 notFilled: true,
               ),
             ),
@@ -90,7 +91,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
               curve: Curves.ease,
               child: Circle(
                 diameter: 288,
-                color: Colors.blue,
+                color: ThemeProvider.themeOf(context).data.accentColor,
                 shadowOffset: Offset(5, -3),
                 shadowBlurRadius: 6,
                 notFilled: false,
@@ -118,7 +119,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
                     fontFamily: 'Montserrat',
                     fontSize: 26,
                     fontWeight: FontWeight.w400,
-                    color: const Color(0xff000000),
+                    color: ThemeProvider.themeOf(context).data.primaryColor,
                     height: 1.3,
                   ),
                   children: [
@@ -126,23 +127,23 @@ class _IntroStartPageState extends State<IntroStartPage> {
                     TextSpan(
                       text: 'AutoSpotify ',
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: ThemeProvider.themeOf(context).data.accentColor,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
                     TextSpan(text: 'to automatically\ngenerate '),
                     TextSpan(
-                      text: 'Spotify Playlists',
+                      text: 'Spotify ',
                       style: TextStyle(
                         color: const Color(0xff1db954),
                         fontWeight: FontWeight.w800,
                       ),
                     ),
-                    TextSpan(text: ',\nyou need to do some\nsteps first'),
+                    TextSpan(text: 'playlists,\nyou need to do some\nsteps first'),
                     TextSpan(
                       text: '.',
                       style: TextStyle(
-                        color: Colors.blue,
+                        color: ThemeProvider.themeOf(context).data.accentColor,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
