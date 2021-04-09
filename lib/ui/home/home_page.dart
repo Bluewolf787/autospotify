@@ -14,6 +14,7 @@ import 'package:autospotify/widgets/buttons/button.dart';
 import 'package:autospotify/widgets/dialogs/dialogs.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:autospotify/widgets/input/textfields.dart';
+import 'package:autospotify/widgets/layout/no_network_connection.dart';
 import 'package:autospotify/widgets/spotify_widget.dart';
 import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:flutter/material.dart';
@@ -163,6 +164,12 @@ class _HomePageState extends State<HomePage> {
     await SpotifyUtils().connectWithCredentials(context, _userId).then((SpotifyApi spotifyApi) {
       if (spotifyApi == null) return;
       if (!mounted) return;
+
+      if (spotifyApi == null) {
+        setState(() {
+          _spotifyConnectStatus = SpotifyConnectStatus.disconnected;          
+        });
+      }
 
       setState(() {
         _spotify = spotifyApi;
@@ -568,6 +575,8 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                       ),
+
+                      NoNetworkConnection(),
                     ],
                   ),
                 ),

@@ -9,6 +9,7 @@ import 'package:autospotify/widgets/dialogs/dialogs.dart';
 import 'package:autospotify/widgets/buttons/signin_button.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:autospotify/widgets/input/textfields.dart';
+import 'package:autospotify/widgets/layout/no_network_connection.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -329,6 +330,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
+
+                NoNetworkConnection(),
               ],
             ),
           ),

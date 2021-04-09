@@ -30,6 +30,10 @@ dependencies:
   after_layout: ^1.0.7+2
   uuid: ^3.0.3
 
+  data_connection_checker: ^0.3.4
+  connectivity: ^3.0.3
+  provider: ^5.0.0
+
   webview_flutter: ^1.0.7
 
   spotify: ^0.5.1
