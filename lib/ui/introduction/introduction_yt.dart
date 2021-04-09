@@ -1,6 +1,7 @@
 import 'package:autospotify/ui/home/home_page.dart';
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
+import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/widgets/buttons/back_button.dart';
@@ -10,7 +11,6 @@ import 'package:autospotify/widgets/layout/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/input/textfields.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
@@ -230,8 +230,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
 
                       await FirestoreHelper().saveYouTubePlaylistUrl(_ytPlaylistUrlController.text, _userId);
 
-                      SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
-                      await sharedPrefs.setBool('introSeen', true);
+                      await SharedPreferencesHelper().setIntroSeenBool();
 
                       // Open home page (package:autospotify/ui/home/home_page.dart)
                       ButtonPressedHandler().pushAndReplaceToPage(context, HomePage());

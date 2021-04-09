@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:autospotify/ui/introduction/intro_start_page.dart';
 import 'package:autospotify/ui/no_network_connection_page.dart';
+import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -22,9 +22,8 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<Splas
   /// and the introduction needs to be shown
   ///
   Future checkIntroSeen() async {
-    SharedPreferences sharedPrefs = await SharedPreferences.getInstance();
     // Check for the value of bool 'introSeen'
-    bool _introSeen = (sharedPrefs.getBool('introSeen') ?? false);
+    bool _introSeen = await SharedPreferencesHelper().getIntroSeenBool();
 
     await new Future.delayed(const Duration(seconds: 5));
     

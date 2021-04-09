@@ -1,5 +1,6 @@
 import 'package:autospotify/ui/spotifyauth_webview.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
+import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/spotify/spotify_secrets.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:flutter/material.dart';
@@ -126,22 +127,27 @@ class SpotifyUtils {
   Future<void> createPlaylist(BuildContext context, SpotifyApi spotify, String userId) async {
     User user = await getUser(spotify);
 
-    // Get ID of auto-generated Spotify playlist (if exists)
-    String autoPlaylistId = await FirestoreHelper().getSpotifyAutoPlaylistId(userId);
+    // Check if a auto-generated playlist already exists 
+    bool autoPlaylistExists = await SharedPreferencesHelper().getAutoPlaylistExistsBool();
 
-    if (autoPlaylistId == null) {
+    if (!autoPlaylistExists) {
       // Create playlist if does not exists
       await spotify.playlists.createPlaylist(
         user.id,
         'AutoPlaylist', // The name of the playlist
         description: 'Here you find all the songs you synced from YouTube playlists',
         public: false,
-      ).then((Playlist playlist) {
+      )
+      .then((Playlist playlist) async {
         print('Private playlist created! ${playlist.href}');
 
         // Store playlist ID to Firestore
-        FirestoreHelper().saveSpotifyPlaylistId(playlist.id, userId);
-      }).catchError((error) => _printError(error));
+        await FirestoreHelper().saveSpotifyPlaylistId(playlist.id, userId);
+        await SharedPreferencesHelper().setAutoPlaylistExistsBool();
+      })
+      .onError((error, stackTrace) {
+        _printError(error, stackTrace);
+      });
     }
   }
 
@@ -234,11 +240,11 @@ class SpotifyUtils {
   ///
   /// Prints a formated error message
   ///
-  void _printError(Object error) {
+  void _printError(Object error, StackTrace stackTrace) {
     if (error is SpotifyException) {
-      print('${error.status} : ${error.message}');
+      print('${error.status} : ${error.message}, StackTrace:\n$stackTrace');
     } else {
-      print(error);
+      print('$error, StackTrace:\n$stackTrace');
     }
   }
 

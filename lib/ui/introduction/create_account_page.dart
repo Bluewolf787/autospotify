@@ -3,6 +3,7 @@ import 'package:autospotify/ui/introduction/choose_theme_page.dart';
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
+import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/widgets/buttons/back_button.dart';
 import 'package:autospotify/widgets/buttons/button.dart';
@@ -47,6 +48,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
     super.initState();
 
     initalTimer();
+
+    refresh();
   }
 
   void refresh() {
@@ -282,7 +285,14 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   child: CustomButton(
                     label: 'Next',
                     onPressed: () async {
-                      FirestoreHelper().addUser(_userId, _provider);
+                      SharedPreferencesHelper sharedPreferencesHelper = new SharedPreferencesHelper();
+                      bool introSeen = await sharedPreferencesHelper.getIntroSeenBool();
+                      String uuid = await sharedPreferencesHelper.getUuid();
+
+                      if (uuid == null && !introSeen) {
+                        await FirestoreHelper().addUser(_userId, _provider);
+                      }
+
                       ButtonPressedHandler().pushAndReplaceToPage(context, SpotifyIntroductionPage());
                     },
                   ),
