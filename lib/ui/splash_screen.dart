@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<Splas
     // Check for the value of bool 'introSeen'
     bool _introSeen = await SharedPreferencesHelper().getIntroSeenBool();
 
-    await new Future.delayed(const Duration(seconds: 5));
+    await new Future.delayed(const Duration(seconds: 2));
     
     try {
       // Check for Network Connection
