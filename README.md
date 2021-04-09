@@ -23,11 +23,15 @@
 
 ## Technologies
 
-| [<img src="https://raw.githubusercontent.com/github/explore/cebd63002168a05a6a642f309227eefeccd92950/topics/flutter/flutter.png" alt="Flutter" width="24">](https://flutter.dev/) | [<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/firebase/firebase.png" alt="Flutter" width="24">](https://firebase.google.com/) | [<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/dart/dart.png" alt="Flutter" width="24">](https://pub.dev/packages/spotify) | [<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/dart/dart.png" alt="Flutter" width="24">](https://pub.dev/packages/youtube_explode_dart)  |
-| :---: | :---: | :---: | :---: |
-| [Flutter](https://flutter.dev/) | [Firebase (FlutterFire)](https://firebase.flutter.dev/) | [spotify-dart](https://pub.dev/packages/spotify) | [youtube_explode_dart](https://pub.dev/packages/youtube_explode_dart) |
-|  | [Authentication](https://pub.dev/packages/firebase_auth) |  |  |
-|  | [Cloud Firestore](https://pub.dev/packages/cloud_firestore) |  |  |
+| [<img src="https://raw.githubusercontent.com/github/explore/cebd63002168a05a6a642f309227eefeccd92950/topics/flutter/flutter.png" alt="Flutter" width="24">](https://flutter.dev/) | [<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/firebase/firebase.png" alt="Flutter" width="24">](https://firebase.google.com/) | [<img src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/dart/dart.png" alt="Flutter" width="24">](https://pub.dev/) |
+| :---: | :---: | :---: |
+| [Flutter](https://flutter.dev/) | [Firebase (FlutterFire)](https://firebase.flutter.dev/) | [Dart packages (pub.dev)](https://pub.dev) |
+|  | [Authentication](https://pub.dev/packages/firebase_auth) | [spotify-dart](https://pub.dev/packages/spotify) |
+|  | [Cloud Firestore](https://pub.dev/packages/cloud_firestore) | [youtube_explode_dart](https://pub.dev/packages/youtube_explode_dart) |
+|  |  | [connectivity](https://pub.dev/packages/connectivity) |
+|  |  | [data_connection_checker](https://pub.dev/packages/data_connection_checker) |
+|  |  | [theme_provider](https://pub.dev/packages/theme_provider) |
+|  |  | [page_transition](https://pub.dev/packages/page_transition) |
 
 ## Collaborators
   * [Bluewolf787](https://github.com/Bluewolf787)
