@@ -5,6 +5,7 @@ import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/youtube/songtitle_extractor.dart';
 import 'package:autospotify/utils/spotify/spotify_utils.dart';
 import 'package:autospotify/utils/youtube/youtube_utils.dart';
+import 'package:autospotify/widgets/dialogs/dialogs.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -72,42 +73,8 @@ class ButtonPressedHandler {
   Future<bool> onBackButtonExit(BuildContext context) {
     return showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        backgroundColor: ThemeProvider.themeOf(context).data.canvasColor,
-        title: Text(
-          'Exit AutoSpotify',
-          style: TextStyle(color: ThemeProvider.themeOf(context).data.primaryColor),
-        ),
-        content: Text(
-          'Are you sure to exit?',
-          style: TextStyle(color: ThemeProvider.themeOf(context).data.primaryColor),
-        ),
-        actions: <Widget>[
-          TextButton(
-            onPressed: () => {
-              WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                Navigator.of(context).pop(false);
-              }),
-            },
-            child: Text(
-              'No',
-              style: TextStyle(color: ThemeProvider.themeOf(context).data.accentColor)
-            ),
-          ),
-          TextButton(
-            onPressed: () => {
-                WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-                  Navigator.of(context).pop(true);
-              }),
-            },
-            child: Text(
-              'Yes',
-              style: TextStyle(color: ThemeProvider.themeOf(context).data.accentColor),
-            ),
-          ),
-        ],
-      ),
-    ) ?? false;
+      builder: (context) => CloseDialog(),
+    );
   }
 
 }
