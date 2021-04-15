@@ -38,7 +38,7 @@ class CustomButton extends StatelessWidget {
           label.toUpperCase(),
           style: TextStyle(
             fontFamily: 'Montserrat',
-            fontSize: 26.0,
+            fontSize: SizeConfig.textMultiplier * 3.6,
             fontWeight: FontWeight.w400,
             color: Colors.white,
             letterSpacing: 2,

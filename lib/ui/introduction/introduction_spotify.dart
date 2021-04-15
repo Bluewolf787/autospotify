@@ -133,7 +133,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                     right: startAnimation ? SizeConfig.widthMultiplier * -8 : SizeConfig.widthMultiplier * 6,
                     curve: Curves.ease,
                     child: Circle(
-                      diameter: SizeConfig.widthMultiplier * 58,
+                      diameter: SizeConfig.widthMultiplier * 56,
                       color: ThemeProvider.themeOf(context).data.accentColor,
                       notFilled: true,
                     ),
@@ -185,41 +185,50 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                     top: startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
                     left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -80,
                     curve: Curves.ease,
-                    child: Text.rich(
-                        TextSpan(
-                        style: TextStyle(
-                          fontFamily: 'Montserrat',
-                          fontSize: 26,
-                          fontWeight: FontWeight.w400,
-                          color: ThemeProvider.themeOf(context).data.primaryColor,
-                          height: 1.3,
+                    child: Container(
+                      width: SizeConfig.widthMultiplier * 80,
+                      height: SizeConfig.heightMultiplier * 15,
+                      padding: EdgeInsets.zero,
+                      alignment: Alignment.topLeft,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text.rich(
+                            TextSpan(
+                            style: TextStyle(
+                              fontFamily: 'Montserrat',
+                              fontSize: 26,
+                              fontWeight: FontWeight.w400,
+                              color: ThemeProvider.themeOf(context).data.primaryColor,
+                              height: 1.3,
+                            ),
+                            children: [
+                              TextSpan(text: 'You must authorize\n',),
+                              TextSpan(
+                                text: 'AutoSpotify',
+                                style: TextStyle(
+                                  color: ThemeProvider.themeOf(context).data.accentColor,
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                              TextSpan(text: ' to connect\nto your ',),
+                              TextSpan(
+                                text: 'Spotify',
+                                style: TextStyle(
+                                  color: const Color(0xff1db954),
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                              TextSpan(text: ' account',),
+                              TextSpan(
+                                text: '.',
+                                style: TextStyle(
+                                  color: const Color(0xff1db954),
+                                  fontWeight: FontWeight.w800,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                        children: [
-                          TextSpan(text: 'You must authorize\n',),
-                          TextSpan(
-                            text: 'AutoSpotify',
-                            style: TextStyle(
-                              color: ThemeProvider.themeOf(context).data.accentColor,
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          TextSpan(text: ' to connect\nto your ',),
-                          TextSpan(
-                            text: 'Spotify',
-                            style: TextStyle(
-                              color: const Color(0xff1db954),
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                          TextSpan(text: ' account',),
-                          TextSpan(
-                            text: '.',
-                            style: TextStyle(
-                              color: const Color(0xff1db954),
-                              fontWeight: FontWeight.w800,
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                   ),

@@ -142,6 +142,8 @@ class _AccountPageState extends State<AccountPage> {
                             top: SizeConfig.heightMultiplier * 22,
                             child: Container(
                               width: SizeConfig.widthMultiplier * 100,
+                              height: SizeConfig.heightMultiplier * 23.5,
+                              alignment: Alignment.center,
                               child: AnimatedOpacity(
                                 duration: Duration(seconds: 1,),
                                 opacity: _startAnimation ? 1.0 : 0.0,
@@ -155,7 +157,7 @@ class _AccountPageState extends State<AccountPage> {
                                           backgroundImage: NetworkImage(
                                             _userAvatarUrl,
                                           ),
-                                          radius: 60,
+                                          radius: SizeConfig.widthMultiplier * 15,
                                           backgroundColor: Colors.transparent,
                                           onBackgroundImageError: (_,__) {
                                             setState(() {
@@ -171,7 +173,7 @@ class _AccountPageState extends State<AccountPage> {
                                           color: Colors.grey,
                                         ),
                                       
-                                      Padding(padding: EdgeInsets.only(bottom: 10)),
+                                      Padding(padding: EdgeInsets.only(bottom: SizeConfig.heightMultiplier * 1)),
                                       Text(
                                         (_isUserLoggedIn && _isGoogleUser) ? _username : _userEmail ?? 'Your Account',
                                         style: TextStyle(
