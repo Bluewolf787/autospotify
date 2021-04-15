@@ -18,6 +18,7 @@
 
 ![home-page-gif](readme/screenshots/home-page.gif) | ![themes-gif](readme/screenshots/themes.gif)
 -------------------------------------------------- | --------------------------------------------
+This are prototype footage they don't have to represent the look of the real app |
 
 
 ## Technologies
