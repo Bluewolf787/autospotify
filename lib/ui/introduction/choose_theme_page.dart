@@ -50,7 +50,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                 right: startAnimation ? SizeConfig.widthMultiplier * -14 : SizeConfig.widthMultiplier * -55,
                 curve: Curves.ease,
                 child: Circle(
-                  diameter: 194,
+                  diameter: SizeConfig.widthMultiplier * 52,
                   color: ThemeProvider.themeOf(context).data.accentColor,
                   notFilled: true,
                 ),
@@ -63,7 +63,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                 right: startAnimation ? SizeConfig.widthMultiplier * -6 : SizeConfig.widthMultiplier * 10,
                 curve: Curves.ease,
                 child: Circle(
-                  diameter: 210,
+                  diameter: SizeConfig.widthMultiplier * 56,
                   color: ThemeProvider.themeOf(context).data.accentColor,
                   notFilled: true,
                 ),
@@ -76,7 +76,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                 right: startAnimation ? SizeConfig.widthMultiplier * -33 : SizeConfig.widthMultiplier * -120,
                 curve: Curves.ease,
                 child: Circle(
-                  diameter: 296,
+                  diameter: SizeConfig.widthMultiplier * 81,
                   color: ThemeProvider.themeOf(context).data.accentColor,
                   notFilled: true,
                 ),
@@ -89,33 +89,42 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                 top: startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
                 left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -90,
                 curve: Curves.ease,
-                child: Text.rich(
-                  TextSpan(
-                    style: TextStyle(
-                      fontFamily: 'Montserrat',
-                      fontSize: 26,
-                      fontWeight: FontWeight.w400,
-                      color: ThemeProvider.themeOf(context).data.primaryColor,
-                      height: 1.3,
+                child: Container(
+                  width: SizeConfig.widthMultiplier * 80,
+                  height: SizeConfig.heightMultiplier * 10,
+                  padding: EdgeInsets.zero,
+                  alignment: Alignment.topLeft,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text.rich(
+                      TextSpan(
+                        style: TextStyle(
+                          fontFamily: 'Montserrat',
+                          fontSize: 26,
+                          fontWeight: FontWeight.w400,
+                          color: ThemeProvider.themeOf(context).data.primaryColor,
+                          height: 1.3,
+                        ),
+                        children: [
+                          TextSpan(text: 'Choose your favorite\n',),
+                          TextSpan(
+                            text: 'theme',
+                            style: TextStyle(
+                              color: ThemeProvider.themeOf(context).data.accentColor,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '.',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.left,
                     ),
-                    children: [
-                      TextSpan(text: 'Choose your favorite\n',),
-                      TextSpan(
-                        text: 'theme',
-                        style: TextStyle(
-                          color: ThemeProvider.themeOf(context).data.accentColor,
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                      TextSpan(
-                        text: '.',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w800,
-                        ),
-                      ),
-                    ],
                   ),
-                  textAlign: TextAlign.left,
                 ),
               ),
 

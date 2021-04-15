@@ -167,33 +167,42 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                   top: startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
                   left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -80,
                   curve: Curves.ease,
-                  child: Text.rich(
-                      TextSpan(
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 26,
-                        fontWeight: FontWeight.w400,
-                        color: ThemeProvider.themeOf(context).data.primaryColor,
-                        height: 1.3,
+                  child: Container(
+                    width: SizeConfig.widthMultiplier * 80,
+                    height: SizeConfig.heightMultiplier * 10,
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.topLeft,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text.rich(
+                          TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 26,
+                            fontWeight: FontWeight.w400,
+                            color: ThemeProvider.themeOf(context).data.primaryColor,
+                            height: 1.3,
+                          ),
+                          children: [
+                            TextSpan(text: 'And a ',),
+                            TextSpan(
+                              text: 'YouTube',
+                              style: TextStyle(
+                                color: const Color(0xffff0000),
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            TextSpan(text: ' playlist you\nwant to synchronize',),
+                            TextSpan(
+                              text: '.',
+                              style: TextStyle(
+                                color: const Color(0xffff0000),
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      children: [
-                        TextSpan(text: 'And a ',),
-                        TextSpan(
-                          text: 'YouTube',
-                          style: TextStyle(
-                            color: const Color(0xffff0000),
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        TextSpan(text: ' playlist you\nwant to synchronize',),
-                        TextSpan(
-                          text: '.',
-                          style: TextStyle(
-                            color: const Color(0xffff0000),
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
                     ),
                   ),
                 ),

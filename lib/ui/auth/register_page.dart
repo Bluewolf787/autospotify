@@ -71,33 +71,42 @@ class _RegisterPageState extends State<RegisterPage> {
                   top: startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
                   left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -80,
                   curve: Curves.ease,
-                  child: Text.rich(
-                    TextSpan(
-                      style: TextStyle(
-                        fontFamily: 'Montserrat',
-                        fontSize: 26,
-                        fontWeight: FontWeight.w400,
-                        color: ThemeProvider.themeOf(context).data.primaryColor,
-                        height: 1.3,
+                  child: Container(
+                    width: SizeConfig.widthMultiplier * 80,
+                    height: SizeConfig.heightMultiplier * 5,
+                    padding: EdgeInsets.zero,
+                    alignment: Alignment.topLeft,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text.rich(
+                        TextSpan(
+                          style: TextStyle(
+                            fontFamily: 'Montserrat',
+                            fontSize: 26,
+                            fontWeight: FontWeight.w400,
+                            color: ThemeProvider.themeOf(context).data.primaryColor,
+                            height: 1.3,
+                          ),
+                          children: [
+                            TextSpan(text: 'Register a new ',),
+                            TextSpan(
+                              text: 'Account',
+                              style: TextStyle(
+                                color: ThemeProvider.themeOf(context).data.accentColor,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            TextSpan(
+                              text: '.',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.left,
                       ),
-                      children: [
-                        TextSpan(text: 'Register a new ',),
-                        TextSpan(
-                          text: 'Account',
-                          style: TextStyle(
-                            color: ThemeProvider.themeOf(context).data.accentColor,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        TextSpan(
-                          text: '.',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ],
                     ),
-                    textAlign: TextAlign.left,
                   ),
                 ),  
 

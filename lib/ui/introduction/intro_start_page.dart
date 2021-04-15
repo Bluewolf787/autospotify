@@ -47,7 +47,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
               right: startAnimation ? SizeConfig.widthMultiplier * -38 : SizeConfig.widthMultiplier * -60,
               curve: Curves.ease,
               child: Circle(
-                diameter: 222,
+                diameter: SizeConfig.widthMultiplier * 62,
                 color: ThemeProvider.themeOf(context).data.accentColor,
                 notFilled: true,
               ),
@@ -61,7 +61,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
               right: startAnimation ? SizeConfig.widthMultiplier * -3.5 : SizeConfig.widthMultiplier * 10,
               curve: Curves.ease,
               child: Circle(
-                diameter: 163,
+                diameter: SizeConfig.widthMultiplier * 45,
                 color: const Color(0xff1db954),
                 notFilled: true,
               ),
@@ -75,7 +75,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
               left: startAnimation ? SizeConfig.widthMultiplier * -54 : SizeConfig.widthMultiplier * -120,
               curve: Curves.ease,
               child: Circle(
-                diameter: 372,
+                diameter: SizeConfig.widthMultiplier * 102,
                 color: const Color(0xff1db954),
                 shadowOffset: Offset(5, -3),
                 shadowBlurRadius: 6,
@@ -90,7 +90,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
               left: startAnimation ? SizeConfig.widthMultiplier * -10 : SizeConfig.widthMultiplier * -30,
               curve: Curves.ease,
               child: Circle(
-                diameter: 288,
+                diameter: SizeConfig.widthMultiplier * 78,
                 color: ThemeProvider.themeOf(context).data.accentColor,
                 shadowOffset: Offset(5, -3),
                 shadowBlurRadius: 6,
@@ -102,7 +102,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
             AnimatedPositioned(
               duration: Duration(seconds: 1,),
               top: startAnimation ? SizeConfig.heightMultiplier * 20 : SizeConfig.heightMultiplier * 20,
-              left: startAnimation ? SizeConfig.widthMultiplier * 2 : SizeConfig.widthMultiplier * -140,
+              left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -140,
               curve: Curves.ease,
               child: Lines(positionTop: true,),
             ),
@@ -113,56 +113,66 @@ class _IntroStartPageState extends State<IntroStartPage> {
               top: startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
               left: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -90,
               curve: Curves.ease,
-              child: Text.rich(
-                TextSpan(
-                  style: TextStyle(
-                    fontFamily: 'Montserrat',
-                    fontSize: 26,
-                    fontWeight: FontWeight.w400,
-                    color: ThemeProvider.themeOf(context).data.primaryColor,
-                    height: 1.3,
+              child: Container(
+                width: SizeConfig.widthMultiplier * 80,
+                height: SizeConfig.heightMultiplier * 23,
+                padding: EdgeInsets.zero,
+                alignment: Alignment.centerLeft,
+                child: FittedBox(
+                  fit: BoxFit.scaleDown,
+                  child: Text.rich(
+                    TextSpan(
+                      style: TextStyle(
+                        fontFamily: 'Montserrat',
+                        fontSize: 26,
+                        fontWeight: FontWeight.w400,
+                        color: ThemeProvider.themeOf(context).data.primaryColor,
+                        height: 1.3,
+                      ),
+                      children: [
+                        TextSpan(text: 'Before you can use\n',),
+                        TextSpan(
+                          text: 'AutoSpotify ',
+                          style: TextStyle(
+                            color: ThemeProvider.themeOf(context).data.accentColor,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        TextSpan(text: 'to automatically\ngenerate '),
+                        TextSpan(
+                          text: 'Spotify ',
+                          style: TextStyle(
+                            color: const Color(0xff1db954),
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        TextSpan(text: 'playlists,\nyou need to do some\nsteps first'),
+                        TextSpan(
+                          text: '.',
+                          style: TextStyle(
+                            color: ThemeProvider.themeOf(context).data.accentColor,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ],
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  children: [
-                    TextSpan(text: 'Before you can use\n',),
-                    TextSpan(
-                      text: 'AutoSpotify ',
-                      style: TextStyle(
-                        color: ThemeProvider.themeOf(context).data.accentColor,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    TextSpan(text: 'to automatically\ngenerate '),
-                    TextSpan(
-                      text: 'Spotify ',
-                      style: TextStyle(
-                        color: const Color(0xff1db954),
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                    TextSpan(text: 'playlists,\nyou need to do some\nsteps first'),
-                    TextSpan(
-                      text: '.',
-                      style: TextStyle(
-                        color: ThemeProvider.themeOf(context).data.accentColor,
-                        fontWeight: FontWeight.w800,
-                      ),
-                    ),
-                  ],
                 ),
-                textAlign: TextAlign.left,
               ),
             ),
 
             // Bottom Lines
             AnimatedPositioned(
               duration: Duration(seconds: 1,),
-              top: startAnimation ? SizeConfig.heightMultiplier * 48 : SizeConfig.heightMultiplier * 48,
-              right: startAnimation ? SizeConfig.widthMultiplier * 2 : SizeConfig.widthMultiplier * -140,
+              top: SizeConfig.heightMultiplier * 47.5,
+              right: startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -140,
               curve: Curves.ease,
               child: Lines(positionTop: false,),
             ),
 
-            // Button 'Get Started' > Opens theme choose page
+
+            // Button Go > Opens theme choose page
             AnimatedPositioned(
               duration: Duration(seconds: 1,),
               bottom: SizeConfig.heightMultiplier * 20,

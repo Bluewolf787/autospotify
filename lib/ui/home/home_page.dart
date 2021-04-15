@@ -348,43 +348,52 @@ class _HomePageState extends State<HomePage> {
                         top: _startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
                         left: _startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -80,
                         curve: Curves.ease,
-                        child: Text.rich(
-                          TextSpan(
-                            style: TextStyle(
-                              fontFamily: 'Montserrat',
-                              fontSize: 26,
-                              fontWeight: FontWeight.w400,
-                              color: ThemeProvider.themeOf(context).data.primaryColor,
-                              height: 1.3,
+                        child: Container(
+                          width: SizeConfig.widthMultiplier * 80,
+                          height: SizeConfig.heightMultiplier * 14,
+                          padding: EdgeInsets.zero,
+                          alignment: Alignment.centerLeft,
+                          child: FittedBox(
+                            fit: BoxFit.scaleDown,
+                            child: Text.rich(
+                              TextSpan(
+                                style: TextStyle(
+                                  fontFamily: 'Montserrat',
+                                  fontSize: 26,
+                                  fontWeight: FontWeight.w400,
+                                  color: ThemeProvider.themeOf(context).data.primaryColor,
+                                  height: 1.3,
+                                ),
+                                children: [
+                                  TextSpan(text: 'Add Songs from ',),
+                                  TextSpan(
+                                    text: 'YouTube',
+                                    style: TextStyle(
+                                      color: const Color(0xffff0000),
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                  TextSpan(text: '\nplaylists automatically\nto your ',),
+                                  TextSpan(
+                                    text: 'Spotify',
+                                    style: TextStyle(
+                                      color: const Color(0xff1db954),
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                  TextSpan(text: ' playlist',),
+                                  TextSpan(
+                                    text: '.',
+                                    style: TextStyle(
+                                      color: ThemeProvider.themeOf(context).data.accentColor,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              textAlign: TextAlign.left,
                             ),
-                            children: [
-                              TextSpan(text: 'Add Songs from ',),
-                              TextSpan(
-                                text: 'YouTube',
-                                style: TextStyle(
-                                  color: const Color(0xffff0000),
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                              TextSpan(text: '\nplaylists automatically\nto your ',),
-                              TextSpan(
-                                text: 'Spotify',
-                                style: TextStyle(
-                                  color: const Color(0xff1db954),
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                              TextSpan(text: ' playlist',),
-                              TextSpan(
-                                text: '.',
-                                style: TextStyle(
-                                  color: ThemeProvider.themeOf(context).data.accentColor,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ],
                           ),
-                          textAlign: TextAlign.left,
                         ),
                       ),
 
