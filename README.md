@@ -11,8 +11,10 @@
   - [Table of Contents](#table-of-contents)
   - [Screenshots](#screenshots)
   - [Technologies](#technologies)
+  - [Contributing](#contributing)
   - [Collaborators](#collaborators)
-  - [Logo Credits](#logo-credits)
+  - [License](#license)
+  - [Acknowledgments](#acknowledgments)
 
 ## Screenshots
 
@@ -33,10 +35,19 @@ This are prototype footage they don't have to represent the look of the real app
 |  |  | [theme_provider](https://pub.dev/packages/theme_provider) |
 |  |  | [page_transition](https://pub.dev/packages/page_transition) |
 
+## Contributing
+
+Please read [CONTRIBUTING.md](https://github.com/Bluewolf787/autospotify/CONTRIBUTING.md) for details on the code of conduct, and the process for submitting pull requests.
+
 ## Collaborators
   * [Bluewolf787](https://github.com/Bluewolf787)
  
-## Logo Credits
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/Bluewolf787/autospotify/LICENSE.md) file for details
+
+## Acknowledgments
+* ### Logo Credits
   * [Folder icon](https://iconscout.com/icon/musicfolder-1706780) by [Itim2101](https://iconscout.com/contributors/komkrit-noenpoempisut)
   * [Spotify icon](https://iconscout.com/icon/spotify-2690370) by [Anton Kalashnyk](https://iconscout.com/contributors/kolo-design)
   * [YouTube icon](https://iconscout.com/icon/youtube-2690358) by [Anton Kalashnyk](https://iconscout.com/contributors/kolo-design)
