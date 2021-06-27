@@ -1,5 +1,5 @@
 name: autospotify
-description: App design for AutoSpotify
+description: This mobile app is used to search in YouTube playlist for songs and add these to a Spotify playlist.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
