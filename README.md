@@ -2,6 +2,7 @@
 
 
 [![Build Status](https://travis-ci.com/Bluewolf787/autospotify-private.svg?token=sMwUw4NKhzqScZGpNQQN&branch=master)]()
+[![Downloads](https://img.shields.io/github/downloads/Bluewolf787/autospotify/total.svg)]()
 
 
 # AutoSpotify
