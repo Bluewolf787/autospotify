@@ -37,14 +37,14 @@ This are prototype footage they don't have to represent the look of the real app
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/Bluewolf787/autospotify/CONTRIBUTING.md) for details on the code of conduct, and the process for submitting pull requests.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on the code of conduct, and the process for submitting pull requests.
 
 ## Collaborators
   * [Bluewolf787](https://github.com/Bluewolf787)
  
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/Bluewolf787/autospotify/LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
 
 ## Acknowledgments
 * ### Logo Credits
