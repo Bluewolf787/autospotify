@@ -1,5 +1,9 @@
 ![logo](readme/logo/logo.png)
 
+
+[![Build Status](https://travis-ci.com/Bluewolf787/autospotify-private.svg?token=sMwUw4NKhzqScZGpNQQN&branch=master)]()
+
+
 # AutoSpotify
 
 > This mobile app built in [Flutter](https://flutter.dev/) is used to search in YouTube playlist for songs and add these to a Spotify playlist.
