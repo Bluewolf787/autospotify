@@ -1,8 +1,11 @@
 ![logo](readme/logo/logo.png)
 
 
-[![Build Status](https://travis-ci.com/Bluewolf787/autospotify-private.svg?token=sMwUw4NKhzqScZGpNQQN&branch=master)]()
-[![Downloads](https://img.shields.io/github/downloads/Bluewolf787/autospotify/total.svg)]()
+[![Build Status](https://travis-ci.com/Bluewolf787/autospotify-private.svg?token=sMwUw4NKhzqScZGpNQQN&branch=master)]()</br>
+[![Downloads](https://img.shields.io/github/downloads/Bluewolf787/autospotify/total.svg)]()</br>
+![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/bluewolf787/autospotify)</br>
+[![Downloads latest release](https://img.shields.io/github/downloads-pre/bluewolf787/autospotify/latest/total)](https://GitHub.com/Bluewolf787/autospotify/releases/)
+
 
 
 # AutoSpotify
