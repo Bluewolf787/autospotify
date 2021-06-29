@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:autospotify/ui/introduction/intro_start_page.dart';
 import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
@@ -31,6 +33,9 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<Splas
       );
     }
     else {
+      // Set default language to english
+      await SharedPreferencesHelper().setLanguage('English');
+
       // If the user starts the app for the first time, then open Introduction Start Page
       Navigator.of(context).pushReplacement(
         new MaterialPageRoute(builder: (context) => new IntroStartPage())

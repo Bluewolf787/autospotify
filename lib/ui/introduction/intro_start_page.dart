@@ -1,6 +1,8 @@
 import 'package:autospotify/ui/introduction/choose_theme_page.dart';
+import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/widgets/buttons/button.dart';
+import 'package:autospotify/widgets/input/language_dropdown.dart';
 import 'package:autospotify/widgets/layout/circles.dart';
 import 'package:autospotify/widgets/layout/lines.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,10 +25,20 @@ class _IntroStartPageState extends State<IntroStartPage> {
     });
   }
   
+  String _currentLanguage;
+  Future<void> _getCurrentLanguage() async {
+    SharedPreferencesHelper().getCurrentLanguage().then((language) {
+      setState(() {
+        _currentLanguage = language;        
+      });
+    });
+  }
+
   @override
   initState() {
-    initialTimer();
     super.initState();
+    initialTimer();
+    _getCurrentLanguage();
   }
 
   @override
@@ -184,6 +196,20 @@ class _IntroStartPageState extends State<IntroStartPage> {
                   Navigator.of(context).pushReplacement(
                     PageTransition(child: ChooseThemePage(), type: PageTransitionType.fade)
                   ),
+                },
+              ),
+            ),
+
+            // Language Selection
+            Positioned(
+              bottom: SizeConfig.heightMultiplier * 1,
+              right: SizeConfig.widthMultiplier * 4,
+              child: LanguageSelector(
+                value: _currentLanguage,
+                onChanged: (String newLanguage) {
+                  setState(() {
+                    _currentLanguage = newLanguage;                  
+                  });
                 },
               ),
             ),
