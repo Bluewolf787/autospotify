@@ -1,6 +1,7 @@
-import 'package:autospotify/ui/introduction/create_account_page.dart';
+import 'package:autospotify/ui/introduction/choose_theme_page.dart';
 import 'package:autospotify/ui/introduction/introduction_yt.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
+import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/spotify/spotify_connect_status.dart';
@@ -12,13 +13,10 @@ import 'package:autospotify/widgets/layout/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:autospotify/widgets/layout/no_network_connection.dart';
 import 'package:autospotify/widgets/spotify_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:spotify/spotify.dart';
 import 'package:theme_provider/theme_provider.dart';
-
-Firebase.FirebaseAuth _auth = Firebase.FirebaseAuth.instance;
 
 class SpotifyIntroductionPage extends StatefulWidget {
   @override
@@ -39,17 +37,11 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
   
   SpotifyConnectStatus _spotifyConnectStatus;
 
-  String _userId;
-
   @override
   initState() {
     initialTimer();
 
     _spotifyConnectStatus = SpotifyConnectStatus.disconnected;
-
-    final _user = _auth.currentUser;
-    if (_user != null)
-      _userId = _user.uid;
 
     _spotifyUsernameController = new TextEditingController();
 
@@ -256,6 +248,8 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                             }
                             
                             await SpotifyUtils().connect(context).then((SpotifyApi spotify) async {
+                              String _userId = await SharedPreferencesHelper().getUuid();
+
                               SpotifyApiCredentials _spotifyCredentials = await spotify.getCredentials();
                               await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId).then((success) {
                                 if (!success) {
@@ -311,8 +305,8 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
 
                   // Page Number
                   PageIndicator(
-                    currentPage: 3,
-                    maxPages: 4,
+                    currentPage: 2,
+                    maxPages: 3,
                   ),
 
                   // Back Button
@@ -323,7 +317,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                       onPressed: () => {
                         // Open prevoiuse indroduction page (package:autospotify/ui/introduction/choose_theme_page.dart)
                         Navigator.of(context).pushReplacement(
-                          PageTransition(child: CreateAccountPage(), type: PageTransitionType.fade)
+                          PageTransition(child: ChooseThemePage(), type: PageTransitionType.fade)
                         )
                       },
                     ),
