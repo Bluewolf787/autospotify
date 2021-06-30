@@ -9,84 +9,25 @@ class FirestoreHelper {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
 
   ///
-  /// Check if there is a document in Firestore for a specific user
-  /// Returns a bool value
-  ///
-  Future<bool> _checkIfUserDocumentExists(String userId) async {
-    bool _userDocumentExists = false;
-
-    // Get user document
-    await users
-      .doc(userId)
-      .get()
-      .then((DocumentSnapshot documentSnapshot) {
-        if (documentSnapshot.exists) {
-          _userDocumentExists = true;
-        }
-        else {
-          _userDocumentExists = false;
-        }
-      })
-      .onError((error, stackTrace) {
-        print('Failed to check for user document: $error\nStackTrace:\n$stackTrace');
-      });
-
-    return _userDocumentExists;
-  }
-
-  ///
-  /// Add a new user to Firestore
+  /// Add a new user document to Firestore
   /// 
-  Future<void> addUser(String userId, String provider) async {
-    bool _userAlreadyExists = await _checkIfUserDocumentExists(userId);
+  Future<void> addUser() async {
+    // Generate a random UUID
+    String uuid = Uuid().v4();
 
-    if (userId == null) {
-      // User isn't signed in
-      // Generate a random UUID
-      String uuid = Uuid().v4();
+    // Create a user document with the generated uuid
+    await users.doc(uuid).set({
+      'uuid': uuid
+    })
+    .then((_) {
+      print('New user document created in Firestore [$uuid]');
+    })
+    .onError((error, stackTrace) {
+      print('Failed to create new user document in Firestore [$uuid]: $error, StackTrace:\n$stackTrace');
+    });
 
-      // Create a user document with the generated uuid
-      await users.doc(uuid).set({
-        'provider': 'none'
-      })
-      .then((_) {
-        print('New user added to Firestore (no account)');
-      })
-      .onError((error, stackTrace) {
-        print('Failed to add new user to Firestore (no account): $error, StackTrace:\n$stackTrace');
-      });
-
-      // Save uuid with Shared Preferences
-      await SharedPreferencesHelper().saveUuid(uuid);
-    }
-    else if (_userAlreadyExists) {
-      // User document already exists
-      // Update user document
-      await users.doc(userId).update({
-        // Update the used provider
-        'provider': provider
-      })
-      .then((_) {
-        print('User document $userId updated');
-      })
-      .onError((error, stackTrace) {
-        print('Failed to update user in Firestore: $error, StackTrace:\n$stackTrace');
-      });
-    }
-    else {
-      // User document does not exists
-      // Create document with the ID of the user as name
-      await users.doc(userId).set({
-        // Save the used provider
-        'provider': provider
-      })
-      .then((_) {
-        print('New user added to Firestore');
-      })
-      .catchError((error, stackTrace) {
-        print('Failed to add new user to Firestore: $error, StackTrace:\n$stackTrace');
-      });
-    }
+    // Save uuid with Shared Preferences
+    await SharedPreferencesHelper().saveUuid(uuid);
   }
 
   ///

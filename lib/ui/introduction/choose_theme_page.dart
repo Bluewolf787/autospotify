@@ -1,4 +1,4 @@
-import 'package:autospotify/ui/introduction/create_account_page.dart';
+import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/widgets/buttons/button.dart';
@@ -206,7 +206,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                   onPressed: () => {
                     // Open next introduction page (package:autospotify/ui/introduction/introduction_spotify.dart)
                     Navigator.of(context).pushReplacement(
-                      PageTransition(child: CreateAccountPage(), type: PageTransitionType.fade)
+                      PageTransition(child: SpotifyIntroductionPage(), type: PageTransitionType.fade)
                     ),
                   },
                 ),
@@ -215,7 +215,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
               // Page Number
               PageIndicator(
                 currentPage: 1,
-                maxPages: 4,
+                maxPages: 3,
               ),
             ],
           ),

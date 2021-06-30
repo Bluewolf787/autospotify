@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:autospotify/ui/introduction/intro_start_page.dart';
 import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';

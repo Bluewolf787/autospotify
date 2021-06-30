@@ -10,11 +10,8 @@ import 'package:autospotify/widgets/layout/circles.dart';
 import 'package:autospotify/widgets/layout/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/input/textfields.dart';
 import 'package:autospotify/widgets/layout/no_network_connection.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
-
-FirebaseAuth _auth = FirebaseAuth.instance;
 
 class YouTubeIntroductionPage extends StatefulWidget {
   @override
@@ -32,16 +29,10 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
     });
   }
   
-  String _userId;
-
   @override
   initState() {
     super.initState();
     initialTimer();
-
-    final _user = _auth.currentUser;
-    if (_user != null)
-      _userId = _user.uid;
 
     _ytPlaylistUrlController = new TextEditingController();
   }
@@ -237,6 +228,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                   child: CustomButton(
                     label: 'Finish',
                     onPressed: () async {
+                      String _userId = await SharedPreferencesHelper().getUuid();
 
                       await FirestoreHelper().saveYouTubePlaylistUrl(_ytPlaylistUrlController.text, _userId);
 
@@ -250,8 +242,8 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
 
                 // Page Number
                 PageIndicator(
-                  currentPage: 4,
-                  maxPages: 4,
+                  currentPage: 3,
+                  maxPages: 3,
                 ),
 
                 // Back Button

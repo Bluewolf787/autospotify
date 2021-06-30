@@ -1,5 +1,6 @@
 import 'package:autospotify/ui/introduction/choose_theme_page.dart';
 import 'package:autospotify/utils/db/shared_prefs_helper.dart';
+import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/widgets/buttons/button.dart';
 import 'package:autospotify/widgets/input/language_dropdown.dart';
@@ -192,10 +193,11 @@ class _IntroStartPageState extends State<IntroStartPage> {
               curve: Curves.ease,
               child: CustomButton(
                 label: 'Go',
-                onPressed: () => {
+                onPressed: () async {
+                  await FirestoreHelper().addUser();
                   Navigator.of(context).pushReplacement(
                     PageTransition(child: ChooseThemePage(), type: PageTransitionType.fade)
-                  ),
+                  );
                 },
               ),
             ),

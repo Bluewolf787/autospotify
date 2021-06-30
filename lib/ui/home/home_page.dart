@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:autospotify/ui/auth/account_page.dart';
-import 'package:autospotify/ui/auth/login_page.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
@@ -11,17 +9,13 @@ import 'package:autospotify/utils/spotify/spotify_utils.dart';
 import 'package:autospotify/utils/sync_status.dart';
 import 'package:autospotify/utils/youtube/youtube_utils.dart';
 import 'package:autospotify/widgets/buttons/button.dart';
-import 'package:autospotify/widgets/dialogs/dialogs.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:autospotify/widgets/input/textfields.dart';
 import 'package:autospotify/widgets/layout/no_network_connection.dart';
 import 'package:autospotify/widgets/spotify_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart' as Firebase;
 import 'package:flutter/material.dart';
 import 'package:spotify/spotify.dart';
 import 'package:theme_provider/theme_provider.dart';
-
-final Firebase.FirebaseAuth _auth = Firebase.FirebaseAuth.instance;
 
 class HomePage extends StatefulWidget {
   @override
@@ -44,63 +38,16 @@ class _HomePageState extends State<HomePage> {
 
   SyncStatus _syncStatus;
 
-  // User variables //
   SharedPreferencesHelper _sharedPreferencesHelper;
-  Firebase.User _user;
-  var _isUserLoggedIn = false;
   String _userId;
-  String _username;
-  String _userEmail;
-  String _userAvatarUrl;
 
-  var _avatarLoadError = false;
+  // Get the ID of current user
+  Future<void> _getUserId() async {
+    final _uuid = await _sharedPreferencesHelper.getUuid();
 
-  String _provider;
-  var _isGoogleUser = false;
-
-  // Get the data of current user
-  Future<void> _getUserData() async {
-    if (!mounted) return;
-
-    _user = _auth.currentUser;
-    if (_user != null) {
-      setState(() {
-        _isUserLoggedIn = true;
-        _userId = _user.uid;
-        _username = _user.displayName;
-        _userEmail = _user.email;
-        _userAvatarUrl = _user.photoURL;
-      });
-
-      if (!_user.emailVerified) {
-        //_isVerified = true;
-        Timer.run(() => _showEmailVerifyDialog(context));
-      }
-
-      _provider = _user.providerData.elementAt(0).providerId;
-      
-      if (_provider == 'google.com') {
-        _isGoogleUser = true;
-      }
-    }
-    else {
-      final _uuid = await _sharedPreferencesHelper.getUuid();
-
-      if (_uuid == null) {
-        FirestoreHelper().addUser(null, null);
-        await _sharedPreferencesHelper.getUuid().then((uuid) {
-          setState(() {
-            _userId = uuid;            
-          });
-        });
-      }
-      else {
-        setState(() {
-          _userId = _uuid;          
-        });
-      }
-    }
-
+    setState(() {
+      _userId = _uuid;
+    });
   }
 
   Future<void> _getYtPlaylist() async {
@@ -154,7 +101,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _connectToSpotify(BuildContext context) async {
-    if (_spotifyConnectStatus == SpotifyConnectStatus.disconnected && (_user != null || _userId != null)) {
+    if (_spotifyConnectStatus == SpotifyConnectStatus.disconnected && (_userId != null)) {
       setState(() {
         _spotifyConnectStatus = SpotifyConnectStatus.connecting;        
       });
@@ -200,7 +147,7 @@ class _HomePageState extends State<HomePage> {
     _ytPlaylistUrlController = new TextEditingController();
     _spotifyUsernameController = new TextEditingController();
 
-    _getUserData();
+    _getUserId();
 
     _getYtPlaylist();
     _connectToSpotify(context);     
@@ -214,15 +161,6 @@ class _HomePageState extends State<HomePage> {
     _ytPlaylistUrlController.dispose();
   
     super.dispose();
-  }
-
-  void _showEmailVerifyDialog(BuildContext context) {
-    showDialog(context: context,
-      builder: (context) => VerifyEmailDialog(
-        user: _user,
-        email: _userEmail,
-      ),
-    );
   }
 
   @override
@@ -242,7 +180,6 @@ class _HomePageState extends State<HomePage> {
             child: RefreshIndicator(
               onRefresh: () async {
                 _spotifyConnectStatus = SpotifyConnectStatus.connecting;
-                await _getUserData();
                 await _connectToSpotify(context);
                 await _getYtPlaylist();
               },
@@ -269,74 +206,6 @@ class _HomePageState extends State<HomePage> {
                               tooltip: ThemeProvider.themeOf(context).id == 'light_theme' ? 'Activate Dark Theme' : 'Activate Light Theme',
                               highlightColor: Colors.transparent,
                               onPressed: () => ButtonPressedHandler().changeThemeButton(context),
-                            ),
-
-                            Text(
-                              '|',
-                              style: TextStyle(
-                                fontFamily: 'Montserrat',
-                                fontSize: 20,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            
-                            Padding(padding: EdgeInsets.only(left: 10)),
-
-                            // Account Button
-                            TextButton(
-                              onPressed: () async {
-                                if (_isUserLoggedIn) {
-                                  ButtonPressedHandler().pushAndReplaceToPage(context, AccountPage());
-                                }
-                                else {
-                                  ButtonPressedHandler().pushToPage(context, LoginPage(), () async {
-                                    await _getUserData();
-                                    if (_user != null) {
-                                      await _connectToSpotify(context);
-                                      await _getYtPlaylist();                             
-                                    }
-                                  });                         
-                                }
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                mainAxisSize: MainAxisSize.min,
-                                children: <Widget>[
-                                  if (_isUserLoggedIn && _isGoogleUser)
-                                    CircleAvatar(
-                                      backgroundImage: NetworkImage(
-                                        _userAvatarUrl,
-                                      ),
-                                      radius: 10,
-                                      backgroundColor: Colors.transparent,
-                                      onBackgroundImageError: (_,__) {
-                                        setState(() {
-                                          this._avatarLoadError = true;
-                                        });
-                                      },
-                                      child: _avatarLoadError ? Icon(Icons.account_circle, color: Colors.grey, size: 20) : null,
-                                    )
-                                  else 
-                                    Icon(
-                                      Icons.account_circle,
-                                      color: Colors.grey,
-                                      size: 20
-                                    ),
-
-                                  Padding(padding: EdgeInsets.only(left: 5)),
-                                  Text(
-                                    (_isUserLoggedIn && _isGoogleUser) ? _username : _userEmail ?? 'Sign In',
-                                    textAlign: TextAlign.right,
-                                    style: TextStyle(
-                                      fontFamily: 'Montserrat',
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.grey,
-                                    ),
-                                  ),
-                                ],
-                              ),
                             ),
                           ],
                         ),
