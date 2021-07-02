@@ -9,7 +9,7 @@ import 'package:autospotify/utils/spotify/spotify_connect_status.dart';
 import 'package:autospotify/utils/spotify/spotify_utils.dart';
 import 'package:autospotify/utils/sync_status.dart';
 import 'package:autospotify/utils/youtube/youtube_utils.dart';
-import 'package:autospotify/widgets/buttons/button.dart';
+import 'package:autospotify/widgets/buttons/buttons.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:autospotify/widgets/input/language_dropdown.dart';
 import 'package:autospotify/widgets/input/textfields.dart';
@@ -464,9 +464,9 @@ class _HomePageState extends State<HomePage> {
                               _getSpotifyPlaylistId(_dropdownMenuValue),
                               _ytPlaylistUrlController.text,
                               _userId
-                            ).then((_) {
+                            ).then((status) {
                               setState(() {
-                                _syncStatus = SyncStatus.done;
+                                 status ? _syncStatus = SyncStatus.done : _syncStatus = SyncStatus.error;
                               });
 
                               Timer(Duration(milliseconds: 3300), () {

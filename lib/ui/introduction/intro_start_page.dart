@@ -4,7 +4,7 @@ import 'package:autospotify/ui/introduction/choose_theme_page.dart';
 import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
-import 'package:autospotify/widgets/buttons/button.dart';
+import 'package:autospotify/widgets/buttons/buttons.dart';
 import 'package:autospotify/widgets/input/language_dropdown.dart';
 import 'package:autospotify/widgets/layout/circles.dart';
 import 'package:autospotify/widgets/layout/lines.dart';
@@ -29,9 +29,11 @@ class _IntroStartPageState extends State<IntroStartPage> {
     });
   }
   
+  SharedPreferencesHelper _sharedPreferencesHelper = new SharedPreferencesHelper();
+
   String _currentLanguage;
   void _getCurrentLanguage() async {
-    SharedPreferencesHelper().getCurrentLanguage().then((language) {
+    _sharedPreferencesHelper.getCurrentLanguage().then((language) {
       setState(() {
         _currentLanguage = language;
       });
@@ -197,7 +199,9 @@ class _IntroStartPageState extends State<IntroStartPage> {
               child: CustomButton(
                 label: AppLocalizations.of(context).btnGo,
                 onPressed: () async {
-                  await FirestoreHelper().addUser();
+                  if (_sharedPreferencesHelper.getUuid() == null)
+                    await FirestoreHelper().addUser();
+
                   Navigator.of(context).pushReplacement(
                     PageTransition(child: ChooseThemePage(), type: PageTransitionType.fade)
                   );

@@ -3,7 +3,7 @@ import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/widgets/buttons/back_button.dart';
-import 'package:autospotify/widgets/buttons/button.dart';
+import 'package:autospotify/widgets/buttons/buttons.dart';
 import 'package:autospotify/widgets/layout/circles.dart';
 import 'package:autospotify/widgets/layout/introduction_page_indicator.dart';
 import 'package:flutter/material.dart';
@@ -211,6 +211,20 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                     Navigator.of(context).pushReplacement(
                       PageTransition(child: SpotifyIntroductionPage(), type: PageTransitionType.fade)
                     ),
+                  },
+                ),
+              ),
+
+              // Back Button
+              Positioned(
+                top: SizeConfig.heightMultiplier * 3.160806006,
+                left: SizeConfig.widthMultiplier * 0,
+                child: CustomBackButton(
+                  onPressed: () => {
+                    // Open prevoiuse indroduction page (package:autospotify/ui/introduction/choose_theme_page.dart)
+                    Navigator.of(context).pushReplacement(
+                      PageTransition(child: ChooseThemePage(), type: PageTransitionType.fade)
+                    )
                   },
                 ),
               ),

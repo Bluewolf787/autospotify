@@ -216,7 +216,9 @@ class SpotifyUtils {
   ///
   /// Add tracks to a Spotify playlist
   ///
-  Future<void> addSongsToPlaylist(BuildContext context, SpotifyApi spotify, List<String> trackList, String playlistId, String userId) async {
+  Future<bool> addSongsToPlaylist(BuildContext context, SpotifyApi spotify, List<String> trackList, String playlistId, String userId) async {
+    bool _status;
+
     if (playlistId.isEmpty) {
       // If no playlist ID provided use auto-generated playlist
       playlistId = await FirestoreHelper().getSpotifyAutoPlaylistId(userId);
@@ -226,16 +228,20 @@ class SpotifyUtils {
 
     if (finalTrackList.isEmpty) {
       CustomSnackbar.show(context, AppLocalizations.of(context).songsAlreadyInPlaylistWarning);
-      return;
+      return true;
     }
 
     // Add all tracks to the playlist
     await spotify.playlists.addTracks(finalTrackList, playlistId).whenComplete(() {
       CustomSnackbar.show(context, AppLocalizations.of(context).successfulSync);
+      _status = true;
     }).onError((error, stackTrace) {
       print('ERROR Spotify add tracks: $error, StackTrace:\n$stackTrace');
       CustomSnackbar.show(context, AppLocalizations.of(context).syncingError);
+      _status = false;
     });
+
+    return _status;
   }
 
   ///

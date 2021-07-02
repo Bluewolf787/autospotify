@@ -3,7 +3,7 @@ import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/youtube/songtitle_extractor.dart';
 import 'package:autospotify/utils/spotify/spotify_utils.dart';
 import 'package:autospotify/utils/youtube/youtube_utils.dart';
-import 'package:autospotify/widgets/dialogs/dialogs.dart';
+import 'package:autospotify/widgets/dialogs/close_dialog.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -12,14 +12,19 @@ import 'package:theme_provider/theme_provider.dart';
 
 class ButtonPressedHandler {
 
-  Future<void> syncPlaylistsButton(BuildContext context, SpotifyApi spotifyApi, String spotifyPlaylistId, String youtubePlaylistUrl, String userId) async {
+  Future<bool> syncPlaylistsButton(BuildContext context, SpotifyApi spotifyApi, String spotifyPlaylistId, String youtubePlaylistUrl, String userId) async {
+    bool _status;
+    
     if (youtubePlaylistUrl.isEmpty) {
       CustomSnackbar.show(context, AppLocalizations.of(context).noYtPlaylistWarning);
-      return;
+      return false;
     }
         
     // Get YouTube Video titles
     List<String> videosRaw = await YouTubeUtils().getVideosFromPlaylist(context, youtubePlaylistUrl);
+    if (videosRaw == null)
+      return false;
+  
     FirestoreHelper().saveYouTubePlaylistUrl(youtubePlaylistUrl, userId);
 
     // Get song titles from YouTube video titles
@@ -31,11 +36,15 @@ class ButtonPressedHandler {
     //print('Spotify tracks ::: $spotifyTracks');
     if (spotifyTracks.isEmpty) {
       CustomSnackbar.show(context, AppLocalizations.of(context).noSongsFoundError);
+      return false;
     }
 
     // Add songs to Spotify playlist
-    await SpotifyUtils().addSongsToPlaylist(context, spotifyApi, spotifyTracks, spotifyPlaylistId, userId);
+    await SpotifyUtils().addSongsToPlaylist(context, spotifyApi, spotifyTracks, spotifyPlaylistId, userId).then((status) {
+       status ? _status = true : _status = false;
+    });
 
+    return _status;
   }
 
   void changeThemeButton(BuildContext context) {

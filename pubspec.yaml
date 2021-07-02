@@ -72,8 +72,6 @@ flutter:
     - assets/spotify_secrets.json
 
     - assets/logo.png
-    - assets/google_logo.png
-    - assets/github_logo.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

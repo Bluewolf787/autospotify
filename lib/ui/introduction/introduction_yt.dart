@@ -6,7 +6,7 @@ import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/widgets/buttons/back_button.dart';
-import 'package:autospotify/widgets/buttons/button.dart';
+import 'package:autospotify/widgets/buttons/buttons.dart';
 import 'package:autospotify/widgets/layout/circles.dart';
 import 'package:autospotify/widgets/layout/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/input/textfields.dart';

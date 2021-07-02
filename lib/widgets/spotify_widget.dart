@@ -1,7 +1,7 @@
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/spotify/spotify_connect_status.dart';
 import 'package:autospotify/widgets/buttons/spotify_connect_button.dart';
-import 'package:autospotify/widgets/input/dropdownbutton.dart';
+import 'package:autospotify/widgets/input/spotify_playlist_select_dropdown.dart';
 import 'package:autospotify/widgets/input/textfields.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +45,7 @@ class SpotifyWidget extends StatelessWidget {
       );
     }
     else if (isIntroduction && connectStatus == SpotifyConnectStatus.connected) {
-      return SpotifyUsernameField(controller: textFieldController);
+      return SpotifyGreetingTextField(controller: textFieldController);
     }
     else {
       return SizedBox(

@@ -116,9 +116,16 @@ class _SyncButtonChild extends StatelessWidget {
         strokeWidth: 2,
       );
     }
-    else {
+    else if (syncStatus == SyncStatus.done) {
       return Icon(
         Icons.done_rounded,
+        color: Colors.white,
+        size: 28,
+      );
+    }
+    else {
+      return Icon(
+        Icons.error_outline_rounded,
         color: Colors.white,
         size: 28,
       );
