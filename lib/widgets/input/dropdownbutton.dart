@@ -44,7 +44,7 @@ class SpotifyPlaylistSelectButton extends StatelessWidget {
             width: 2.0
           ),
         ),
-        labelText: '$spotifyDisplayName - Spotify Playlist:',
+        labelText: '$spotifyDisplayName - Spotify Playlists:',
         labelStyle: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 14,

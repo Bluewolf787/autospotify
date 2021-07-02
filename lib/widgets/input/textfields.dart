@@ -1,3 +1,4 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -110,13 +111,6 @@ class SpotifyUsernameField extends StatelessWidget {
             color: Color(0xff1db954), width: 2.0,
           ),
         ),
-        labelText: 'Spotify username',
-        labelStyle: TextStyle(
-          fontFamily: 'Montserrat',
-          fontSize: 14,
-          color: ThemeProvider.themeOf(context).data.primaryColor,
-          fontWeight: FontWeight.w400,
-        ),
       ),
       cursorColor: Color(0xff1db954),
       style: TextStyle(
@@ -166,7 +160,7 @@ class YtPlaylistUrlInputField extends StatelessWidget {
             width: 2.0,
           ),
         ),
-        labelText: 'YouTube playlist URL',
+        labelText: AppLocalizations.of(context).ytLabelText,
         labelStyle: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 14,
@@ -174,7 +168,7 @@ class YtPlaylistUrlInputField extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
         alignLabelWithHint: true,
-        hintText: 'Enter your YouTube playlist URL',
+        hintText: AppLocalizations.of(context).ytHintText,
         hintStyle: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 14,

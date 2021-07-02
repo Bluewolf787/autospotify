@@ -1,3 +1,4 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:autospotify/ui/home/home_page.dart';
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
@@ -160,7 +161,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                   curve: Curves.ease,
                   child: Container(
                     width: SizeConfig.widthMultiplier * 80,
-                    height: SizeConfig.heightMultiplier * 10,
+                    height: SizeConfig.heightMultiplier * 15,
                     padding: EdgeInsets.zero,
                     alignment: Alignment.topLeft,
                     child: FittedBox(
@@ -175,7 +176,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                             height: 1.3,
                           ),
                           children: [
-                            TextSpan(text: 'And a ',),
+                            TextSpan(text: AppLocalizations.of(context).introYtSpan1,),
                             TextSpan(
                               text: 'YouTube',
                               style: TextStyle(
@@ -183,7 +184,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                                 fontWeight: FontWeight.w800,
                               ),
                             ),
-                            TextSpan(text: ' playlist you\nwant to synchronize',),
+                            TextSpan(text: AppLocalizations.of(context).introYtSpan2,),
                             TextSpan(
                               text: '.',
                               style: TextStyle(
@@ -226,7 +227,7 @@ class _YouTubeIntroductionPageState extends State<YouTubeIntroductionPage> {
                   left: startAnimation ? SizeConfig.widthMultiplier * 0 : SizeConfig.widthMultiplier * -100,
                   curve: Curves.ease,
                   child: CustomButton(
-                    label: 'Finish',
+                    label: AppLocalizations.of(context).btnFinish,
                     onPressed: () async {
                       String _userId = await SharedPreferencesHelper().getUuid();
 

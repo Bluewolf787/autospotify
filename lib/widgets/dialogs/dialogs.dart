@@ -1,3 +1,4 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -14,7 +15,7 @@ class ErrorDialog extends StatelessWidget {
     return AlertDialog(
       backgroundColor: ThemeProvider.themeOf(context).data.canvasColor,
       title: Text(
-        'Oops! Something unexpected happend',
+        AppLocalizations.of(context).unexpectedError,
         style: TextStyle(
           fontFamily: 'Montserrat',
           fontWeight: FontWeight.w400,
@@ -37,7 +38,7 @@ class ErrorDialog extends StatelessWidget {
             Navigator.of(context).pop(),
           },
           child: Text(
-            'OK',
+            AppLocalizations.of(context).btnOk,
             style: TextStyle(
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.w400,
@@ -59,7 +60,7 @@ class CloseDialog extends StatelessWidget {
     return AlertDialog(
       backgroundColor: ThemeProvider.themeOf(context).data.canvasColor,
       title: Text(
-        'Exit AutoSpotify',
+        AppLocalizations.of(context).exitHeader,
         style: TextStyle(
           fontFamily: 'Montserrat',
           fontWeight: FontWeight.w400,
@@ -68,7 +69,7 @@ class CloseDialog extends StatelessWidget {
         ),
       ),
       content: Text(
-        'Are you sure to exit?',
+        AppLocalizations.of(context).exitContent,
         style: TextStyle(
           fontFamily: 'Montserrat',
           fontWeight: FontWeight.w400,
@@ -84,7 +85,7 @@ class CloseDialog extends StatelessWidget {
             }),
           },
           child: Text(
-            'no'.toUpperCase(),
+            AppLocalizations.of(context).btnNo.toUpperCase(),
             style: TextStyle(
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.w400,
@@ -100,7 +101,7 @@ class CloseDialog extends StatelessWidget {
             }),
           },
           child: Text(
-            'yes'.toUpperCase(),
+            AppLocalizations.of(context).btnYes.toUpperCase(),
             style: TextStyle(
               fontFamily: 'Montserrat',
               fontWeight: FontWeight.w400,

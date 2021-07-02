@@ -1,3 +1,4 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -19,7 +20,7 @@ class CustomBackButton extends StatelessWidget {
         size: 24,
       ),
       label: Text(
-        'Back',
+        AppLocalizations.of(context).btnBack,
         style: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 14,

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
@@ -10,12 +11,15 @@ import 'package:autospotify/utils/sync_status.dart';
 import 'package:autospotify/utils/youtube/youtube_utils.dart';
 import 'package:autospotify/widgets/buttons/button.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
+import 'package:autospotify/widgets/input/language_dropdown.dart';
 import 'package:autospotify/widgets/input/textfields.dart';
 import 'package:autospotify/widgets/layout/no_network_connection.dart';
 import 'package:autospotify/widgets/spotify_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:spotify/spotify.dart';
 import 'package:theme_provider/theme_provider.dart';
+
+import '../../main.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -135,6 +139,15 @@ class _HomePageState extends State<HomePage> {
     return playlistId;
   }
 
+  String _currentLanguage;
+  void _getCurrentLanguage() async {
+    SharedPreferencesHelper().getCurrentLanguage().then((language) {
+      setState(() {
+        _currentLanguage = language;
+      });
+    });
+  }
+
   @override
   void initState() {
     initialTimer();
@@ -146,6 +159,8 @@ class _HomePageState extends State<HomePage> {
 
     _ytPlaylistUrlController = new TextEditingController();
     _spotifyUsernameController = new TextEditingController();
+
+    _getCurrentLanguage();
 
     _getUserId();
 
@@ -199,11 +214,21 @@ class _HomePageState extends State<HomePage> {
                         // Theme Change Button
                         child: Row(
                           children: <Widget>[
+                            LanguageSelector(
+                              value: _currentLanguage,
+                              onChanged: (String newLanguage) {
+                                setState(() {
+                                  _currentLanguage = newLanguage;
+                                  MyApp.of(context).setLocale(_currentLanguage);
+                                });
+                              },
+                            ),
+                            Padding(padding: EdgeInsets.only(right: 10)),
                             IconButton(
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),        
                               icon: ThemeProvider.themeOf(context).id == 'light_theme' ? Icon(Icons.wb_sunny) : Icon(Icons.nightlight_round),
                               color: ThemeProvider.themeOf(context).id == 'light_theme' ? Colors.yellow : Colors.grey,
-                              tooltip: ThemeProvider.themeOf(context).id == 'light_theme' ? 'Activate Dark Theme' : 'Activate Light Theme',
+                              tooltip: AppLocalizations.of(context).changeThemeToolTip,
                               highlightColor: Colors.transparent,
                               onPressed: () => ButtonPressedHandler().changeThemeButton(context),
                             ),
@@ -214,12 +239,12 @@ class _HomePageState extends State<HomePage> {
                       // Header Text
                       AnimatedPositioned(
                         duration: Duration(seconds: 1,),
-                        top: _startAnimation ? SizeConfig.heightMultiplier * 22 : SizeConfig.heightMultiplier * 22,
+                        top: _startAnimation ? SizeConfig.heightMultiplier * 21 : SizeConfig.heightMultiplier * 21,
                         left: _startAnimation ? SizeConfig.widthMultiplier * 8 : SizeConfig.widthMultiplier * -80,
                         curve: Curves.ease,
                         child: Container(
                           width: SizeConfig.widthMultiplier * 80,
-                          height: SizeConfig.heightMultiplier * 14,
+                          height: SizeConfig.heightMultiplier * 15,
                           padding: EdgeInsets.zero,
                           alignment: Alignment.centerLeft,
                           child: FittedBox(
@@ -234,7 +259,7 @@ class _HomePageState extends State<HomePage> {
                                   height: 1.3,
                                 ),
                                 children: [
-                                  TextSpan(text: 'Add Songs from ',),
+                                  TextSpan(text: AppLocalizations.of(context).homePageSpan1,),
                                   TextSpan(
                                     text: 'YouTube',
                                     style: TextStyle(
@@ -242,7 +267,7 @@ class _HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.w800,
                                     ),
                                   ),
-                                  TextSpan(text: '\nplaylists automatically\nto your ',),
+                                  TextSpan(text: AppLocalizations.of(context).homePageSpan2,),
                                   TextSpan(
                                     text: 'Spotify',
                                     style: TextStyle(
@@ -250,7 +275,7 @@ class _HomePageState extends State<HomePage> {
                                       fontWeight: FontWeight.w800,
                                     ),
                                   ),
-                                  TextSpan(text: ' playlist',),
+                                  TextSpan(text: AppLocalizations.of(context).homePageSpan3,),
                                   TextSpan(
                                     text: '.',
                                     style: TextStyle(
@@ -362,7 +387,7 @@ class _HomePageState extends State<HomePage> {
                                   print('ERROR Spotify Auth: $error, StackTrace:\n $stackTrace');
                                   CustomSnackbar.show(
                                     context,
-                                    'Oops! Something went wrong. Please try again.',
+                                    AppLocalizations.of(context).somthingWrongError,
                                   );
                                 });
                               },
@@ -410,7 +435,7 @@ class _HomePageState extends State<HomePage> {
                               onPressed: () {
                                 _ytPlaylistUrlController.clear();
                               },
-                              tooltip: 'Clear YouTube playlist URL',
+                              tooltip: AppLocalizations.of(context).clearToolTip,
                             ),
                           ),
                         ),

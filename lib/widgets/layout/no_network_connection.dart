@@ -1,3 +1,4 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:autospotify/ui/splash_screen.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
@@ -29,7 +30,7 @@ class NoNetworkConnection extends StatelessWidget {
               ),
               Padding(padding: EdgeInsets.only(bottom: 10)),
               Text(
-                'no network connection'.toUpperCase(),
+                AppLocalizations.of(context).noNetworkConnection.toUpperCase(),
                 style: TextStyle(
                   fontFamily: 'Montserrat',
                   fontSize: 22,
@@ -53,7 +54,7 @@ class NoNetworkConnection extends StatelessWidget {
                   }),
                 ),
                 child: Text(
-                  'try again'.toUpperCase(),
+                  AppLocalizations.of(context).btnTryAgain.toUpperCase(),
                   style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 18,

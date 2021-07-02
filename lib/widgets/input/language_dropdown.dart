@@ -1,4 +1,5 @@
 import 'package:autospotify/utils/size_config.dart';
+import 'package:autospotify/utils/supported_languages.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
 
@@ -8,8 +9,8 @@ class LanguageSelector extends StatelessWidget {
     @required this.value,
     @required this.onChanged,
   }) : super(key: key);
-    
-  final List<String> languages = ['English', 'German', 'France'];
+
+  final List<String> languages = [SupportedLanguages.LANGUAGES['en'], SupportedLanguages.LANGUAGES['de'], SupportedLanguages.LANGUAGES['fr']];
   final String value;
   final Function(String) onChanged;
 

@@ -1,3 +1,4 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -24,7 +25,7 @@ class YouTubeUtils {
       return playlistId;
     } catch (RangeError) {
       print('RangeError: $RangeError');
-      CustomSnackbar.show(context, 'Oops! Something went wrong getting the playlist please check the provided URL');
+      CustomSnackbar.show(context, AppLocalizations.of(context).gettingYtPlaylistError);
 
       return null;
     }
@@ -44,7 +45,7 @@ class YouTubeUtils {
       return playlist;
     } catch (Invalid) {
       print('Invalid Error: $Invalid');
-      CustomSnackbar.show(context, 'The provided playlist URL is not valid');
+      CustomSnackbar.show(context, AppLocalizations.of(context).ytUrlInvalid);
       
       return null;
     }
@@ -84,7 +85,7 @@ class YouTubeUtils {
       return videos;
     } catch (exception) {
       print('YT-Utils: $exception');
-      CustomSnackbar.show(context, 'The provided playlist URL is not valied');
+      CustomSnackbar.show(context, AppLocalizations.of(context).ytUrlInvalid);
       
       return null;
     }

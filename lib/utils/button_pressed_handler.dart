@@ -1,3 +1,4 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/youtube/songtitle_extractor.dart';
 import 'package:autospotify/utils/spotify/spotify_utils.dart';
@@ -13,7 +14,7 @@ class ButtonPressedHandler {
 
   Future<void> syncPlaylistsButton(BuildContext context, SpotifyApi spotifyApi, String spotifyPlaylistId, String youtubePlaylistUrl, String userId) async {
     if (youtubePlaylistUrl.isEmpty) {
-      CustomSnackbar.show(context, 'Please enter a YouTube playlist');
+      CustomSnackbar.show(context, AppLocalizations.of(context).noYtPlaylistWarning);
       return;
     }
         
@@ -29,7 +30,7 @@ class ButtonPressedHandler {
     var spotifyTracks = await SpotifyUtils().searchSongs(spotifyApi, songTitles);
     //print('Spotify tracks ::: $spotifyTracks');
     if (spotifyTracks.isEmpty) {
-      CustomSnackbar.show(context, 'Could not find any songs in that YouTube playlist');
+      CustomSnackbar.show(context, AppLocalizations.of(context).noSongsFoundError);
     }
 
     // Add songs to Spotify playlist

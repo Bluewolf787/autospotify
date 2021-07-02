@@ -1,6 +1,8 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:autospotify/ui/introduction/intro_start_page.dart';
 import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
+import 'package:autospotify/utils/supported_languages.dart';
 import 'package:flutter/material.dart';
 import 'package:after_layout/after_layout.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -32,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<Splas
     }
     else {
       // Set default language to english
-      await SharedPreferencesHelper().setLanguage('English');
+      await SharedPreferencesHelper().setLanguage(SupportedLanguages.LANGUAGES[AppLocalizations.of(context).localeName]);
 
       // If the user starts the app for the first time, then open Introduction Start Page
       Navigator.of(context).pushReplacement(
