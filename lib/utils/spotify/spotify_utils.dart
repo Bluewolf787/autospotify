@@ -1,3 +1,4 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:autospotify/ui/spotifyauth_webview.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/db/shared_prefs_helper.dart';
@@ -85,7 +86,7 @@ class SpotifyUtils {
       // Return SpotifyApi object
       return spotify;
     } catch (exception) {
-      CustomSnackbar.show(context, 'Failed to connect to Spotify');
+      CustomSnackbar.show(context, AppLocalizations.of(context).spotifyConnectError);
       return null;
     }
 
@@ -224,16 +225,16 @@ class SpotifyUtils {
     List<String> finalTrackList = await _checkTracksInPlaylist(spotify, trackList, playlistId);
 
     if (finalTrackList.isEmpty) {
-      CustomSnackbar.show(context, 'Those songs are already in that Spotify playlist');
+      CustomSnackbar.show(context, AppLocalizations.of(context).songsAlreadyInPlaylistWarning);
       return;
     }
 
     // Add all tracks to the playlist
     await spotify.playlists.addTracks(finalTrackList, playlistId).whenComplete(() {
-      CustomSnackbar.show(context, 'Playlists successfully synced!');
+      CustomSnackbar.show(context, AppLocalizations.of(context).successfulSync);
     }).onError((error, stackTrace) {
       print('ERROR Spotify add tracks: $error, StackTrace:\n$stackTrace');
-      CustomSnackbar.show(context, 'Oops! Something went wrong while syncing.');
+      CustomSnackbar.show(context, AppLocalizations.of(context).syncingError);
     });
   }
 

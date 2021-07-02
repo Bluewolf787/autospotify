@@ -1,0 +1,194 @@
+{
+    "btnGo": "go",
+    "@btnGo": {
+        "description": "Button text 'go'"
+    },
+    "btnNext": "next",
+    "@btnNext": {
+        "description": "Button text 'next'"
+    },
+    "btnFinish": "finish",
+    "@btnFinish": {
+        "description": "Button text 'finish'"
+    },
+    "btnBack": "Back",
+    "@btnBack": {
+        "description": "Button text 'BacK'"
+    },
+    "btnLight": "Light",
+    "@btnLight": {
+        "description": "Button text 'Light'"
+    },
+    "btnDark": "Dark",
+    "@btnDark": {
+        "description": "Button text 'Dark'"
+    },
+    "btnYes": "yes",
+    "@btnYes": {
+        "description": "Button text 'yes'"
+    },
+    "btnNo": "no",
+    "@btnNo": {
+        "description": "Button text 'no'"
+    },
+    "btnOk": "ok",
+    "@btnOk": {
+        "description": "Button text 'ok'"
+    },
+    "btnTryAgain": "try again",
+    "@btnTryAgain": {
+        "description": "Button text 'try again'"
+    },
+    "btnConnectSpotify": "Connect Spotify",
+    "@btnConnectSpotify": {
+        "description": "Button text 'Connect Spotify'"
+    },
+
+    "spotifyTextField": "Hello, ",
+    "@spotifyTextField": {
+        "description": "Spotify text field text"
+    },
+    "ytLabelText": "YouTube playlist URL",
+    "@ytLabelText": {
+        "description": "YouTube text field label text"
+    },
+    "ytHintText": "Enter your YouTube playlist URL",
+    "@ytHintText": {
+        "description": "YouTube text field hint text"
+    },
+
+    "clearToolTip": "Clear",
+    "@clearToolTip": {
+        "description": "tooltip text for clear text field"
+    },
+    "changeThemeToolTip": "Change theme",
+    "@lightThemeToolTip": {
+        "description": "Theme change button tooltip"
+    },
+
+    "unexpectedError": "Oops! Something unexpected happened",
+    "@unexpectedError": {
+        "description": "Error message: unexpected error"
+    },
+    "spotifySaveError": "Failed to save the credentials",
+    "@spotifySaveError": {
+        "description": "Error message: Spotify save error"
+    },
+    "somthingWrongError": "Oops! Something went wrong. Please try again",
+    "@somthingWrongError": {
+        "description": "Error message: something went wrong"
+    },
+    "spotifyConnectError": "Failed to connect to Spotify",
+    "@spotifyConnectError": {
+        "description": "Error message: Failed to connect Spotify"
+    },
+    "syncingError": "Oops! Something went wrong while syncing",
+    "@syncingError": {
+        "description": "Error message: Failed to sync playlists"
+    },
+    "noSongsFoundError": "Cloud not find any songs in that YouTube playlist",
+    "@noSongsFoundError": {
+        "description": "Error message: No Songs found in YouTube playlist"
+    },
+    "gettingYtPlaylistError": "Oops! Something went wrong while getting the YouTube playlist. Please check the provided URL",
+    "@gettingYtPlaylistError": {
+        "description": "Error message: Failed to get the YouTube playlist"
+    },
+    "ytUrlInvalid": "The provided YouTube playlist URL is not valid",
+    "@ytUrlInvalid": {
+        "description": "Error message: Invalid YouTube playlist URL"
+    },
+
+    "connectSpotifyFirstWarning": "Please connect your Spotify profile with AutoSpotify before move on",
+    "@connectSpotifyFirst": {
+        "description": "Spotify not connected warning"
+    },
+    "songsAlreadyInPlaylistWarning": "Those songs are already in that Spotify playlist",
+    "@songsAlreadyInPlaylistWarning": {
+        "description": "Songs are already in the Spotify playlist warning"
+    },
+    "noYtPlaylistWarning": "Please enter a YouTube playlist",
+    "@noYtPlaylistWarning": {
+        "description": "No YouTube playlist URL provide warning"
+    },
+
+    "successfulSync": "Playlists successfully synced",
+    "@successfulSync": {
+        "description": "Playlists are successfully synced message"
+    },
+
+    "noNetworkConnection": "no network connection",
+    "@noNetworkConnection": {
+        "description": "Text for NoNetworkConnection page"
+    },
+
+    "exitHeader": "Exit AutoSpotify",
+    "@exitHeader": {
+        "description": "Header text for exit dialog"
+    },
+    "exitContent": "Are you sure to exit?",
+    "@exitContent": {
+        "description": "Content text for exit dialog"
+    },
+
+    "introStartSpan1": "Before you can use\n",
+    "@introStartSpan1": {
+        "description": "First section of intro startpage header text"
+    },
+    "introStartSpan2": "to automatically\ngenerate ",
+    "@introStartSpan2": {
+        "description": "Second section of intro startpage header text"
+    },
+    "introStartSpan3": "playlists,\nyou need to do some\nsteps first",
+    "@introStartSpan3": {
+        "description": "Third section of intro startpage header text"
+    },
+
+    "chooseThemeSpan1": "Choose your favorite color\n",
+    "@chooseThemeSpan1": {
+        "description": "First section of choose theme page header text"
+    },
+    "chooseThemeSpan2": "theme",
+    "@chooseThemeSpan2": {
+        "description": "Second section of choose theme page header text"
+    },
+    "chooseThemeSpanFr": "",
+    "@chooseThemeSpanFr": {
+        "description": "This third section of choose theme page header text is for die french language"
+    },
+
+    "introSpotifySpan1": "You must authorize\n",
+    "@introSpotifySpan1": {
+        "description": "First section of Spotify intro page header text"
+    },
+    "introSpotifySpan2": " to connect\nto your ",
+    "@introSpotifySpan2": {
+        "description": "Second section of Spotify intro page header text"
+    },
+    "introSpotifySpan3": " account",
+    "@introSpotifySpan3": {
+        "description": "Third section of Spotify intro page header text"
+    },
+
+    "introYtSpan1": "And provide a ",
+    "@introYtSpan1": {
+        "description": "First section of YouTube intro page header text"
+    },
+    "introYtSpan2": "\nplaylist you want\nto synchronize",
+    "@introYtSpan2": {
+        "description": "Second section of YouTube intro page header text"
+    },
+
+    "homePageSpan1": "Add Songs from ",
+    "@homePageSpan1": {
+        "description": "First section of home page header text"
+    },
+    "homePageSpan2": "\nplaylists automatically\nto your ",
+    "@homePageSpan2": {
+        "description": "Second section of home page header text"
+    },
+    "homePageSpan3": " playlist",
+    "@homePageSpan3": {
+        "description": "Third section of home page header text"
+    }
+}

@@ -1,6 +1,8 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
+import 'package:autospotify/widgets/buttons/back_button.dart';
 import 'package:autospotify/widgets/buttons/button.dart';
 import 'package:autospotify/widgets/layout/circles.dart';
 import 'package:autospotify/widgets/layout/introduction_page_indicator.dart';
@@ -106,14 +108,15 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                           height: 1.3,
                         ),
                         children: [
-                          TextSpan(text: 'Choose your favorite\n',),
+                          TextSpan(text: AppLocalizations.of(context).chooseThemeSpan1,),
                           TextSpan(
-                            text: 'theme',
+                            text: AppLocalizations.of(context).chooseThemeSpan2,
                             style: TextStyle(
                               color: ThemeProvider.themeOf(context).data.accentColor,
                               fontWeight: FontWeight.w800,
                             ),
                           ),
+                          TextSpan(text: AppLocalizations.of(context).chooseThemeSpanFr,),
                           TextSpan(
                             text: '.',
                             style: TextStyle(
@@ -145,7 +148,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                       TextButton.icon(
                         onPressed: () => ButtonPressedHandler().changeThemeButton(context),
                         label: Text(
-                          'Light',
+                          AppLocalizations.of(context).btnLight,
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 16,
@@ -170,7 +173,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                       TextButton.icon(
                         onPressed: () => ButtonPressedHandler().changeThemeButton(context),
                         label: Text(
-                          'Dark',
+                          AppLocalizations.of(context).btnDark,
                           style: TextStyle(
                             fontFamily: 'Montserrat',
                             fontSize: 16,
@@ -202,7 +205,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                 left: startAnimation ? SizeConfig.widthMultiplier * 0 : SizeConfig.widthMultiplier * -100,
                 curve: Curves.ease,
                 child: CustomButton(
-                  label: 'Next',
+                  label: AppLocalizations.of(context).btnNext,
                   onPressed: () => {
                     // Open next introduction page (package:autospotify/ui/introduction/introduction_spotify.dart)
                     Navigator.of(context).pushReplacement(

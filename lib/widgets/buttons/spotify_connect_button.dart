@@ -1,3 +1,4 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:theme_provider/theme_provider.dart';
@@ -18,7 +19,7 @@ class ConnectSpotifyButton extends StatelessWidget {
       width: SizeConfig.widthMultiplier * 80,
       child: OutlinedButton(
         child: Text(
-          'Connect Spotify',
+          AppLocalizations.of(context).btnConnectSpotify,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: 'Montserrat',

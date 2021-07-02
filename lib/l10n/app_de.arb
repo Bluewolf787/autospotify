@@ -1,0 +1,59 @@
+{
+    "btnGo": "los",
+    "btnNext": "weiter",
+    "btnFinish": "fertigstellen",
+    "btnBack": "Zurück",
+    "btnLight": "Hell",
+    "btnDark": "Dunkel",
+    "btnYes": "ja",
+    "btnNo": "nein",
+    "btnOk": "ok",
+    "btnTryAgain": "Erneut versuchen",
+    "btnConnectSpotify": "Spotify verbinden",
+
+    "spotifyTextField": "Hallo, ",
+    "ytLabelText": "YouTube Playlist URL",
+    "ytHintText": "Gib deine YouTube Playlist URL ein",
+
+    "clearToolTip": "Löschen",
+    "changeThemeToolTip": "Ändere das Farbschema",
+
+    "unexpectedError": "Ups! Etwas lief anders als erwartet",
+    "spotifySaveError": "Speichern der Spotify Anmeldeinformationen fehlgeschlagen",
+    "somthingWrongError": "Ups! Etwas ist schiefgelaufen. Bitte versuche es erneut",
+    "spotifyConnectError": "Verbinden zu Spotify fehlgeschlagen",
+    "syncingError": "Ups! Beim synchronisieren ist etwas schiefgelaufen",
+    "noSongsFoundError": "In der YouTube playlist konnten keine Lieder gefunden werden",
+    "gettingYtPlaylistError": "Ups! Beim finden der YouTube Playlist ist etwas schiefgelaufen. Bitte überprüfe die angegebene Playlist URL",
+    "ytUrlInvalid": "Die angegebene YouTube Playlist URL ist ungültig",
+
+    "connectSpotifyFirstWarning": "Bitte verbinde dein Spotify Profil mit AutoSpotify bevor du weiter machst",
+    "songsAlreadyInPlaylistWarning": "Die Lieder aus der YouTube Playlist sind bereits in der Spotify Playlist",
+    "noYtPlaylistWarning": "Bitte gib eine YouTube Playlist an",
+
+    "successfulSync": "Die Playlisten wurden erfolgreich synchronisiert",
+
+    "noNetworkConnection": "keine Internetverbindung",
+
+    "exitHeader": "AutoSpotify beenden",
+    "exitContent": "Bist du sicher, dass du beenden möchtest?",
+
+    "introStartSpan1": "Bevor du mit ",
+    "introStartSpan2": "\nPlaylisten automatisch\nin ",
+    "introStartSpan3": "generieren kannst,\nmusst du vorher noch ein\npaar Schritte tun",
+
+    "chooseThemeSpan1": "Wähle dein bevorzugtes\n",
+    "chooseThemeSpan2": "Farbschema",
+    "chooseThemeSpanFr": "",
+
+    "introSpotifySpan1": "Du musst ",
+    "introSpotifySpan2": "\nautorisieren sich mit deinen\n",
+    "introSpotifySpan3": " Profil zu verbinden",
+
+    "introYtSpan1": "Zuletzt, gib deine\n",
+    "introYtSpan2": " Playlist an, die du\nsynchronisieren möchtest",
+
+    "homePageSpan1": "Füge Lieder aus ",
+    "homePageSpan2": "\nPlaylisten automatisch\ndeiner ",
+    "homePageSpan3": " Playlist hinzu"
+}

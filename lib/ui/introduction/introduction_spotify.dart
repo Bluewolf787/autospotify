@@ -1,3 +1,4 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:autospotify/ui/introduction/choose_theme_page.dart';
 import 'package:autospotify/ui/introduction/introduction_yt.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
@@ -194,7 +195,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                               height: 1.3,
                             ),
                             children: [
-                              TextSpan(text: 'You must authorize\n',),
+                              TextSpan(text: AppLocalizations.of(context).introSpotifySpan1,),
                               TextSpan(
                                 text: 'AutoSpotify',
                                 style: TextStyle(
@@ -202,7 +203,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
-                              TextSpan(text: ' to connect\nto your ',),
+                              TextSpan(text: AppLocalizations.of(context).introSpotifySpan2,),
                               TextSpan(
                                 text: 'Spotify',
                                 style: TextStyle(
@@ -210,7 +211,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                                   fontWeight: FontWeight.w800,
                                 ),
                               ),
-                              TextSpan(text: ' account',),
+                              TextSpan(text: AppLocalizations.of(context).introSpotifySpan3,),
                               TextSpan(
                                 text: '.',
                                 style: TextStyle(
@@ -253,7 +254,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                               SpotifyApiCredentials _spotifyCredentials = await spotify.getCredentials();
                               await FirestoreHelper().saveSpotifyCredentials(_spotifyCredentials, _userId).then((success) {
                                 if (!success) {
-                                  CustomSnackbar.show(context, 'Failed to save the credentials');
+                                  CustomSnackbar.show(context, AppLocalizations.of(context).spotifySaveError);
                                 }
                               });
                               
@@ -262,7 +263,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                               await SpotifyUtils().createPlaylist(context, spotify, _userId);
 
                               setState(() {
-                                _spotifyUsernameController.text = 'Hello, ${user.displayName}';
+                                _spotifyUsernameController.text = AppLocalizations.of(context).spotifyTextField + user.displayName;
 
                                 _spotifyConnectStatus = SpotifyConnectStatus.connected;
                               });
@@ -271,7 +272,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                               print('ERROR $error');
                               CustomSnackbar.show(
                                 context,
-                                'Oops! Something went wrong. Please try again.',
+                                AppLocalizations.of(context).somthingWrongError,
                               );
                             });
                           },
@@ -287,7 +288,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                     left: startAnimation ? SizeConfig.widthMultiplier * 0 : SizeConfig.widthMultiplier * -100,
                     curve: Curves.ease,
                     child: CustomButton(
-                      label: 'Next',
+                      label: AppLocalizations.of(context).btnNext,
                       onPressed: () {
                         if (_spotifyConnectStatus == SpotifyConnectStatus.connected) {
                           // Open next introduction page (package:autospotify/ui/introduction/introduction_yt.dart)
@@ -296,7 +297,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                         else {
                           CustomSnackbar.show(
                             context,
-                            'Please connect your Spotify profile with AutoSpotify before move on',
+                            AppLocalizations.of(context).connectSpotifyFirstWarning,
                           );
                         }
                       },

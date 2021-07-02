@@ -1,9 +1,14 @@
+import 'package:autospotify/l10n/app_localizations.dart';
+import 'package:autospotify/main.dart';
 import 'package:autospotify/ui/introduction/choose_theme_page.dart';
+import 'package:autospotify/utils/db/shared_prefs_helper.dart';
 import 'package:autospotify/utils/db/firestore_helper.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/widgets/buttons/button.dart';
+import 'package:autospotify/widgets/input/language_dropdown.dart';
 import 'package:autospotify/widgets/layout/circles.dart';
 import 'package:autospotify/widgets/layout/lines.dart';
+import 'package:autospotify/widgets/layout/no_network_connection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
@@ -24,10 +29,20 @@ class _IntroStartPageState extends State<IntroStartPage> {
     });
   }
   
+  String _currentLanguage;
+  void _getCurrentLanguage() async {
+    SharedPreferencesHelper().getCurrentLanguage().then((language) {
+      setState(() {
+        _currentLanguage = language;
+      });
+    });
+  }
+
   @override
   initState() {
-    initialTimer();
     super.initState();
+    initialTimer();
+    _getCurrentLanguage();
   }
 
   @override
@@ -131,7 +146,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
                         height: 1.3,
                       ),
                       children: [
-                        TextSpan(text: 'Before you can use\n',),
+                        TextSpan(text: AppLocalizations.of(context).introStartSpan1,),
                         TextSpan(
                           text: 'AutoSpotify ',
                           style: TextStyle(
@@ -139,7 +154,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        TextSpan(text: 'to automatically\ngenerate '),
+                        TextSpan(text: AppLocalizations.of(context).introStartSpan2),
                         TextSpan(
                           text: 'Spotify ',
                           style: TextStyle(
@@ -147,7 +162,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        TextSpan(text: 'playlists,\nyou need to do some\nsteps first'),
+                        TextSpan(text: AppLocalizations.of(context).introStartSpan3),
                         TextSpan(
                           text: '.',
                           style: TextStyle(
@@ -180,7 +195,7 @@ class _IntroStartPageState extends State<IntroStartPage> {
               left: startAnimation ? SizeConfig.widthMultiplier * 0 : SizeConfig.widthMultiplier * -100,
               curve: Curves.ease,
               child: CustomButton(
-                label: 'Go',
+                label: AppLocalizations.of(context).btnGo,
                 onPressed: () async {
                   await FirestoreHelper().addUser();
                   Navigator.of(context).pushReplacement(
@@ -189,6 +204,23 @@ class _IntroStartPageState extends State<IntroStartPage> {
                 },
               ),
             ),
+
+            // Language Selection
+            Positioned(
+              bottom: SizeConfig.heightMultiplier * 1,
+              right: SizeConfig.widthMultiplier * 4,
+              child: LanguageSelector(
+                value: _currentLanguage,
+                onChanged: (String newLanguage) {
+                  setState(() {
+                    _currentLanguage = newLanguage;
+                    MyApp.of(context).setLocale(_currentLanguage);
+                  });
+                },
+              ),
+            ),
+
+            NoNetworkConnection(),
           ],
         ),
       ),

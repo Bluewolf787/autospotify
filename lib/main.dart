@@ -1,21 +1,65 @@
+import 'package:autospotify/l10n/app_localizations.dart';
 import 'package:autospotify/ui/splash_screen.dart';
 import 'package:autospotify/ui/theme/custom_theme.dart';
+import 'package:autospotify/utils/db/shared_prefs_helper.dart';
+import 'package:autospotify/utils/supported_languages.dart';
+import 'package:autospotify/widgets/layout/no_network_connection.dart';
 import 'package:data_connection_checker/data_connection_checker.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:theme_provider/theme_provider.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+
+  static _MyAppState of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+}
+
+class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
 
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();  
+
+  SharedPreferencesHelper _sharedPrefs = new SharedPreferencesHelper();
+
+  Locale _locale;
+  void _getCurrentLocale() async {
+    String _currentLanguageCode;
+    _sharedPrefs.getCurrentLanguage().then((language) {
+      setState(() {
+        _currentLanguageCode = SupportedLanguages.LANGUAGES.keys.firstWhere((key) => SupportedLanguages.LANGUAGES[key] == language, orElse: () => null);
+        if (_currentLanguageCode != null)
+          _locale = Locale(_currentLanguageCode, '');
+      });
+    });
+  }
+
+  Locale getCurrentLocal() {
+    return _locale;
+  }
+
+  void setLocale(String currentLanguage) async {
+    String _languagesCode = SupportedLanguages.LANGUAGES.keys.firstWhere((key) => SupportedLanguages.LANGUAGES[key] == currentLanguage, orElse: () => null);
+    setState(() {
+      _locale = Locale.fromSubtags(languageCode: _languagesCode);
+    });
+    await _sharedPrefs.setLanguage(SupportedLanguages.LANGUAGES[_languagesCode]);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocale();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +75,13 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           return Center(
-            child: Text(
-              'Oops! Something went wrong.',
-              textDirection: TextDirection.ltr,
-              style: TextStyle(
-                fontFamily: 'Montserrat',
-                fontSize: 14,
-              ),
+            child: Stack(
+              children: <Widget>[
+                CircularProgressIndicator(
+                  strokeWidth: 2,
+                ),
+                NoNetworkConnection(),
+              ],
             ),
           );
         }
@@ -58,6 +102,18 @@ class MyApp extends StatelessWidget {
               child: MaterialApp(
                 debugShowCheckedModeBanner: false,
                 debugShowMaterialGrid: false,
+                localizationsDelegates: [
+                  AppLocalizations.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate,
+                  GlobalCupertinoLocalizations.delegate,
+                ],
+                supportedLocales: [
+                  const Locale('en', ''),
+                  const Locale('de', 'DE'),
+                  const Locale('fr', 'FR'),
+                ],
+                locale: _locale,
                 home: ThemeConsumer(
                   child: SplashScreen(),
                 ),

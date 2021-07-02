@@ -1,0 +1,58 @@
+{
+    "btnGo": "allez-y",
+    "btnNext": "Suivant",
+    "btnFinish": "finir",
+    "btnBack": "Retourner",
+    "btnLight": "Brillant",
+    "btnDark": "Sombre",
+    "btnYes": "oui",
+    "btnNo": "non",
+    "btnOk": "d'accord",
+    "btnTryAgain": "réessayer",
+    "btnConnectSpotify": "Connecter Spotify",
+
+    "spotifyTextField": "Salut, ",
+    "ytLabelText": "YouTube liste de lecture URL",
+    "ytHintText": "Donnes l'URL de votre liste de lecture YouTube",
+    "clearToolTip": "Supprimer",
+    "changeThemeToolTip": "Modifier le jeu de couleurs",
+
+    "unexpectedError": "Oups! Quelque chose d'inattendu est arrivé",
+    "spotifySaveError": "Échec de l'enregistrement des informations d'identification de Spotify",
+    "somthingWrongError": "Oups! Quelque chose s'est mal passé. Veuillez réessayer",
+    "spotifyConnectError": "Échec de la connexion à Spotify",
+    "syncingError": "Oups! Un problème est survenu lors de la synchronisation",
+    "noSongsFoundError": "Cloud ne trouve pas de chansons dans cette liste de lecture YouTube",
+    "gettingYtPlaylistError": "Oups ! Un problème est survenu lors de l'obtention de la liste de lecture YouTube. Veuillez vérifier l'URL fournie",
+    "ytUrlInvalid": "L'URL de la liste de lecture YouTube spécifiée n'est pas valide",
+
+    "connectSpotifyFirstWarning": "Veuillez connecter votre profil Spotify avec AutoSpotify avant de continuer",
+    "songsAlreadyInPlaylistWarning": "Les chansons de la liste de lecture YouTube sont déjà dans la liste de lecture Spotify",
+    "noYtPlaylistWarning": "Veuillez entrer une liste de lecture YouTube",
+
+    "successfulSync": "Les listes de lecture ont été synchronisées avec succès",
+
+    "noNetworkConnection": "pas de connexion internet",
+
+    "exitHeader": "Quitter AutoSpotify",
+    "exitContent": "Tu es sûr de vouloir arrêter?",
+
+    "introStartSpan1": "Avant de pouvoir utiliser\n",
+    "introStartSpan2": "pour générer\nautomatiquement des listes\nde lecture dans ",
+    "introStartSpan3": ",\nvous devez d'abord effectuer\nquelques démarches",
+
+    "chooseThemeSpan1": "Choisissez votre\n",
+    "chooseThemeSpan2": "schéma de couleurs ",
+    "chooseThemeSpanFr": "préféré",
+
+    "introSpotifySpan1": "Vous devez autoriser\n",
+    "introSpotifySpan2": " à se connecter\nà votre profil ",
+    "introSpotifySpan3": "",
+
+    "introYtSpan1": "Enfin, indiquez la\nliste de lecture ",
+    "introYtSpan2": " que vous\nsouhaitez synchroniser",
+
+    "homePageSpan1": "Ajoutez automatiquement\nles chansons des\nlistes de lecture ",
+    "homePageSpan2": "\nà votre liste de lecture ",
+    "homePageSpan3": ""
+}

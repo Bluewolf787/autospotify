@@ -24,6 +24,11 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_localizations:
+    sdk: flutter
+
+  intl: ^0.17.0
+
   page_transition: ^1.1.6
   theme_provider: ^0.4.0+1
   shared_preferences: ^0.5.12+4
@@ -42,7 +47,6 @@ dependencies:
   firebase_core: ^0.7.0
   cloud_firestore: ^0.16.0+1
 
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.0
@@ -56,6 +60,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  generate: true
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
