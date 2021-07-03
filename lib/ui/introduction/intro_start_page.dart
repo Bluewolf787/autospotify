@@ -198,9 +198,11 @@ class _IntroStartPageState extends State<IntroStartPage> {
               curve: Curves.ease,
               child: CustomButton(
                 label: AppLocalizations.of(context).btnGo,
-                onPressed: () async {
-                  if (_sharedPreferencesHelper.getUuid() == null)
-                    await FirestoreHelper().addUser();
+                onPressed: () {
+                  _sharedPreferencesHelper.getUuid().then((value) async {
+                    if (value == null)
+                      await FirestoreHelper().addUser();
+                  });
 
                   Navigator.of(context).pushReplacement(
                     PageTransition(child: ChooseThemePage(), type: PageTransitionType.fade)

@@ -1,4 +1,5 @@
 import 'package:autospotify/l10n/app_localizations.dart';
+import 'package:autospotify/ui/introduction/intro_start_page.dart';
 import 'package:autospotify/ui/introduction/introduction_spotify.dart';
 import 'package:autospotify/utils/size_config.dart';
 import 'package:autospotify/utils/button_pressed_handler.dart';
@@ -223,7 +224,7 @@ class _ChooseThemePageState extends State<ChooseThemePage> {
                   onPressed: () => {
                     // Open prevoiuse indroduction page (package:autospotify/ui/introduction/choose_theme_page.dart)
                     Navigator.of(context).pushReplacement(
-                      PageTransition(child: ChooseThemePage(), type: PageTransitionType.fade)
+                      PageTransition(child: IntroStartPage(), type: PageTransitionType.fade)
                     )
                   },
                 ),
