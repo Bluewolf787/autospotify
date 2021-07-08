@@ -65,24 +65,19 @@ class YouTubeUtils {
   /// Get all videos from a YouTube playlist
   /// Returns a list with all video titles
   /// 
-  Future<List<String>> getVideosFromPlaylist(BuildContext context, String playlistUrl) async {
+  Future<List<Video>> getVideosFromPlaylist(BuildContext context, String playlistUrl) async {
     try {
       // Get videos from playlist
-      final playlistVideos = _youtubeExplode.playlists.getVideos(playlistUrl);
-
-      List<String> videos = [];
-
-      // Get the video title from every video and strore it in list 'videos'
-      await for (var video in playlistVideos) {
-        var videoTitle = video.title;
-
-        videos.add(videoTitle);
+      final playlistVideos = await _youtubeExplode.playlists.getVideos(PlaylistId(playlistUrl)).toList();
+      
+      print('::: VIDEOS FOUND IN PLAYLIST = ${playlistVideos.length}');
+      
+      if (playlistVideos.length == 100) {
+        CustomSnackbar.show(context, '100 Videos found. Notice that 100 is the limit, if your playlist has more videos they don\'t will be all synced');
       }
       
-      //print(videos);
-      
       // Return the video titles as List<String>
-      return videos;
+      return playlistVideos;
     } catch (exception) {
       print('YT-Utils: $exception');
       CustomSnackbar.show(context, AppLocalizations.of(context).ytUrlInvalid);

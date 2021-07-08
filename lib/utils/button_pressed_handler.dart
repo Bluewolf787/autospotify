@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:spotify/spotify.dart';
 import 'package:theme_provider/theme_provider.dart';
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class ButtonPressedHandler {
 
@@ -21,14 +22,13 @@ class ButtonPressedHandler {
     }
         
     // Get YouTube Video titles
-    List<String> videosRaw = await YouTubeUtils().getVideosFromPlaylist(context, youtubePlaylistUrl);
+    List<Video> videosRaw = await YouTubeUtils().getVideosFromPlaylist(context, youtubePlaylistUrl);
     if (videosRaw == null)
-      return false;
   
     FirestoreHelper().saveYouTubePlaylistUrl(youtubePlaylistUrl, userId);
 
     // Get song titles from YouTube video titles
-    List<String> songTitles = SongTitleExtractor().extract(videosRaw);
+    Map<String, List<String>> songTitles = SongTitleExtractor().extract(videosRaw);
     //print('SONG TITLES: $songTitles');
 
     // Search for songs on Spotify

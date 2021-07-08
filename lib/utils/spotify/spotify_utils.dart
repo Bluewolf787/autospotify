@@ -156,13 +156,20 @@ class SpotifyUtils {
   /// Search for tracks on Spotify
   /// Returns a list of Spotify track URIs
   ///
-  Future<List<String>> searchSongs(SpotifyApi spotify, List<String> songTitles) async {
+  Future<List<String>> searchSongs(SpotifyApi spotify, Map<String, List<String>> songTitles) async {
     List<String> tracks = [];
     List<BundledPages> searchResults = [];
+    BundledPages searchResult;
     // Search for for each song title
-    songTitles.forEach((song) {
-      // Store search results in 'searchResults' list
-      searchResults.add(spotify.search.get(song, types: {SearchType.track}));
+    songTitles.forEach((author, songs) {
+      songs.forEach((song) {
+        // Search for song
+        print('::: SEARCHES IN SPOTIFY FOR: $author - $song');
+        searchResult = spotify.search.get('$author $song', types: {SearchType.track});
+
+        // Store search results in 'searchResults' list
+        searchResults.add(searchResult);
+      });
     });
 
     Track track;
@@ -179,9 +186,11 @@ class SpotifyUtils {
         }
       }).whenComplete(() {
         try {
-          if (track != null) {
+          if (track != null && !tracks.contains('spotify:track:${track.id}')) {
+            print('::: SONG FOUND ON SPOTIFY: spotify:track:${track.id}');
             // Store in 'tracks' list as Spotify track URI
             tracks.add('spotify:track:${track.id}');
+            track = null;
           }
         } catch (exception, stackTrace) {
           print('ERROR Spotify get Track IDs: $exception, StackTrace:\n$stackTrace');
