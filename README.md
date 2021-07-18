@@ -1,4 +1,4 @@
-![logo](readme/logo/logo.png)
+![logo](assets/logo.png)
 
 [![Website](https://img.shields.io/website-up-down-green-red/http/bluewolf787.github.io.svg)](https://bluewolf787.github.io/projects/autospotify)
 
@@ -24,7 +24,6 @@
   - [Contributing](#contributing)
   - [Collaborators](#collaborators)
   - [License](#license)
-  - [Acknowledgments](#acknowledgments)
 
 ## Screenshots
 
@@ -55,9 +54,3 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on the code of conduc
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
-
-## Acknowledgments
-* ### Logo Credits
-  * [Folder icon](https://iconscout.com/icon/musicfolder-1706780) by [Itim2101](https://iconscout.com/contributors/komkrit-noenpoempisut)
-  * [Spotify icon](https://iconscout.com/icon/spotify-2690370) by [Anton Kalashnyk](https://iconscout.com/contributors/kolo-design)
-  * [YouTube icon](https://iconscout.com/icon/youtube-2690358) by [Anton Kalashnyk](https://iconscout.com/contributors/kolo-design)
