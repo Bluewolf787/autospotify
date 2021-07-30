@@ -1,4 +1,4 @@
-![logo](assets/logo.png)
+![banner](readme/screenshots/AutoSpotify-banner.png)
 
 [![Website](https://img.shields.io/website-up-down-green-red/http/bluewolf787.github.io.svg)](https://bluewolf787.github.io/projects/autospotify)
 
@@ -10,14 +10,14 @@
 
 
 
-# AutoSpotify
+# <img src="assets/logo.png" width="32" height="32" alt="logo"> AutoSpotify
 
 > This mobile app built in [Flutter](https://flutter.dev/) is used to search in YouTube playlist for songs and add these to a Spotify playlist.
 
 ----
 
 ## Table of Contents
-- [AutoSpotify](#autospotify)
+- [<img src="assets/logo.png" width="32" height="32" alt="logo"> AutoSpotify](#-autospotify)
   - [Table of Contents](#table-of-contents)
   - [Screenshots](#screenshots)
   - [Technologies](#technologies)
@@ -27,10 +27,8 @@
 
 ## Screenshots
 
-![home-page-gif](readme/screenshots/home-page.gif) | ![themes-gif](readme/screenshots/themes.gif)
+![preview-dark](readme/screenshots/autospotify-preview-dark.jpeg) | ![preview-light](readme/screenshots/autospotify-preview-light.jpeg)
 -------------------------------------------------- | --------------------------------------------
-This are prototype footage they don't have to represent the look of the real app |
-
 
 ## Technologies
 
