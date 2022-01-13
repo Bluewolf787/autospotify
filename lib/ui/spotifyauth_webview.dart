@@ -5,9 +5,9 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class SpotifyAuthWebView extends StatefulWidget {
   SpotifyAuthWebView({
-    Key key,
-    this.initalUrl,
-    this.redirectUri,
+    Key? key,
+    required this.initalUrl,
+    required this.redirectUri,
   }) : super(key: key);
 
   final String initalUrl;
@@ -18,13 +18,11 @@ class SpotifyAuthWebView extends StatefulWidget {
 }
 
 class _SpotifyAuthWebViewState extends State<SpotifyAuthWebView> {
-
   @override
   void initState() {
     super.initState();
 
-    if (Platform.isAndroid)
-      WebView.platform = SurfaceAndroidWebView();
+    if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
   }
 
   @override

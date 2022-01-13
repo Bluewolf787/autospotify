@@ -4,11 +4,11 @@ import 'package:theme_provider/theme_provider.dart';
 
 class CustomBackButton extends StatelessWidget {
   const CustomBackButton({
-    Key key,
-    @required this.onPressed,
+    Key? key,
+    required this.onPressed,
   }) : super(key: key);
 
-  final Function onPressed;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class CustomBackButton extends StatelessWidget {
         size: 24,
       ),
       label: Text(
-        AppLocalizations.of(context).btnBack,
+        AppLocalizations.of(context)!.btnBack,
         style: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 14,
@@ -29,10 +29,12 @@ class CustomBackButton extends StatelessWidget {
         ),
       ),
       style: ButtonStyle(
-        overlayColor: MaterialStateProperty.resolveWith((states) {
-          return Colors.transparent;
-        }),
-      )
+        overlayColor: MaterialStateProperty.resolveWith(
+          (states) {
+            return Colors.transparent;
+          },
+        ),
+      ),
     );
   }
 }

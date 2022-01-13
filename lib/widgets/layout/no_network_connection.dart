@@ -8,16 +8,17 @@ import 'package:provider/provider.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class NoNetworkConnection extends StatelessWidget {
-  const NoNetworkConnection({Key key}) : super(key: key);
+  const NoNetworkConnection({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Visibility(
-      visible: Provider.of<DataConnectionStatus>(context) == DataConnectionStatus.disconnected,
+      visible: Provider.of<DataConnectionStatus>(context) ==
+          DataConnectionStatus.disconnected,
       child: Container(
-        height: SizeConfig.heightMultiplier * 100,
-        width: SizeConfig.widthMultiplier * 100,
+        height: SizeConfig.heightMultiplier! * 100,
+        width: SizeConfig.widthMultiplier! * 100,
         color: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
         child: Center(
           child: Column(
@@ -30,7 +31,7 @@ class NoNetworkConnection extends StatelessWidget {
               ),
               Padding(padding: EdgeInsets.only(bottom: 10)),
               Text(
-                AppLocalizations.of(context).noNetworkConnection.toUpperCase(),
+                AppLocalizations.of(context)!.noNetworkConnection.toUpperCase(),
                 style: TextStyle(
                   fontFamily: 'Montserrat',
                   fontSize: 22,
@@ -44,9 +45,10 @@ class NoNetworkConnection extends StatelessWidget {
               TextButton(
                 onPressed: () {
                   Navigator.pushReplacement(
-                    context,
-                    PageTransition(child: SplashScreen(), type: PageTransitionType.fade)
-                  );
+                      context,
+                      PageTransition(
+                          child: SplashScreen(),
+                          type: PageTransitionType.fade));
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith((states) {
@@ -54,7 +56,7 @@ class NoNetworkConnection extends StatelessWidget {
                   }),
                 ),
                 child: Text(
-                  AppLocalizations.of(context).btnTryAgain.toUpperCase(),
+                  AppLocalizations.of(context)!.btnTryAgain.toUpperCase(),
                   style: TextStyle(
                     fontFamily: 'Montserrat',
                     fontSize: 18,

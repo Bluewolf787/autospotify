@@ -14,8 +14,8 @@ class SplashScreen extends StatefulWidget {
   _SplashScreenState createState() => new _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<SplashScreen> {
-
+class _SplashScreenState extends State<SplashScreen>
+    with AfterLayoutMixin<SplashScreen> {
   ///
   /// This method checks if the user starts the app for the first time
   /// and the introduction needs to be shown
@@ -25,21 +25,19 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<Splas
     bool _introSeen = await SharedPreferencesHelper().getIntroSeenBool();
 
     await new Future.delayed(const Duration(seconds: 2));
-        
+
     if (_introSeen) {
       // If the user already saw the introduction, then open Home Page
       Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(builder: (context) => new HomePage())
-      );
-    }
-    else {
+          new MaterialPageRoute(builder: (context) => new HomePage()));
+    } else {
       // Set default language to english
-      await SharedPreferencesHelper().setLanguage(SupportedLanguages.LANGUAGES[AppLocalizations.of(context).localeName]);
+      await SharedPreferencesHelper().setLanguage(SupportedLanguages
+          .LANGUAGES[AppLocalizations.of(context)!.localeName]);
 
       // If the user starts the app for the first time, then open Introduction Start Page
       Navigator.of(context).pushReplacement(
-        new MaterialPageRoute(builder: (context) => new IntroStartPage())
-      );
+          new MaterialPageRoute(builder: (context) => new IntroStartPage()));
     }
   }
 
@@ -51,22 +49,23 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<Splas
     SizeConfig().init(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
+      backgroundColor:
+          ThemeProvider.themeOf(context).data.scaffoldBackgroundColor,
       body: Container(
-        height: SizeConfig.heightMultiplier * 100,
-        width: SizeConfig.widthMultiplier * 100,
+        height: SizeConfig.heightMultiplier! * 100,
+        width: SizeConfig.widthMultiplier! * 100,
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Container(
-                height: SizeConfig.heightMultiplier * 40,
-                width: SizeConfig.widthMultiplier * 40,
-                child: Image.asset(
-                  'assets/logo.png'
-                ),
+                height: SizeConfig.heightMultiplier! * 40,
+                width: SizeConfig.widthMultiplier! * 40,
+                child: Image.asset('assets/logo.png'),
               ),
-              Padding(padding: EdgeInsets.only(top: SizeConfig.heightMultiplier * 20)),
+              Padding(
+                  padding:
+                      EdgeInsets.only(top: SizeConfig.heightMultiplier! * 20)),
               Text(
                 'AutoSpotify',
                 style: TextStyle(
@@ -76,9 +75,12 @@ class _SplashScreenState extends State<SplashScreen> with AfterLayoutMixin<Splas
                   color: ThemeProvider.themeOf(context).data.primaryColor,
                 ),
               ),
-              Padding(padding: EdgeInsets.only(top: SizeConfig.heightMultiplier * 5)),
+              Padding(
+                  padding:
+                      EdgeInsets.only(top: SizeConfig.heightMultiplier! * 5)),
               CircularProgressIndicator(
-                backgroundColor: ThemeProvider.themeOf(context).data.primaryColor,
+                backgroundColor:
+                    ThemeProvider.themeOf(context).data.primaryColor,
                 strokeWidth: 2,
               ),
             ],

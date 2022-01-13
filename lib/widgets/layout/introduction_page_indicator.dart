@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 
 class PageIndicator extends StatelessWidget {
   PageIndicator({
-    Key key,
-    @required this.currentPage,
-    @required this.maxPages
+    Key? key,
+    required this.currentPage,
+    required this.maxPages,
   }) : super(key: key);
-  
+
   final int currentPage;
   final int maxPages;
 
@@ -15,9 +15,9 @@ class PageIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Positioned(
-      bottom: SizeConfig.heightMultiplier * 15,
+      bottom: SizeConfig.heightMultiplier! * 15,
       child: Container(
-        width: SizeConfig.widthMultiplier * 100,
+        width: SizeConfig.widthMultiplier! * 100,
         alignment: Alignment.center,
         child: Text(
           '$currentPage/$maxPages',

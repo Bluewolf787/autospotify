@@ -5,21 +5,21 @@ import 'package:theme_provider/theme_provider.dart';
 
 class ConnectSpotifyButton extends StatelessWidget {
   const ConnectSpotifyButton({
-    Key key,
-    @required this.onPressed,
+    Key? key,
+    required this.onPressed,
   }) : super(key: key);
 
-  final Function onPressed;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return SizedBox(
-      height: SizeConfig.heightMultiplier * 8,
-      width: SizeConfig.widthMultiplier * 80,
+      height: SizeConfig.heightMultiplier! * 8,
+      width: SizeConfig.widthMultiplier! * 80,
       child: OutlinedButton(
         child: Text(
-          AppLocalizations.of(context).btnConnectSpotify,
+          AppLocalizations.of(context)!.btnConnectSpotify,
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: 'Montserrat',
