@@ -8,16 +8,16 @@ import 'package:flutter/material.dart';
 import 'package:spotify/spotify.dart';
 
 class SpotifyUtils {
-
   ///
   /// Authenticate and connect to the user Spotify account
   /// Returns SpotifyApi object
   ///
-  Future<SpotifyApi> connect(BuildContext context) async { 
+  Future<SpotifyApi> connect(BuildContext context) async {
     Map<String, dynamic> spotifySecretsMap = await SpotifySecrets().get();
 
     // Get Spotify credentials
-    final credentials = SpotifyApiCredentials(spotifySecretsMap['clientID'], spotifySecretsMap['clientSecret']);
+    final credentials = SpotifyApiCredentials(
+        spotifySecretsMap['clientID'], spotifySecretsMap['clientSecret']);
 
     // Get auth code grant
     final grant = SpotifyApi.authorizationCodeGrant(credentials);
@@ -26,7 +26,11 @@ class SpotifyUtils {
     final redirectUri = spotifySecretsMap['redirectUrl'];
 
     // Define scopes
-    final scopes = ['playlist-read-private', 'playlist-modify-private', 'playlist-modify-public'];
+    final scopes = [
+      'playlist-read-private',
+      'playlist-modify-private',
+      'playlist-modify-public'
+    ];
 
     // Create auth Url
     final authUri = grant.getAuthorizationUrl(
@@ -35,7 +39,8 @@ class SpotifyUtils {
     );
 
     // Open auth WebView
-    final responseUri = await _navigateToWebViewAndGetResponseUri(context, authUri.toString(), redirectUri);
+    final responseUri = await _navigateToWebViewAndGetResponseUri(
+        context, authUri.toString(), redirectUri);
 
     // Connect to user Spotify account
     final spotify = SpotifyApi.fromAuthCodeGrant(grant, responseUri);
@@ -47,12 +52,16 @@ class SpotifyUtils {
   ///
   /// Open a WebView with Spotify auth URL to authorize the user
   /// Returns the response URL from Spotify
-  /// 
-  Future<dynamic> _navigateToWebViewAndGetResponseUri(BuildContext context, String initalUrl, String redirectUrl) async {
+  ///
+  Future<dynamic> _navigateToWebViewAndGetResponseUri(
+      BuildContext context, String initalUrl, String redirectUrl) async {
     final responseUrl = Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => SpotifyAuthWebView(initalUrl: initalUrl, redirectUri: redirectUrl,))
-    );
+        context,
+        MaterialPageRoute(
+            builder: (context) => SpotifyAuthWebView(
+                  initalUrl: initalUrl,
+                  redirectUri: redirectUrl,
+                )));
 
     // Return response URL
     return responseUrl;
@@ -61,41 +70,44 @@ class SpotifyUtils {
   ///
   /// Connect to the user Spotify accout using stored Spotify credentials
   /// Returns SpotifyApi object
-  /// 
-  Future<SpotifyApi> connectWithCredentials(BuildContext context, String userId) async {
+  ///
+  Future<SpotifyApi?> connectWithCredentials(
+      BuildContext context, String? userId) async {
     Map<String, dynamic> spotifySecretsMap = await SpotifySecrets().get();
-    Map<String, dynamic> credentials = await FirestoreHelper().getSpotifyCredentials(userId);
-    
+    Map<String, dynamic> credentials =
+        await FirestoreHelper().getSpotifyCredentials(userId);
+
     try {
       // Get Spotify credentials
       final spotifyCredentials = SpotifyApiCredentials(
-        spotifySecretsMap['clientID'],
-        spotifySecretsMap['clientSecret'],
-        accessToken: credentials['accessToken'],
-        refreshToken: credentials['refreshToken'],
-        scopes: credentials['scopes'].cast<String>(),
-        expiration: credentials['expiration'].toDate()
-      );
+          spotifySecretsMap['clientID'], spotifySecretsMap['clientSecret'],
+          accessToken: credentials['accessToken'],
+          refreshToken: credentials['refreshToken'],
+          scopes: credentials['scopes'].cast<String>(),
+          expiration: credentials['expiration'].toDate());
 
       // Connect user Spotify account using credentials
       final spotify = SpotifyApi(spotifyCredentials);
 
       // Save updated Spotify credentials
-      await FirestoreHelper().saveSpotifyCredentials(await spotify.getCredentials(), userId);
+      await FirestoreHelper()
+          .saveSpotifyCredentials(await spotify.getCredentials(), userId);
 
       // Return SpotifyApi object
       return spotify;
     } catch (exception) {
-      CustomSnackbar.show(context, AppLocalizations.of(context).spotifyConnectError);
+      CustomSnackbar.show(
+        context,
+        AppLocalizations.of(context)!.spotifyConnectError,
+      );
       return null;
     }
-
   }
 
   ///
   /// Get the current Spotify user
   /// Returns Spotify user
-  /// 
+  ///
   Future<User> getUser(SpotifyApi spotify) async {
     return await spotify.me.get();
   }
@@ -111,11 +123,11 @@ class SpotifyUtils {
     User user = await getUser(spotify);
 
     // Get all playlists
-    var playlistsIterable = await spotify.users.playlists(user.id).all();
-    
+    var playlistsIterable = await spotify.users.playlists(user.id!).all();
+
     // Store playlists in Map
     playlistsIterable.forEach((playlistSimple) {
-      playlistsMap[playlistSimple.id] = playlistSimple.name;
+      playlistsMap[playlistSimple.id!] = playlistSimple.name!;
     });
 
     // Return Spotify playlists as Map<String, String> key: playlist ID, value playlist name
@@ -124,30 +136,33 @@ class SpotifyUtils {
 
   ///
   /// Create a private Spotify playlist (auto-generated playlist)
-  /// 
-  Future<void> createPlaylist(BuildContext context, SpotifyApi spotify, String userId) async {
+  ///
+  Future<void> createPlaylist(
+      BuildContext context, SpotifyApi spotify, String? userId) async {
     User user = await getUser(spotify);
 
-    // Check if a auto-generated playlist already exists 
-    bool autoPlaylistExists = await SharedPreferencesHelper().getAutoPlaylistExistsBool();
+    // Check if a auto-generated playlist already exists
+    bool autoPlaylistExists =
+        await SharedPreferencesHelper().getAutoPlaylistExistsBool();
 
     if (!autoPlaylistExists) {
       // Create playlist if does not exists
-      await spotify.playlists.createPlaylist(
-        user.id,
+      await spotify.playlists
+          .createPlaylist(
+        user.id!,
         'AutoPlaylist', // The name of the playlist
-        description: 'Here you find all the songs you synced from YouTube playlists',
+        description:
+            'Here you find all the songs you synced from YouTube playlists',
         public: false,
       )
-      .then((Playlist playlist) async {
+          .then((Playlist playlist) async {
         print('Private playlist created! ${playlist.href}');
 
         // Store playlist ID to Firestore
         await FirestoreHelper().saveSpotifyPlaylistId(playlist.id, userId);
         await SharedPreferencesHelper().setAutoPlaylistExistsBool();
-      })
-      .onError((error, stackTrace) {
-        _printError(error, stackTrace);
+      }).onError((error, stackTrace) {
+        _printError(error!, stackTrace);
       });
     }
   }
@@ -156,7 +171,8 @@ class SpotifyUtils {
   /// Search for tracks on Spotify
   /// Returns a list of Spotify track URIs
   ///
-  Future<List<String>> searchSongs(SpotifyApi spotify, Map<String, List<String>> songTitles) async {
+  Future<List<String>> searchSongs(
+      SpotifyApi spotify, Map<String, List<String>> songTitles) async {
     List<String> tracks = [];
     List<BundledPages> searchResults = [];
     BundledPages searchResult;
@@ -165,40 +181,41 @@ class SpotifyUtils {
       songs.forEach((song) {
         // Search for song
         print('::: SEARCHES IN SPOTIFY FOR: $author - $song');
-        searchResult = spotify.search.get('$author $song', types: {SearchType.track});
+        searchResult =
+            spotify.search.get('$author $song', types: {SearchType.track});
 
         // Store search results in 'searchResults' list
         searchResults.add(searchResult);
       });
     });
 
-    Track track;
+    Track? track;
     // Check search result for every song title
     for (var result in searchResults) {
       await result.first().then((songs) {
         try {
-          if (songs.first.items.isNotEmpty) {
+          if (songs.first.items!.isNotEmpty) {
             // Get first track from search result
-            track = songs.first.items.first;
+            track = songs.first.items!.first;
           }
         } catch (exception, stackTrace) {
           print('ERROR Spotify search: $exception, StackTrace:\n$stackTrace');
         }
       }).whenComplete(() {
         try {
-          if (track != null && !tracks.contains('spotify:track:${track.id}')) {
-            print('::: SONG FOUND ON SPOTIFY: spotify:track:${track.id}');
+          if (!tracks.contains('spotify:track:${track!.id}')) {
+            print('::: SONG FOUND ON SPOTIFY: spotify:track:${track!.id}');
             // Store in 'tracks' list as Spotify track URI
-            tracks.add('spotify:track:${track.id}');
-            track = null;
+            tracks.add('spotify:track:${track!.id}');
           }
         } catch (exception, stackTrace) {
-          print('ERROR Spotify get Track IDs: $exception, StackTrace:\n$stackTrace');
+          print(
+              'ERROR Spotify get Track IDs: $exception, StackTrace:\n$stackTrace');
         }
       });
     }
 
-    // Return Spotify tracks URIs as List<String> 
+    // Return Spotify tracks URIs as List<String>
     return tracks;
   }
 
@@ -207,9 +224,11 @@ class SpotifyUtils {
   /// are already in that playlist
   /// Returns a List of Spotify track URIs without tracks which already exists in the playlist
   ///
-  Future<List<String>> _checkTracksInPlaylist(SpotifyApi spotify, List<String> trackList, String playlistId) async {
+  Future<List<String>> _checkTracksInPlaylist(
+      SpotifyApi spotify, List<String> trackList, String playlistId) async {
     // Get all tracks in a Spotify playlist
-    final tracksInPlaylist =  await spotify.playlists.getTracksByPlaylistId(playlistId).all();
+    final tracksInPlaylist =
+        await spotify.playlists.getTracksByPlaylistId(playlistId).all();
 
     // Go throught all the tracks
     for (var track in tracksInPlaylist) {
@@ -225,28 +244,41 @@ class SpotifyUtils {
   ///
   /// Add tracks to a Spotify playlist
   ///
-  Future<bool> addSongsToPlaylist(BuildContext context, SpotifyApi spotify, List<String> trackList, String playlistId, String userId) async {
-    bool _status;
+  Future<bool> addSongsToPlaylist(BuildContext context, SpotifyApi spotify,
+      List<String> trackList, String playlistId, String userId) async {
+    bool _status = false;
 
     if (playlistId.isEmpty) {
       // If no playlist ID provided use auto-generated playlist
-      playlistId = await FirestoreHelper().getSpotifyAutoPlaylistId(userId);
+      playlistId = (await FirestoreHelper().getSpotifyAutoPlaylistId(userId))!;
     }
 
-    List<String> finalTrackList = await _checkTracksInPlaylist(spotify, trackList, playlistId);
+    List<String> finalTrackList =
+        await _checkTracksInPlaylist(spotify, trackList, playlistId);
 
     if (finalTrackList.isEmpty) {
-      CustomSnackbar.show(context, AppLocalizations.of(context).songsAlreadyInPlaylistWarning);
+      CustomSnackbar.show(
+        context,
+        AppLocalizations.of(context)!.songsAlreadyInPlaylistWarning,
+      );
       return true;
     }
 
     // Add all tracks to the playlist
-    await spotify.playlists.addTracks(finalTrackList, playlistId).whenComplete(() {
-      CustomSnackbar.show(context, AppLocalizations.of(context).successfulSync);
+    await spotify.playlists
+        .addTracks(finalTrackList, playlistId)
+        .whenComplete(() {
+      CustomSnackbar.show(
+        context,
+        AppLocalizations.of(context)!.successfulSync,
+      );
       _status = true;
     }).onError((error, stackTrace) {
       print('ERROR Spotify add tracks: $error, StackTrace:\n$stackTrace');
-      CustomSnackbar.show(context, AppLocalizations.of(context).syncingError);
+      CustomSnackbar.show(
+        context,
+        AppLocalizations.of(context)!.syncingError,
+      );
       _status = false;
     });
 
@@ -263,5 +295,4 @@ class SpotifyUtils {
       print('$error, StackTrace:\n$stackTrace');
     }
   }
-
 }

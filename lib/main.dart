@@ -21,38 +21,44 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-  static _MyAppState of(BuildContext context) => context.findAncestorStateOfType<_MyAppState>();
+  static _MyAppState? of(BuildContext context) =>
+      context.findAncestorStateOfType<_MyAppState>();
 }
 
 class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
 
-  final Future<FirebaseApp> _initialization = Firebase.initializeApp();  
+  final Future<FirebaseApp>? _initialization = Firebase.initializeApp();
 
   SharedPreferencesHelper _sharedPrefs = new SharedPreferencesHelper();
 
-  Locale _locale;
+  Locale? _locale;
   void _getCurrentLocale() async {
     String _currentLanguageCode;
     _sharedPrefs.getCurrentLanguage().then((language) {
       setState(() {
-        _currentLanguageCode = SupportedLanguages.LANGUAGES.keys.firstWhere((key) => SupportedLanguages.LANGUAGES[key] == language, orElse: () => null);
-        if (_currentLanguageCode != null)
+        _currentLanguageCode = SupportedLanguages.LANGUAGES.keys.firstWhere(
+            (key) => SupportedLanguages.LANGUAGES[key] == language,
+            orElse: () => '');
+        if (_currentLanguageCode != '')
           _locale = Locale(_currentLanguageCode, '');
       });
     });
   }
 
-  Locale getCurrentLocal() {
+  Locale? getCurrentLocal() {
     return _locale;
   }
 
-  void setLocale(String currentLanguage) async {
-    String _languagesCode = SupportedLanguages.LANGUAGES.keys.firstWhere((key) => SupportedLanguages.LANGUAGES[key] == currentLanguage, orElse: () => null);
+  void setLocale(String? currentLanguage) async {
+    String? _languagesCode = SupportedLanguages.LANGUAGES.keys.firstWhere(
+        (key) => SupportedLanguages.LANGUAGES[key] == currentLanguage,
+        orElse: () => '');
     setState(() {
       _locale = Locale.fromSubtags(languageCode: _languagesCode);
     });
-    await _sharedPrefs.setLanguage(SupportedLanguages.LANGUAGES[_languagesCode]);
+    await _sharedPrefs
+        .setLanguage(SupportedLanguages.LANGUAGES[_languagesCode]);
   }
 
   @override
@@ -65,11 +71,11 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     // Force the application in portrait mode
     SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
     ]);
     // Hide Statusbar
-    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
     return FutureBuilder(
       future: _initialization,
       builder: (context, snapshot) {

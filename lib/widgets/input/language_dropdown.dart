@@ -5,24 +5,35 @@ import 'package:theme_provider/theme_provider.dart';
 
 class LanguageSelector extends StatelessWidget {
   LanguageSelector({
-    Key key,
-    @required this.value,
-    @required this.onChanged,
+    Key? key,
+    required this.value,
+    required this.onChanged,
   }) : super(key: key);
 
-  final List<String> languages = [SupportedLanguages.LANGUAGES['en'], SupportedLanguages.LANGUAGES['de'], SupportedLanguages.LANGUAGES['fr']];
-  final String value;
-  final Function(String) onChanged;
+  final List<DropdownMenuItem<String>>? languages = [
+    DropdownMenuItem<String>(
+      child: Text('English'),
+      value: SupportedLanguages.LANGUAGES['en'],
+    ),
+    DropdownMenuItem<String>(
+      child: Text('German'),
+      value: SupportedLanguages.LANGUAGES['de'],
+    ),
+    DropdownMenuItem<String>(
+      child: Text('French'),
+      value: SupportedLanguages.LANGUAGES['fr'],
+    ),
+  ];
+  final String? value;
+  final dynamic Function(String?) onChanged;
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return SizedBox(
-      width: SizeConfig.widthMultiplier * 26,
+      width: SizeConfig.widthMultiplier! * 26,
       child: DropdownButton(
-        items: languages.map((String item) {
-          return new DropdownMenuItem<String>(value: item, child: Text(item));
-        }).toList(),
+        items: languages,
         value: value,
         onChanged: onChanged,
         isDense: false,

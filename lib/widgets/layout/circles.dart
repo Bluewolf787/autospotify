@@ -3,14 +3,14 @@ import 'package:flutter/rendering.dart';
 
 class Circle extends StatelessWidget {
   Circle({
-    Key key,
-    this.diameter, 
-    this.color,
-    this.shadowOffset,
-    this.shadowBlurRadius,
-    this.notFilled,
+    Key? key,
+    required this.diameter,
+    required this.color,
+    this.shadowOffset = const Offset(0, 0),
+    this.shadowBlurRadius = 0.0,
+    required this.notFilled,
   }) : super(key: key);
-  
+
   final double diameter;
   final Color color;
   final Offset shadowOffset;
@@ -35,8 +35,7 @@ class Circle extends StatelessWidget {
           ],
         ),
       );
-    }
-    else {
+    } else {
       return Container(
         width: diameter,
         height: diameter,

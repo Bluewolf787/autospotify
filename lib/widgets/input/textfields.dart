@@ -4,11 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:theme_provider/theme_provider.dart';
 
 class SpotifyGreetingTextField extends StatelessWidget {
-  SpotifyGreetingTextField({
-    Key key,
-    @required this.controller
-  }) : super(key: key);
-  
+  SpotifyGreetingTextField({Key? key, required this.controller})
+      : super(key: key);
+
   final TextEditingController controller;
 
   @override
@@ -22,13 +20,15 @@ class SpotifyGreetingTextField extends StatelessWidget {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           borderSide: BorderSide(
-            color: Color(0xff1db954), width: 2.0,
+            color: Color(0xff1db954),
+            width: 2.0,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10.0)),
           borderSide: BorderSide(
-            color: Color(0xff1db954), width: 2.0,
+            color: Color(0xff1db954),
+            width: 2.0,
           ),
         ),
       ),
@@ -46,16 +46,15 @@ class SpotifyGreetingTextField extends StatelessWidget {
 
 class YtPlaylistUrlInputField extends StatelessWidget {
   YtPlaylistUrlInputField({
-    Key key,
-    @required this.controller,
+    Key? key,
+    required this.controller,
+    required this.suffixIconButton,
     this.onEditingComplete,
-    this.suffixIconButton,
   }) : super(key: key);
-  
-  final TextEditingController controller;
-  final Function onEditingComplete;
-  final IconButton suffixIconButton;
 
+  final TextEditingController controller;
+  final VoidCallback? onEditingComplete;
+  final IconButton suffixIconButton;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +79,7 @@ class YtPlaylistUrlInputField extends StatelessWidget {
             width: 2.0,
           ),
         ),
-        labelText: AppLocalizations.of(context).ytLabelText,
+        labelText: AppLocalizations.of(context)!.ytLabelText,
         labelStyle: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 14,
@@ -88,7 +87,7 @@ class YtPlaylistUrlInputField extends StatelessWidget {
           fontWeight: FontWeight.w400,
         ),
         alignLabelWithHint: true,
-        hintText: AppLocalizations.of(context).ytHintText,
+        hintText: AppLocalizations.of(context)!.ytHintText,
         hintStyle: TextStyle(
           fontFamily: 'Montserrat',
           fontSize: 14,

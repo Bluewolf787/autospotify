@@ -1,25 +1,20 @@
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class SongTitleExtractor {
-
   List<String> _getSongAndArtistFromTitle(String videoTitle) {
-    String artist;
-    String song;
+    String artist = '';
+    String song = '';
 
     if (videoTitle.contains(' - ')) {
       artist = videoTitle.split(' - ').first.trim();
       song = videoTitle.split(' - ')[1].trim();
-
-    }
-    else if (videoTitle.contains(' – ')) {
+    } else if (videoTitle.contains(' – ')) {
       artist = videoTitle.split(' – ').first.trim();
       song = videoTitle.split(' – ')[1].trim();
-    }
-    else if (videoTitle.contains(' — ')) {
+    } else if (videoTitle.contains(' — ')) {
       artist = videoTitle.split(' — ').first.trim();
       song = videoTitle.split(' — ')[1].trim();
-    }
-    else if (videoTitle.contains(' ~ ')) {
+    } else if (videoTitle.contains(' ~ ')) {
       artist = videoTitle.split(' ~ ').first.trim();
       song = videoTitle.split(' ~ ')[1].trim();
     }
@@ -31,7 +26,7 @@ class SongTitleExtractor {
     if (songTitle.contains('(') && songTitle.contains(')')) {
       songTitle = songTitle.split('(').first;
     }
-    
+
     if (songTitle.contains('[') && songTitle.contains(']')) {
       songTitle = songTitle.split('[').first;
     }
@@ -43,7 +38,7 @@ class SongTitleExtractor {
     if (songTitle.contains(' feat ')) {
       songTitle = songTitle.split(' feat ').first;
     }
-    
+
     if (songTitle.contains(' ft. ')) {
       songTitle = songTitle.split(' ft. ').first;
     }
@@ -55,7 +50,7 @@ class SongTitleExtractor {
     if (songTitle.contains(' featuring ')) {
       songTitle = songTitle.split(' featuring ').first;
     }
-    
+
     if (songTitle.contains(' | ')) {
       songTitle = songTitle.split(' | ').first;
     }
@@ -119,24 +114,26 @@ class SongTitleExtractor {
     return songArtist.trim();
   }
 
-  Map<String, List<String>> _extractTitleAndArtist(List<Video> rawVideos) {
+  Map<String, List<String>> _extractTitleAndArtist(List<Video>? rawVideos) {
     Map<String, List<String>> videos = {};
     String videoTitle;
     String videoAuthor;
     String songTitle;
     String songArtist;
 
-    rawVideos.forEach((video) {
+    rawVideos!.forEach((video) {
       videoTitle = video.title.toLowerCase();
       videoAuthor = video.author.toLowerCase();
 
-      if (videoTitle.contains(' - ') || videoTitle.contains(' ~ ') || videoTitle.contains(' – ') || videoTitle.contains(' — ')) {
+      if (videoTitle.contains(' - ') ||
+          videoTitle.contains(' ~ ') ||
+          videoTitle.contains(' – ') ||
+          videoTitle.contains(' — ')) {
         final result = _getSongAndArtistFromTitle(videoTitle);
 
         songArtist = _removeEverythingUnnecessaryFromArtist(result[0]);
         songTitle = result[1];
-      }
-      else {
+      } else {
         songTitle = videoTitle;
         songArtist = videoAuthor;
 
@@ -151,7 +148,7 @@ class SongTitleExtractor {
       print('::: SONG FOUND: $songArtist - $songTitle');
 
       if (videos.containsKey(songArtist))
-        videos[songArtist].add(songTitle);
+        videos[songArtist]!.add(songTitle);
       else
         videos[songArtist] = [songTitle];
     });
@@ -163,8 +160,7 @@ class SongTitleExtractor {
   /// Get the track title from a YouTube video title
   /// Returns a Map with the artist as key and a list with the song as value
   ///
-  Map<String, List<String>> extract(List<Video> rawVideos) {
+  Map<String, List<String>> extract(List<Video>? rawVideos) {
     return _extractTitleAndArtist(rawVideos);
   }
-
 }

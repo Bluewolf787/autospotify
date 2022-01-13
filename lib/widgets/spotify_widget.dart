@@ -9,24 +9,24 @@ import 'package:theme_provider/theme_provider.dart';
 
 class SpotifyWidget extends StatelessWidget {
   SpotifyWidget({
-    Key key,
-    @required this.connectStatus,
-    @required this.onConnectButtonPressed,
-    this.isIntroduction,
+    Key? key,
+    required this.connectStatus,
+    required this.onConnectButtonPressed,
+    required this.isIntroduction,
     this.textFieldController,
     this.dropdownItems,
     this.dropdownValue,
     this.onDropdownChanged,
-    this.spotifyDisplayName,
+    this.spotifyDisplayName = '',
   }) : super(key: key);
 
   final SpotifyConnectStatus connectStatus;
-  final Function onConnectButtonPressed;
+  final VoidCallback onConnectButtonPressed;
   final bool isIntroduction;
-  final TextEditingController textFieldController;
-  final List<DropdownMenuItem> dropdownItems;
+  final TextEditingController? textFieldController;
+  final List<DropdownMenuItem>? dropdownItems;
   final dynamic dropdownValue;
-  final ValueChanged onDropdownChanged;
+  final ValueChanged? onDropdownChanged;
   final String spotifyDisplayName;
 
   @override
@@ -35,22 +35,21 @@ class SpotifyWidget extends StatelessWidget {
       return ConnectSpotifyButton(
         onPressed: onConnectButtonPressed,
       );
-    }
-    else if (!isIntroduction && connectStatus == SpotifyConnectStatus.connected) {
+    } else if (!isIntroduction &&
+        connectStatus == SpotifyConnectStatus.connected) {
       return SpotifyPlaylistSelectButton(
         value: dropdownValue,
         spotifyDisplayName: spotifyDisplayName,
-        items: dropdownItems,
-        onChanged: onDropdownChanged,
+        items: dropdownItems!,
+        onChanged: onDropdownChanged!,
       );
-    }
-    else if (isIntroduction && connectStatus == SpotifyConnectStatus.connected) {
-      return SpotifyGreetingTextField(controller: textFieldController);
-    }
-    else {
+    } else if (isIntroduction &&
+        connectStatus == SpotifyConnectStatus.connected) {
+      return SpotifyGreetingTextField(controller: textFieldController!);
+    } else {
       return SizedBox(
-        height: SizeConfig.heightMultiplier * 8,
-        width: SizeConfig.widthMultiplier * 80,
+        height: SizeConfig.heightMultiplier! * 8,
+        width: SizeConfig.widthMultiplier! * 80,
         child: Container(
           decoration: BoxDecoration(
             border: Border.all(
@@ -61,7 +60,8 @@ class SpotifyWidget extends StatelessWidget {
           ),
           child: Center(
             child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(ThemeProvider.themeOf(context).data.primaryColor),
+              valueColor: AlwaysStoppedAnimation<Color>(
+                  ThemeProvider.themeOf(context).data.primaryColor),
               strokeWidth: 2,
             ),
           ),

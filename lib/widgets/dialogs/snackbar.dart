@@ -3,14 +3,11 @@ import 'package:theme_provider/theme_provider.dart';
 
 class CustomSnackbar {
   const CustomSnackbar({
-    @required this.text,
-    this.action,
+    required String text,
+    SnackBarAction? action,
   });
 
-  final String text;
-  final SnackBarAction action;
-
-  static show(BuildContext context, String text, [SnackBarAction action]) {
+  static show(BuildContext context, String text, [SnackBarAction? action]) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         duration: Duration(seconds: 4),
@@ -20,7 +17,7 @@ class CustomSnackbar {
           style: TextStyle(
             fontFamily: 'Montserrat',
             fontWeight: FontWeight.w400,
-            color: ThemeProvider.themeOf(context).data.primaryColor
+            color: ThemeProvider.themeOf(context).data.primaryColor,
           ),
         ),
         behavior: SnackBarBehavior.floating,

@@ -3,11 +3,11 @@ import 'package:theme_provider/theme_provider.dart';
 
 class SpotifyPlaylistSelectButton extends StatelessWidget {
   const SpotifyPlaylistSelectButton({
-    Key key,
-    this.items,
-    this.value,
-    this.onChanged,
-    this.spotifyDisplayName,
+    Key? key,
+    required this.items,
+    required this.value,
+    required this.onChanged,
+    required this.spotifyDisplayName,
   }) : super(key: key);
 
   final List<DropdownMenuItem> items;
@@ -34,14 +34,14 @@ class SpotifyPlaylistSelectButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
             color: const Color(0xff1db954),
-            width: 2.0
+            width: 2.0,
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(
             color: const Color(0xff1db954),
-            width: 2.0
+            width: 2.0,
           ),
         ),
         labelText: '$spotifyDisplayName - Spotify Playlists:',
