@@ -79,11 +79,6 @@ class YouTubeUtils {
 
       print('::: VIDEOS FOUND IN PLAYLIST = ${playlistVideos.length}');
 
-      if (playlistVideos.length == 100) {
-        CustomSnackbar.show(context,
-            '100 Videos found. Notice that 100 is the limit, if your playlist has more videos they don\'t will be all synced');
-      }
-
       // Return the video titles as List<String>
       return playlistVideos;
     } catch (exception) {

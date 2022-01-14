@@ -8,7 +8,6 @@ import 'package:autospotify/utils/button_pressed_handler.dart';
 import 'package:autospotify/utils/youtube/youtube_utils.dart';
 import 'package:autospotify/widgets/buttons/back_button.dart';
 import 'package:autospotify/widgets/buttons/buttons.dart';
-import 'package:autospotify/widgets/dialogs/snackbar.dart';
 import 'package:autospotify/widgets/layout/circles.dart';
 import 'package:autospotify/widgets/layout/introduction_page_indicator.dart';
 import 'package:autospotify/widgets/input/textfields.dart';
