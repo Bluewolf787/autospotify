@@ -75,7 +75,7 @@ class _MyAppState extends State<MyApp> {
       DeviceOrientation.portraitDown,
     ]);
     // Hide Statusbar
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.leanBack);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
     return FutureBuilder(
       future: _initialization,
       builder: (context, snapshot) {
