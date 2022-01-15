@@ -19,6 +19,7 @@
 ## Table of Contents
 - [<img src="assets/logo.png" width="32" height="32" alt="logo"> AutoSpotify](#-autospotify)
   - [Table of Contents](#table-of-contents)
+  - [TODO](#todo)
   - [Screenshots](#screenshots)
   - [Technologies](#technologies)
   - [Contributing](#contributing)
