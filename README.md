@@ -25,6 +25,12 @@
   - [Collaborators](#collaborators)
   - [License](#license)
 
+## TODO
+
+- [ ] make more then 100 songs addable to Spotify playlist at once
+- [ ] [issue #14](https://github.com/Bluewolf787/autospotify/issues/14)
+- [ ] [issue #11](https://github.com/Bluewolf787/autospotify/issues/11)
+
 ## Screenshots
 
 ![preview-dark](readme/screenshots/autospotify-preview-dark.jpeg) | ![preview-light](readme/screenshots/autospotify-preview-light.jpeg)
