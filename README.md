@@ -1,13 +1,24 @@
 ![banner](readme/screenshots/AutoSpotify-banner.png)
 
-[![made-with-python](https://img.shields.io/badge/Made%20with-Dart%20&%20Flutter-1f425f.svg)](https://www.flutter.dev/) <br>
-
-[![Website](https://img.shields.io/website-up-down-green-red/http/bluewolf787.github.io.svg)](https://bluewolf787.github.io/projects/autospotify) 
-
-[![Downloads](https://img.shields.io/github/downloads/Bluewolf787/autospotify/total.svg)]() <br>
-[![Downloads latest release](https://img.shields.io/github/downloads-pre/bluewolf787/autospotify/latest/total)](https://GitHub.com/Bluewolf787/autospotify/releases/)
-![GitHub (Pre-)Release Date](https://img.shields.io/github/release-date-pre/bluewolf787/autospotify)
-
+<p align="center">
+ <a href="https://www.flutter.dev/">
+  <img src="https://img.shields.io/badge/Made%20with-Dart%20&%20Flutter-1f425f.svg" alt="made-with-dart-flutter" align="center"/>
+ </a>
+ </br>
+ <a href="https://bluewolf787.github.io/projects/autospotify">
+  <img src="https://img.shields.io/website-up-down-green-red/http/bluewolf787.github.io.svg" alt="website" align="center"/>
+ </a>
+ <br></br>
+ <a href="https://GitHub.com/Bluewolf787/autospotify/releases/">
+  <img src="https://img.shields.io/github/downloads/Bluewolf787/autospotify/total.svg" alt="downloads" align="center"/>
+ </a>
+ <a href="https://GitHub.com/Bluewolf787/autospotify/releases/">
+  <img src="https://img.shields.io/github/downloads-pre/bluewolf787/autospotify/latest/total" alt="downloads latest release" align="center"/>
+ </a>
+ <a href="https://GitHub.com/Bluewolf787/autospotify/releases/">
+  <img src="https://img.shields.io/github/release-date-pre/bluewolf787/autospotify" alt="release date" align="center"/>
+ </a>
+</p>
 
 <!--
 [![Build Status](https://travis-ci.com/Bluewolf787/autospotify-env.svg?token=sMwUw4NKhzqScZGpNQQN&branch=master)]() </br>
