@@ -20,7 +20,7 @@
 
     "unexpectedError": "Ups! Etwas lief anders als erwartet",
     "spotifySaveError": "Speichern der Spotify Anmeldeinformationen fehlgeschlagen",
-    "somthingWrongError": "Ups! Etwas ist schiefgelaufen. Bitte versuche es erneut",
+    "somethingWrongError": "Ups! Etwas ist schiefgelaufen. Bitte versuche es erneut",
     "spotifyConnectError": "Verbinden zu Spotify fehlgeschlagen",
     "syncingError": "Ups! Beim synchronisieren ist etwas schiefgelaufen",
     "noSongsFoundError": "In der YouTube playlist konnten keine Lieder gefunden werden",
@@ -55,5 +55,8 @@
 
     "homePageSpan1": "Füge Lieder aus ",
     "homePageSpan2": "\nPlaylisten automatisch\ndeiner ",
-    "homePageSpan3": " Playlist hinzu"
+    "homePageSpan3": " Playlist hinzu",
+
+    "songsFoundOnYouTube": "Lieder wurden in der YouTube-Playlist gefunden",
+    "songsFoundOnSpotify": "Lieder wurden auf Spotify gefunden"
 }

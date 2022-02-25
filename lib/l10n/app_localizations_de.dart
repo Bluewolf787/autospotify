@@ -62,7 +62,7 @@ class AppLocalizationsDe extends AppLocalizations {
   String get spotifySaveError => 'Speichern der Spotify Anmeldeinformationen fehlgeschlagen';
 
   @override
-  String get somthingWrongError => 'Ups! Etwas ist schiefgelaufen. Bitte versuche es erneut';
+  String get somethingWrongError => 'Ups! Etwas ist schiefgelaufen. Bitte versuche es erneut';
 
   @override
   String get spotifyConnectError => 'Verbinden zu Spotify fehlgeschlagen';
@@ -141,4 +141,10 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get homePageSpan3 => ' Playlist hinzu';
+
+  @override
+  String get songsFoundOnYouTube => 'Lieder wurden in der YouTube-Playlist gefunden';
+
+  @override
+  String get songsFoundOnSpotify => 'Lieder wurden auf Spotify gefunden';
 }

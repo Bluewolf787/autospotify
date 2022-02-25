@@ -19,7 +19,7 @@
 
     "unexpectedError": "Oups! Quelque chose d'inattendu est arrivé",
     "spotifySaveError": "Échec de l'enregistrement des informations d'identification de Spotify",
-    "somthingWrongError": "Oups! Quelque chose s'est mal passé. Veuillez réessayer",
+    "somethingWrongError": "Oups! Quelque chose s'est mal passé. Veuillez réessayer",
     "spotifyConnectError": "Échec de la connexion à Spotify",
     "syncingError": "Oups! Un problème est survenu lors de la synchronisation",
     "noSongsFoundError": "Cloud ne trouve pas de chansons dans cette liste de lecture YouTube",
@@ -54,5 +54,8 @@
 
     "homePageSpan1": "Ajoutez automatiquement\nles chansons des\nlistes de lecture ",
     "homePageSpan2": "\nà votre liste de lecture ",
-    "homePageSpan3": ""
+    "homePageSpan3": "",
+
+    "songsFoundOnYouTube": "chansons trouvées dans la playlist YouTube",
+    "songsFoundOnSpotify": "chansons trouvées sur Spotify"
 }

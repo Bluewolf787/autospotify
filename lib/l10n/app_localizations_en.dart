@@ -62,7 +62,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get spotifySaveError => 'Failed to save the credentials';
 
   @override
-  String get somthingWrongError => 'Oops! Something went wrong. Please try again';
+  String get somethingWrongError => 'Oops! Something went wrong. Please try again';
 
   @override
   String get spotifyConnectError => 'Failed to connect to Spotify';
@@ -141,4 +141,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get homePageSpan3 => ' playlist';
+
+  @override
+  String get songsFoundOnYouTube => 'songs found in the YouTube playlist';
+
+  @override
+  String get songsFoundOnSpotify => 'songs found on Spotify';
 }

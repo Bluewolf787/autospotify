@@ -352,7 +352,7 @@ class _SpotifyIntroductionPageState extends State<SpotifyIntroductionPage> {
                             print('ERROR $error');
                             CustomSnackbar.show(
                               context,
-                              AppLocalizations.of(context)!.somthingWrongError,
+                              AppLocalizations.of(context)!.somethingWrongError,
                             );
                           });
                         },

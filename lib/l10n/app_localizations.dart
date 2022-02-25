@@ -210,7 +210,7 @@ abstract class AppLocalizations {
   ///
   /// In en, this message translates to:
   /// **'Oops! Something went wrong. Please try again'**
-  String get somthingWrongError;
+  String get somethingWrongError;
 
   /// Error message: Failed to connect Spotify
   ///
@@ -367,6 +367,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **' playlist'**
   String get homePageSpan3;
+
+  /// Info message how many songs where found in the YouTube playlist
+  ///
+  /// In en, this message translates to:
+  /// **'songs found in the YouTube playlist'**
+  String get songsFoundOnYouTube;
+
+  /// Info message how many songs where found on Spotify
+  ///
+  /// In en, this message translates to:
+  /// **'songs found on Spotify'**
+  String get songsFoundOnSpotify;
 }
 
 class _AppLocalizationsDelegate

@@ -437,7 +437,7 @@ class _HomePageState extends State<HomePage> {
                                 CustomSnackbar.show(
                                   context,
                                   AppLocalizations.of(context)!
-                                      .somthingWrongError,
+                                      .somethingWrongError,
                                 );
                               });
                             },

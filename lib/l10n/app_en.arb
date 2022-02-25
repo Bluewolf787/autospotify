@@ -74,8 +74,8 @@
     "@spotifySaveError": {
         "description": "Error message: Spotify save error"
     },
-    "somthingWrongError": "Oops! Something went wrong. Please try again",
-    "@somthingWrongError": {
+    "somethingWrongError": "Oops! Something went wrong. Please try again",
+    "@somethingWrongError": {
         "description": "Error message: something went wrong"
     },
     "spotifyConnectError": "Failed to connect to Spotify",
@@ -190,5 +190,13 @@
     "homePageSpan3": " playlist",
     "@homePageSpan3": {
         "description": "Third section of home page header text"
+    },
+    "songsFoundOnYouTube": "songs found in the YouTube playlist",
+    "@songsFoundOnYouTube": {
+        "description": "Info message how many songs where found in the YouTube playlist"
+    },
+    "songsFoundOnSpotify": "songs found on Spotify",
+    "@songsFoundOnSpotify": {
+        "description": "Info message how many songs where found on Spotify"
     }
 }

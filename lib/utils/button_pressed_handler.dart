@@ -13,13 +13,7 @@ import 'package:theme_provider/theme_provider.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class ButtonPressedHandler {
-  Future<bool> syncPlaylistsButton(
-    BuildContext context,
-    SpotifyApi spotifyApi,
-    String spotifyPlaylistId,
-    String youtubePlaylistUrl,
-    String userId,
-  ) async {
+  Future<bool> syncPlaylistsButton(BuildContext context, SpotifyApi spotifyApi, String spotifyPlaylistId, String youtubePlaylistUrl, String userId) async {
     bool _status = false;
 
     if (youtubePlaylistUrl.isEmpty) {
@@ -39,11 +33,14 @@ class ButtonPressedHandler {
     Map<String, List<String>> songTitles =
         SongTitleExtractor().extract(videosRaw);
     //print('SONG TITLES: $songTitles');
+    CustomSnackbar.show(context, "${songTitles.length}/${videosRaw.length} ${AppLocalizations.of(context)!.songsFoundOnYouTube}");
 
     // Search for songs on Spotify
     var spotifyTracks =
         await SpotifyUtils().searchSongs(spotifyApi, songTitles);
     //print('Spotify tracks ::: $spotifyTracks');
+    CustomSnackbar.show(context, "${spotifyTracks.length}/${songTitles.length} ${AppLocalizations.of(context)!.songsFoundOnSpotify}");
+
     if (spotifyTracks.isEmpty) {
       CustomSnackbar.show(
           context, AppLocalizations.of(context)!.noSongsFoundError);

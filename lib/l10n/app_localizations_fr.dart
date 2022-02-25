@@ -62,7 +62,7 @@ class AppLocalizationsFr extends AppLocalizations {
   String get spotifySaveError => 'Échec de l\'enregistrement des informations d\'identification de Spotify';
 
   @override
-  String get somthingWrongError => 'Oups! Quelque chose s\'est mal passé. Veuillez réessayer';
+  String get somethingWrongError => 'Oups! Quelque chose s\'est mal passé. Veuillez réessayer';
 
   @override
   String get spotifyConnectError => 'Échec de la connexion à Spotify';
@@ -141,4 +141,10 @@ class AppLocalizationsFr extends AppLocalizations {
 
   @override
   String get homePageSpan3 => '';
+
+  @override
+  String get songsFoundOnYouTube => 'chansons trouvées dans la playlist YouTube';
+
+  @override
+  String get songsFoundOnSpotify => 'chansons trouvées sur Spotify';
 }
