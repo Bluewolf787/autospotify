@@ -27,7 +27,7 @@
 
 # <img src="assets/logo.png" width="32" height="32" alt="logo"> AutoSpotify
 
-> This mobile app built in [Flutter](https://flutter.dev/) is used to search in YouTube playlist for songs and add these to a Spotify playlist.
+> This mobile app built in [Flutter](https://flutter.dev/) is used to search in YouTube playlist for songs and add those to a Spotify playlist.
 
 ----
 
